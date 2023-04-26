@@ -1,5 +1,3 @@
-from filter_stations_year import FilterStationsByYear
-import sys, os
+from stations_handler import StationsHandler
 
-f = FilterStationsByYear([2016, 2017])
-f.start_receiving()
+StationsHandler()

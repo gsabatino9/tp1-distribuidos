@@ -1,7 +1,11 @@
 import socket, pika, struct, random
+from queue import Queue
 
 HOST = 'localhost'
 PORT = 12345
+
+STATIONS_QUEUE = "stations_queue"
+TRIPS_QUEUE = "trips_queue"
 
 def receive(connection):
 	data = connection.recv(4)
@@ -20,11 +24,8 @@ def recv_all(connection, message_size):
 
 	return b''.join(chunks)
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
-channel = connection.channel()
-
-channel.queue_declare(queue='stations_queue')
-channel.queue_declare(queue='eof_queue')
+queue = Queue()
+queue.add_queues([STATIONS_QUEUE, TRIPS_QUEUE])
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 	sock.bind((HOST, PORT))
@@ -38,19 +39,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 		data = receive(conn)
 		try:
 			while data:
-				print('sending')
-				channel.basic_publish(exchange='',
-					routing_key='stations_queue',
-					body=data)
-
+				queue.send(STATIONS_QUEUE, data)
 				data = receive(conn)
 		except:
 			print("Algo rompió, received")
 
 		print("Conexión cerrada")
 		conn.close()
-	channel.basic_publish(exchange='',
-				  routing_key='eof_queue',
-				  body='')
 
-	connection.close()
+	queue.send(STATIONS_QUEUE, b'last')
+	queue.send(TRIPS_QUEUE, bytes("""2014-06-01 00:00:00,6209,2014-06-01 00:28:00,6210,1680.0,0,2014""", 
+									"utf-8"))
+	queue.close()
