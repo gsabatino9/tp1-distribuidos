@@ -1,11 +1,12 @@
 import socket, pika, struct, random
-from queue import Queue
+from common.queue import Queue
 
 HOST = 'localhost'
 PORT = 12345
 
 STATIONS_QUEUE = "stations_queue"
 TRIPS_QUEUE = "trips_queue"
+print("[receiver] Levantado...")
 
 def receive(connection):
 	data = connection.recv(4)

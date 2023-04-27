@@ -1,4 +1,4 @@
-from queue import Queue
+from common.queue import Queue
 import sys, os
 
 RECEIVE_QUEUE = "stations_queue"

@@ -1,9 +1,10 @@
 version: '3.9'
+name: tp1-client
 services:
   client:
     container_name: client
-    image: client:latest
     entrypoint: python3 /main.py
-    restart: on-failure
-    depends_on:
-      - receiver
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: client:latest
+
