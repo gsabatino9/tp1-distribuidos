@@ -1,8 +1,8 @@
 import pika, sys, os
 
 class Queue:
-	def __init__(self, host='127.0.0.1'):
-		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
+	def __init__(self):
+		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
 		self.channel = self.connection.channel()
 
 	def add_queues(self, names_queues):

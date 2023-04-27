@@ -12,6 +12,7 @@ services:
   receiver:
     container_name: receiver
     entrypoint: python3 /main.py
+    restart: on-failure
     environment:
       - PYTHONUNBUFFERED=1
     image: receiver:latest
@@ -19,12 +20,11 @@ services:
       - rabbitmq
     links: 
       - rabbitmq
-    volumes:
-      - ./common:/common
 
   stations_handler:
     container_name: stations_handler
     entrypoint: python3 /main.py
+    restart: on-failure
     environment:
       - PYTHONUNBUFFERED=1
     image: stations_handler:latest
@@ -32,6 +32,4 @@ services:
       - rabbitmq
     links: 
       - rabbitmq
-    volumes:
-      - ./common:/common
 

@@ -6,7 +6,6 @@ PORT = 12345
 
 STATIONS_QUEUE = "stations_queue"
 TRIPS_QUEUE = "trips_queue"
-print("[receiver] Levantado...")
 
 def receive(connection):
 	data = connection.recv(4)
@@ -28,7 +27,7 @@ def recv_all(connection, message_size):
 queue = Queue()
 queue.add_queues([STATIONS_QUEUE, TRIPS_QUEUE])
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+"""with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 	sock.bind((HOST, PORT))
 	sock.listen()
 
@@ -46,9 +45,20 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 			print("Algo rompió, received")
 
 		print("Conexión cerrada")
-		conn.close()
+		conn.close()"""
 
-	queue.send(STATIONS_QUEUE, b'last')
-	queue.send(TRIPS_QUEUE, bytes("""2014-06-01 00:00:00,6209,2014-06-01 00:28:00,6210,1680.0,0,2014""", 
-									"utf-8"))
-	queue.close()
+msgs = [
+		b'6209,Milton / Clark,45.51252,-73.57061999999999,2014',
+		b'6209,Milton / Clark,45.51252,-73.57061999999999,2016',
+		b'6209,Milton / Clark,45.51252,-73.57061999999999,2017',
+		b'6209,Milton / Clark,45.51252,-73.57061999999999,2016',
+		b'6209,Milton / Clark,45.51252,-73.57061999999999,2014',
+	]
+
+for msg in msgs:
+	queue.send(STATIONS_QUEUE, msg)
+
+queue.send(STATIONS_QUEUE, b'last')
+queue.send(TRIPS_QUEUE, bytes("""2014-06-01 00:00:00,6209,2014-06-01 00:28:00,6210,1680.0,0,2014""", 
+								"utf-8"))
+queue.close()
