@@ -1,37 +1,72 @@
+from connection import Connection
+import random
+
 EOF_MSG = "EOF"
-REGISTER_EOF_MSG = "REGISTER_EOF"
+WORKER_DONE_MSG = "WORKER_DONE"
 
 class EOFManager:
-	def __init__(self, send_queues):
-		self.eof_to_wait = 0
-		self.eof_received = 0
-		self.send_queues = send_queues
+	def __init__(self, name_recv_queue, name_next_em_queue):
+		self.workers = {}
+		self.__connect(name_recv_queue, name_next_em_queue)
 
-		for queue in send_queues:
-			queue.send(REGISTER_EOF_MSG)
+	def __connect(self, name_recv_queue, name_next_em_queue):
+		self.conn = Connection()
 
-	def __register_eof(self):
-		print('Llegó register')
-		self.eof_to_wait += 1
+		self.em_queue = self.conn.pubsub_queue(name_recv_queue)
+		self.next_em_queue = self.conn.pubsub_queue(name_next_em_queue)
 
-	def __add_eof(self):
-		print('Llegó eof')
-		self.eof_received = max(self.eof_received+1, self.eof_to_wait)
-		
-		if self.eof_received == self.eof_to_wait:
-			print('Mando eof')
-			for queue in self.send_queues:
-				queue.send(EOF_MSG)
+		self.em_queue.receive(self.process_message)
+		self.conn.start_receiving()
 
-	def is_eof(self, msg):
+	def process_message(self, ch, method, properties, body):
+		msg = body.decode('utf-8')
+
 		if msg == EOF_MSG:
-			self.__add_eof()
-			return True
-		elif msg == REGISTER_EOF_MSG:
-			self.__register_eof()
-			return True
+			self.__eof_arrived()
+		elif msg == WORKER_DONE_MSG:
+			self.__worker_done()
 		else:
-			return False
+			self.__register_worker(msg)
 
-	def all_eof_received(self):
-		return self.eof_received == self.eof_to_wait
+	def __register_worker(self, msg):
+		print(f'New worker: {msg}')
+		if msg in self.workers:
+			queue, value = self.workers[msg]
+			self.workers[msg] = (queue, value+1)
+		else:
+			queue = self.conn.basic_queue(msg)
+			self.workers[msg] = (queue, 1)
+
+	def __worker_done(self):
+		print('Worker done')
+		if not self.__all_workers_done():
+			self.__close_worker()
+		else:
+			self.__send_eof_next_stage()
+			self.stop()
+
+	def __eof_arrived(self):
+		print('eof arrived')
+		self.__close_worker()
+
+	def __send_eof_next_stage(self):
+		print('Mandando eof next stage')
+		self.next_em_queue.send(EOF_MSG)
+
+	def __close_worker(self):
+		print('Closing worker')
+		worker = self.__pick_worker()
+		queue, value = self.workers.pop(worker)
+		queue.send(EOF_MSG)
+
+		if value > 1:
+			self.workers[worker] = (queue, value-1)
+
+	def __pick_worker(self):
+		return random.choice(list(self.workers.keys()))
+
+	def __all_workers_done(self):
+		return len(self.workers) == 0
+
+	def stop(self):
+		self.conn.close()

@@ -26,6 +26,7 @@ def main():
 		yearid,name_start_station
 		"""
 		msg = body.decode('utf-8')
+
 		if em.is_eof(msg):
 			if em.all_eof_received():
 				for station in g.grouped_data:

@@ -18,6 +18,9 @@ class Connection:
     def start_receiving(self):
         self.channel.start_consuming()
 
+    def stop_receiving(self):
+        self.channel.stop_consuming()
+
     def close(self):
         self.connection.close()
         

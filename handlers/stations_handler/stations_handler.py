@@ -1,6 +1,6 @@
 from common.connection import Connection
-from common.eof_manager import EOFManager, EOF_MSG, REGISTER_EOF_MSG
 import sys, os
+from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
 
 LAST_STATION = "last"
 
@@ -34,27 +34,33 @@ class StaticDataHandler:
         return self.stations[code, yearid]
 
 class StationsHandler:
-    def __init__(self, recv_static_data_queue, recv_trips_queue, send_joined_trip_queue, len_msg):
+    def __init__(self, recv_static_data_queue, recv_trips_queue, em_queue, send_joined_trip_queue, len_msg):
         self.static_data = StaticDataHandler(0, 4, len_msg)
-        self.__connect(recv_static_data_queue, recv_trips_queue, send_joined_trip_queue)
-        self.eof_manager = EOFManager([self.send_joined_trip_queue])
+        self.__connect(recv_static_data_queue, recv_trips_queue, em_queue, send_joined_trip_queue)
         self.recv_queue.receive(self.proccess_message)
         
         print("[stations_handler] listo para recibir")
         self.connection.start_receiving()
 
-    def __connect(self, recv_static_data_queue, recv_trips_queue, send_joined_trip_queue):
+    def __connect(self, recv_static_data_queue, recv_trips_queue, em_queue, send_joined_trip_queue):
         self.connection = Connection()
         self.recv_queue = self.connection.basic_queue(recv_static_data_queue)
         self.recv_trips_queue = self.connection.basic_queue(recv_trips_queue)
         # es un worker en vez de un basic_queue
         self.send_joined_trip_queue = self.connection.basic_queue(send_joined_trip_queue)
 
+        self.__connect_to_eof_manager(em_queue, recv_trips_queue)
+
+    def __connect_to_eof_manager(self, em_queue, recv_trips_queue):
+        self.em_queue = self.connection.pubsub_queue(em_queue)
+        self.em_queue.send(recv_trips_queue) # le digo de dónde espero el eof
+
     def proccess_message(self, ch, method, properties, body):
         msg = body.decode('utf-8')
         if msg == LAST_STATION:
             self.__last_station_arrived()
-        elif not self.eof_manager.is_eof(msg):
+        else:
+            print(msg)
             self.__station_arrived(msg)
 
     def __station_arrived(self, msg):
@@ -64,11 +70,22 @@ class StationsHandler:
     def __last_station_arrived(self):
         self.recv_trips_queue.receive(self.proccess_trip_arrived)
 
+    def __eof_arrived(self):
+        self.connection.stop_receiving()
+        self.em_queue.send(WORKER_DONE_MSG)
+        self.close()
+
     def proccess_trip_arrived(self, ch, method, properties, body):
         msg = body.decode('utf-8')
 
-        if not self.eof_manager.is_eof(msg):
+        if msg == EOF_MSG:
+            self.__eof_arrived()
+        else:
             trip = msg.split(',')
             station_joined = self.static_data.join_trip(trip[1], trip[3], trip[-1])
 
             self.send_joined_trip_queue.send(msg+','+station_joined)
+
+    def close(self):
+        print('[stations_handler] close: success')
+        self.connection.close()

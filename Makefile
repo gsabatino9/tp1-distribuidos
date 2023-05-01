@@ -13,13 +13,12 @@ client-image:
 
 server-image:
 	docker build -f ./receiver/Dockerfile -t "receiver:latest" .
-	docker build -f ./stations_handler/Dockerfile -t "stations_handler:latest" .
-	docker build -f ./filter_trips/Dockerfile -t "filter_trips:latest" .
-	docker build -f ./filter_trips_stations/Dockerfile -t "filter_trips_stations:latest" .
+	docker build -f ./handlers/stations_handler/Dockerfile -t "stations_handler:latest" .
+	docker build -f ./filters/filter_trips/Dockerfile -t "filter_trips:latest" .
+	docker build -f ./filters/filter_trips_stations/Dockerfile -t "filter_trips_stations:latest" .
 
 	docker build -f ./query2/applier/Dockerfile -t "applier_2:latest" .
 	docker build -f ./query2/groupby/Dockerfile -t "groupby_2:latest" .
-
 .PHONY: server-image
 
 server-up: server-image

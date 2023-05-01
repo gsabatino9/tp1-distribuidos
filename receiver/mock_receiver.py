@@ -1,5 +1,6 @@
 from common.connection import Connection
 from data.data import stations, weathers, trips
+import time
 
 def main():
     S_QUEUE = "stations_queue"
@@ -15,10 +16,6 @@ def main():
 
     s_q.send('REGISTER_EOF')
 
-    for msg in stations:
-        s_q.send(bytes(msg, 'utf-8'))
-    s_q.send(b'last')
-
     """
     for msg in weathers:
         w_q.send(bytes(msg, 'utf-8'))
@@ -28,6 +25,12 @@ def main():
     send_trips_queues = [conn.basic_queue(TRIPS_QUEUE), conn.basic_queue(JOIN_TRIPS_STATIONS_QUEUE)]
     for queue in send_trips_queues:
             queue.send('REGISTER_EOF')
+
+    time.sleep(3)
+
+    for msg in stations:
+        s_q.send(bytes(msg, 'utf-8'))
+    s_q.send(b'last')
 
     for trip in trips:
         for queue in send_trips_queues:

@@ -1,6 +1,7 @@
 from common.trips_transformer import TripTransformer, TripsTransformer
 
 RECV_QUEUE = "trips_queue"
+EM_QUEUE = "eof_filter_queue"
 
 COLUMS_NAMES = "start_date,start_station_code,end_date,end_station_code,duration_sec,is_member,yearid"
 REDUCED_1 = "duration_sec,yearid"
@@ -14,5 +15,5 @@ def main():
 	wanted_queues = [SEND_2]
 
 	transformers = [t2]
-	tf = TripsTransformer(RECV_QUEUE, transformers, wanted_queues)
+	tf = TripsTransformer(RECV_QUEUE, EM_QUEUE, transformers, wanted_queues)
 	
