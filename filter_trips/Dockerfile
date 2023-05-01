@@ -1,8 +1,7 @@
 FROM python:3.9.7-slim
 RUN pip install --upgrade pip && pip3 install pika
 
-COPY receiver /
+COPY filter_trips /
 COPY common /common
-COPY data /data
 
 ENTRYPOINT ["/bin/sh"]

@@ -1,31 +1,70 @@
-import pika, sys, os
+import pika
 
 class Queue:
-	def __init__(self):
-		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
-		self.channel = self.connection.channel()
+	def __init__(self, channel, queue_name='', exchange_name=None, exchange_type=None, routing_key=None):
+		self.queue_name = queue_name
+		self.exchange_name = exchange_name
+		self.exchange_type = exchange_type
+		self.routing_key = routing_key
+		self.channel = channel
 
-	def add_queues(self, names_queues):
-		for queue_name in names_queues:
-			self.channel.queue_declare(queue=queue_name)
+		self.__start_queue()
 
-	def add_callback(self, queue_name, callback):
-		self.channel.basic_consume(
-			queue=queue_name,
-			auto_ack=True,
-			on_message_callback=callback
-		)
+	def __start_queue(self):
+		if self.exchange_name:
+			self.channel.exchange_declare(exchange=self.exchange_name, exchange_type=self.exchange_type)
+		else:
+			self.channel.basic_qos(prefetch_count=1)
+			self.channel.queue_declare(queue=self.queue_name)
 
-	def start_receiving(self):
-		self.channel.start_consuming()
+	def send(self, message):
+		exchange = self.exchange_name if self.exchange_name else ''
+		routing = self.routing_key if self.routing_key else self.queue_name
 
-	def send(self, queue_name, msg):
 		self.channel.basic_publish(
-			exchange='',
-			routing_key=queue_name,
-			body=msg
+			exchange=exchange, 
+			routing_key=routing, 
+			body=message
 		)
 
-	def close(self):
-		self.connection.close()
-		
+	def receive(self, callback):
+		self.__bind_queue()
+
+		self.channel.basic_consume(
+			queue=self.queue_name, 
+			on_message_callback=callback, 
+			auto_ack=True
+		)
+
+	def __bind_queue(self):
+		if self.exchange_name:
+			result = self.channel.queue_declare(queue='', exclusive=True)
+			self.queue_name = result.method.queue
+			self.channel.queue_bind(exchange=self.exchange_name, queue=self.queue_name)
+
+			if self.routing_key:
+				self.channel.queue_bind(queue=self.queue_name, exchange=self.exchange_name, routing_key=self.routing_key)
+
+class BasicQueue(Queue):
+	def __init__(self, channel, name_queue):
+		super().__init__(channel, queue_name=name_queue)
+
+class PubsubQueue(Queue):
+	def __init__(self, channel, exchange_name):
+		super().__init__(channel, exchange_name=exchange_name, exchange_type='fanout')
+
+class TopicsQueue(Queue):
+	def __init__(self, channel, exchange_name, routing_key=None):
+		super().__init__(channel, exchange_name=exchange_name, exchange_type='topic', routing_key=routing_key)
+
+"""
+class WorkersQueue(Queue):
+	def __init__(self, exchange_name, exchange_type='direct', routing_key=None, is_sender=False, is_receiver=False):
+		super().__init__('workers_queue', exchange_name=exchange_name, exchange_type=exchange_type, routing_key=routing_key, is_sender=is_sender, is_receiver=is_receiver)
+
+class RoutingQueue(Queue):
+	def __init__(self, exchange_name, exchange_type='direct', routing_key=None, is_sender=False, is_receiver=False):
+		super().__init__('routing_queue', exchange_name=exchange_name, exchange_type=exchange_type, routing_key=routing_key, is_sender=is_sender, is_receiver=is_receiver)
+
+
+"""

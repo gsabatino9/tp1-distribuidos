@@ -7,4 +7,11 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     image: client:latest
+    depends_on:
+      - receiver
+    networks:
+      - bike-riders
+
+networks:
+  bike-riders:
 

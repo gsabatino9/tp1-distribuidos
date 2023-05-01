@@ -1,6 +1,6 @@
 import csv, socket, struct
 
-HOST = 'localhost'
+HOST = 'server'
 PORT = 12345
 
 with open('stations.csv', 'r') as csv_file:
