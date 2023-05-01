@@ -1,4 +1,4 @@
-from common.eof_manager import EOFManager
+from eof_manager.eof_manager import EOFManager
 import time
 
 NAME_RECV = "eof_handler_queue"

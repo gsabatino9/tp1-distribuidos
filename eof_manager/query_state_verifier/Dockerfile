@@ -3,5 +3,6 @@ RUN pip install --upgrade pip && pip3 install pika
 
 COPY eof_manager/query_state_verifier /
 COPY common /common
+COPY eof_manager /eof_manager
 
 ENTRYPOINT ["/bin/sh"]
