@@ -6,6 +6,7 @@ def main():
     S_QUEUE = "stations_queue"
     JOIN_TRIPS_STATIONS_QUEUE = "join_trip_station_queue"
     TRIPS_QUEUE = "trips_queue"
+    EM_QUEUE = "eof_handler_queue"
 
     #W_QUEUE = "weather_queue"
 
@@ -14,7 +15,9 @@ def main():
     s_q = conn.basic_queue(S_QUEUE)
     #w_q = conn.basic_queue(W_QUEUE)
 
-    s_q.send('REGISTER_EOF')
+    for msg in stations:
+        s_q.send(bytes(msg, 'utf-8'))
+    s_q.send(b'last')
 
     """
     for msg in weathers:
@@ -23,22 +26,14 @@ def main():
 
     # debería ser de workers:
     send_trips_queues = [conn.basic_queue(TRIPS_QUEUE), conn.basic_queue(JOIN_TRIPS_STATIONS_QUEUE)]
-    for queue in send_trips_queues:
-            queue.send('REGISTER_EOF')
+    first_em_queue = conn.pubsub_queue(EM_QUEUE)
 
     time.sleep(3)
-
-    for msg in stations:
-        s_q.send(bytes(msg, 'utf-8'))
-    s_q.send(b'last')
 
     for trip in trips:
         for queue in send_trips_queues:
             queue.send(bytes(trip, 'utf-8'))
 
-    for queue in send_trips_queues:
-        queue.send('EOF')
-
-    s_q.send('EOF')
+    first_em_queue.send('EOF')
 
     conn.close()

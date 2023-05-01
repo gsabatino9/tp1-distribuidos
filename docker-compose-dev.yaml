@@ -27,6 +27,17 @@ services:
     image: stations_handler:latest
     depends_on:
       - rabbitmq
+      - em_handlers
+
+  em_handlers:
+    container_name: em_handlers
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: em_handlers:latest
+    depends_on:
+      - rabbitmq
 
   filter_trips:
     container_name: filter_trips
@@ -37,6 +48,7 @@ services:
     image: filter_trips:latest
     depends_on:
       - rabbitmq
+      - em_filters
 
   filter_trips_stations:
     container_name: filter_trips_stations
@@ -45,6 +57,17 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     image: filter_trips_stations:latest
+    depends_on:
+      - rabbitmq
+      - em_filters
+
+  em_filters:
+    container_name: em_filters
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: em_filters:latest
     depends_on:
       - rabbitmq
 
@@ -57,6 +80,7 @@ services:
     image: applier_2:latest
     depends_on:
       - rabbitmq
+      - em_query2
 
   groupby_2:
     container_name: groupby_2
@@ -65,5 +89,16 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     image: groupby_2:latest
+    depends_on:
+      - rabbitmq
+      - em_query2
+
+  em_query2:
+    container_name: em_query2
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: em_query2:latest
     depends_on:
       - rabbitmq

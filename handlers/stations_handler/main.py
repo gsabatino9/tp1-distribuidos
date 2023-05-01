@@ -8,5 +8,5 @@ EM_QUEUE = "eof_handler_queue"
 LEN_MSG = 5
 
 if __name__ == "__main__":
-    time.sleep(10)
+    time.sleep(11)
     StationsHandler(RECV_QUEUE, RECV_TRIPS_QUEUE, EM_QUEUE, SEND_TRIPS_QUEUE, LEN_MSG)

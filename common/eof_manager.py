@@ -1,4 +1,4 @@
-from connection import Connection
+from common.connection import Connection
 import random
 
 EOF_MSG = "EOF"
