@@ -1,6 +1,7 @@
 from common.groupby import Groupby
 from common.connection import Connection
 from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
+from common.utils import *
 
 def main():
 	conn = Connection()
@@ -29,7 +30,7 @@ def main():
 		Llega con:
 		yearid,name_start_station
 		"""
-		msg = body.decode('utf-8')
+		msg = decode(body)
 
 		if msg == EOF_MSG:
 			__eof_arrived()

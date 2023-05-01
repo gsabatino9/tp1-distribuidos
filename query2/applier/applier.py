@@ -1,6 +1,7 @@
 from common.applier import Applier
 from common.connection import Connection
 from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
+from common.utils import *
 
 class ApplierController:
 	def __init__(self, recv_queue, em_queue, send_queue):
@@ -18,7 +19,7 @@ class ApplierController:
 		self.conn.start_receiving()
 
 	def recv_data_to_apply(self, ch, method, properties, body):
-		msg = body.decode('utf-8')
+		msg = decode(body)
 		if msg == EOF_MSG:
 			self.__eof_arrived()
 		else:

@@ -27,15 +27,15 @@ services:
     image: stations_handler:latest
     depends_on:
       - rabbitmq
-      - em_handlers
+      - em_joiners
 
-  em_handlers:
-    container_name: em_handlers
+  em_joiners:
+    container_name: em_joiners
     entrypoint: python3 /main.py
     restart: on-failure
     environment:
       - PYTHONUNBUFFERED=1
-    image: em_handlers:latest
+    image: em_joiners:latest
     depends_on:
       - rabbitmq
 

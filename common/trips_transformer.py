@@ -1,6 +1,7 @@
 from common.filter import FilterColumns, FilterRows, Transformer
 from common.connection import Connection
 from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
+from common.utils import *
 
 class TripTransformer:
 	def __init__(self, columns_names, wanted_columns, filter_conditions):
@@ -48,7 +49,7 @@ class TripsTransformer:
 		return False
 
 	def recv_trip(self, ch, method, properties, body):
-		trip = body.decode('utf-8')
+		trip = decode(body)
 
 		if self.__check_eof(trip): return
 		

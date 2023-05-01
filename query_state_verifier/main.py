@@ -1,6 +1,7 @@
 from common.connection import Connection
 import time
 from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
+from common.utils import *
 
 def main():
 	time.sleep(10)
@@ -13,14 +14,14 @@ def main():
 	em_queue.send(RECEIVE_QUEUE)
 
 	def callback(ch, method, properties, body):
-		msg = body.decode('utf-8')
+		msg = decode(body)
 
 		if msg == EOF_MSG:
 			print('Todas las queries terminadas.')
 			conn.stop_receiving()
 			em_queue.send(WORKER_DONE_MSG)
 		else:
-			key, val_2016, val_2017 = body.decode('utf-8').split(',')
+			key, val_2016, val_2017 = msg.split(',')
 			print(f"[Query 2] {key}, {val_2016}, {val_2017}")
 
 	recv_queue.receive(callback)

@@ -1,6 +1,7 @@
 from common.connection import Connection
 import sys, os
 from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
+from common.utils import *
 
 LAST_STATION = "last"
 
@@ -56,7 +57,7 @@ class StationsHandler:
         self.em_queue.send(recv_trips_queue) # le digo de dónde espero el eof
 
     def proccess_message(self, ch, method, properties, body):
-        msg = body.decode('utf-8')
+        msg = decode(body)
         if msg == LAST_STATION:
             self.__last_station_arrived()
         else:
@@ -76,7 +77,7 @@ class StationsHandler:
         self.close()
 
     def proccess_trip_arrived(self, ch, method, properties, body):
-        msg = body.decode('utf-8')
+        msg = decode(body)
 
         if msg == EOF_MSG:
             self.__eof_arrived()

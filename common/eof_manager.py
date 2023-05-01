@@ -1,4 +1,5 @@
 from common.connection import Connection
+from common.utils import *
 import random
 
 EOF_MSG = "EOF"
@@ -20,7 +21,7 @@ class EOFManager:
 		self.conn.start_receiving()
 
 	def process_message(self, ch, method, properties, body):
-		msg = body.decode('utf-8')
+		msg = decode(body)
 
 		if msg == EOF_MSG:
 			self.__eof_arrived()
