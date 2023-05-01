@@ -23,7 +23,12 @@ server-image:
 
 	docker build -f ./query2/applier/Dockerfile -t "applier_2:latest" .
 	docker build -f ./query2/groupby/Dockerfile -t "groupby_2:latest" .
-	docker build -f ./query2/eof_manager/Dockerfile -t "em_query2:latest" .
+	
+	docker build -f ./query_state_verifier/Dockerfile -t "query_state_verifier:latest" .
+
+	docker build -f ./eof_manager/groupby/Dockerfile -t "em_groupby:latest" .
+	docker build -f ./eof_manager/applier/Dockerfile -t "em_applier:latest" .
+	docker build -f ./eof_manager/query_state_verifier/Dockerfile -t "em_query_state_verifier:latest" .
 .PHONY: server-image
 
 server-up: server-image

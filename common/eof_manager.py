@@ -13,7 +13,8 @@ class EOFManager:
 		self.conn = Connection()
 
 		self.em_queue = self.conn.pubsub_queue(name_recv_queue)
-		self.next_em_queue = self.conn.pubsub_queue(name_next_em_queue)
+		if name_next_em_queue:
+			self.next_em_queue = self.conn.pubsub_queue(name_next_em_queue)
 
 		self.em_queue.receive(self.process_message)
 		self.conn.start_receiving()
@@ -50,8 +51,9 @@ class EOFManager:
 		self.__close_worker()
 
 	def __send_eof_next_stage(self):
-		print('Mandando eof next stage')
-		self.next_em_queue.send(EOF_MSG)
+		if hasattr(self, "next_em_queue"):
+			print('Mandando eof next stage')
+			self.next_em_queue.send(EOF_MSG)
 
 	def __close_worker(self):
 		print('Closing worker')

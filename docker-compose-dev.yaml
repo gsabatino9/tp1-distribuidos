@@ -39,8 +39,8 @@ services:
     depends_on:
       - rabbitmq
 
-  filter_trips:
-    container_name: filter_trips
+  filter_trips_1:
+    container_name: filter_trips_1
     entrypoint: python3 /main.py
     restart: on-failure
     environment:
@@ -50,8 +50,19 @@ services:
       - rabbitmq
       - em_filters
 
-  filter_trips_stations:
-    container_name: filter_trips_stations
+  filter_trips_stations_1:
+    container_name: filter_trips_stations_1
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: filter_trips_stations:latest
+    depends_on:
+      - rabbitmq
+      - em_filters
+
+  filter_trips_stations_2:
+    container_name: filter_trips_stations_2
     entrypoint: python3 /main.py
     restart: on-failure
     environment:
@@ -71,17 +82,6 @@ services:
     depends_on:
       - rabbitmq
 
-  applier_2:
-    container_name: applier_2
-    entrypoint: python3 /main.py
-    restart: on-failure
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: applier_2:latest
-    depends_on:
-      - rabbitmq
-      - em_query2
-
   groupby_2:
     container_name: groupby_2
     entrypoint: python3 /main.py
@@ -91,14 +91,67 @@ services:
     image: groupby_2:latest
     depends_on:
       - rabbitmq
-      - em_query2
+      - em_groupby
 
-  em_query2:
-    container_name: em_query2
+  em_groupby:
+    container_name: em_groupby
     entrypoint: python3 /main.py
     restart: on-failure
     environment:
       - PYTHONUNBUFFERED=1
-    image: em_query2:latest
+    image: em_groupby:latest
+    depends_on:
+      - rabbitmq
+
+  applier_2_1:
+    container_name: applier_2_1
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_2:latest
+    depends_on:
+      - rabbitmq
+      - em_applier
+
+  applier_2_2:
+    container_name: applier_2_2
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_2:latest
+    depends_on:
+      - rabbitmq
+      - em_applier
+
+  em_applier:
+    container_name: em_applier
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: em_applier:latest
+    depends_on:
+      - rabbitmq
+
+  query_state_verifier:
+    container_name: query_state_verifier
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: query_state_verifier:latest
+    depends_on:
+      - rabbitmq
+      - em_query_state_verifier
+
+  em_query_state_verifier:
+    container_name: em_query_state_verifier
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: em_query_state_verifier:latest
     depends_on:
       - rabbitmq

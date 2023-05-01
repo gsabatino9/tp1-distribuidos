@@ -6,7 +6,7 @@ def main():
 	conn = Connection()
 	RECEIVE_QUEUE = "group_by_2"
 	SEND_QUEUE = "applier_2"
-	EM_QUEUE = "eof_groupby_2_queue"
+	EM_QUEUE = "eof_groupby_queue"
 
 	#operation = lambda old, new: [old[0]+new, old[1]+1]
 	def operation(old, yearid):
@@ -48,9 +48,7 @@ def main():
 
 	def __data_arrived(msg):
 		yearid, name_station = msg.split(',')
-
 		g.add_data(name_station, yearid)
-		print('Data agrupada: \n\t', g.grouped_data)
 
 	recv_queue.receive(callback)
 	conn.start_receiving()
