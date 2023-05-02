@@ -27,7 +27,7 @@ class ApplierController:
 
 	def __eof_arrived(self):
 		self.conn.stop_receiving()
-		self.send_queue.send(EOF_MSG, routing_key="query1")
+		#self.send_queue.send(EOF_MSG, routing_key="query1")
 		self.em_queue.send(WORKER_DONE_MSG)
 		
 	def __apply(self, msg):
