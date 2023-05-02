@@ -27,13 +27,13 @@ class Queue:
 			body=message
 		)
 
-	def receive(self, callback):
+	def receive(self, callback, auto_ack=True):
 		self.__bind_queue()
 
 		self.channel.basic_consume(
 			queue=self.queue_name, 
 			on_message_callback=callback, 
-			auto_ack=True
+			auto_ack=auto_ack
 		)
 
 	def __bind_queue(self):

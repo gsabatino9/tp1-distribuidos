@@ -75,24 +75,26 @@ class WeatherHandler:
             self.washington.add_weather(weather)
 
     def __last_weather_arrived(self):
-        self.recv_trips_queue.receive(self.proccess_trip_arrived)
+        self.recv_trips_queue.receive(self.proccess_trip_arrived, auto_ack=False)
 
-    def __eof_arrived(self):
+    def __eof_arrived(self, ch, delivery_tag):
         self.connection.stop_receiving()
         self.em_queue.send(WORKER_DONE_MSG)
+        ch.basic_ack(delivery_tag = delivery_tag)
         self.close()
 
     def proccess_trip_arrived(self, ch, method, properties, body):
         msg = decode(body)
 
         if msg == EOF_MSG:
-            self.__eof_arrived()
+            self.__eof_arrived(ch, method.delivery_tag)
         else:
-            self.__trip_arrived(msg)
+            self.__trip_arrived(msg, ch, method.delivery_tag)
 
-    def __trip_arrived(self, msg):
+    def __trip_arrived(self, msg, ch, delivery_tag):
         weather_joined = self.__join_trip(msg)
         self.send_joined_trip_queue.send(msg+','+weather_joined)
+        ch.basic_ack(delivery_tag = delivery_tag)
 
     def __join_trip(self, data):
         city, trip = split_city(data)
