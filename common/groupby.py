@@ -47,8 +47,8 @@ class GroupbyController:
       self.send_queue.send(msg)
 
     self.connection.stop_receiving()
-    ch.basic_ack(delivery_tag = delivery_tag)
     self.em_queue.send(WORKER_DONE_MSG)
+    ch.basic_ack(delivery_tag = delivery_tag)
 
   def __data_arrived(self, msg, ch, delivery_tag):
     key, value = self.gen_key_value(msg)

@@ -18,1060 +18,835 @@ docker build -f ./eof_manager/groupby/Dockerfile -t "em_groupby:latest" .
 docker build -f ./eof_manager/applier/Dockerfile -t "em_applier:latest" .
 docker compose -f docker-compose-dev.yaml up -d --build
 docker compose -f docker-compose-dev.yaml logs -f
-em_groupby               | New worker: group_by_2
-em_groupby               | New worker: group_by_3
-em_groupby               | New worker: group_by_1
-filter_trips_weather_1   | [trips_transformer] listo para recibir
-em_filters               | New worker: trips_weather_queue
-em_filters               | New worker: trips_stations_queue
-filter_trips_stations_1  | [trips_transformer] listo para recibir
-em_applier               | New worker: applier_3
+em_applier               | New worker: applier_2
 filter_trips_1           | [trips_transformer] listo para recibir
 em_filters               | New worker: trips_queue
-em_filters               | New worker: trips_stations_queue
-filter_trips_stations_2  | [trips_transformer] listo para recibir
+em_applier               | New worker: applier_2
 em_applier               | New worker: applier_1
-em_applier               | New worker: applier_2
-em_applier               | New worker: applier_2
-em_joiners               | New worker: join_trip_station_queue
-stations_handler         | [stations_handler] listo para recibir
-em_joiners               | New worker: join_trip_weather_queue
+em_groupby               | New worker: group_by_1
+em_groupby               | New worker: group_by_3
+em_applier               | New worker: applier_3
 weather_handler          | [weather_handler] listo para recibir
-filter_trips_1           | 2023-10-08,0,2017
-filter_trips_1           | 2023-03-22,0,2017
-filter_trips_stations_1  | 2017,ZB9HKKOZYT
-filter_trips_1           | 2023-03-20,0,2016
-filter_trips_stations_2  | 2017,6025PFZD7Z
-filter_trips_stations_1  | 2016,DWPVTHZPIZ
-filter_trips_1           | 2023-12-03,1,2016
-filter_trips_stations_1  | 2016,3QESSLQUWA
-filter_trips_1           | 2023-04-07,0,2017
-filter_trips_stations_2  | 2017,4QY6LGU1OD
-filter_trips_weather_1   | 2023-10-30,1651,33.87
-filter_trips_stations_1  | 2016,X7DHTHB3XP
-filter_trips_weather_1   | 2023-07-22,1754,38.88
-filter_trips_stations_2  | 2017,LT8QBYKY6W
-filter_trips_1           | 2023-10-30,1,2016
-filter_trips_1           | 2023-07-22,1,2017
-filter_trips_stations_1  | 2016,22HRHT9YRV
-filter_trips_stations_2  | 2016,JNL9QNDS85
-filter_trips_weather_1   | 2023-10-29,428,37.93
-filter_trips_1           | 2023-07-12,1,2016
-filter_trips_stations_1  | 2016,YTL95KGNIW
-filter_trips_weather_1   | 2023-12-18,2299,37.99
-filter_trips_stations_2  | 2017,OADBT523KS
-filter_trips_1           | 2023-10-29,0,2016
-filter_trips_1           | 2023-12-18,0,2016
-filter_trips_stations_2  | 2016,BBE5FS6AKC
-filter_trips_stations_1  | 2016,6VUUX7U22R
-filter_trips_weather_1   | 2023-05-31,1246,39.26
-filter_trips_1           | 2023-05-31,0,2017
-filter_trips_stations_2  | 2016,8IFMU0SXP0
-filter_trips_stations_1  | 2016,ORL61Z8PUX
-filter_trips_1           | 2023-04-28,1,2016
-filter_trips_stations_2  | 2017,XDF40YTZ5F
-filter_trips_1           | 2023-01-08,1,2016
-filter_trips_1           | 2023-12-04,0,2016
-filter_trips_stations_1  | 2016,22HRHT9YRV
-filter_trips_stations_2  | 2016,36PS4ROLIJ
-filter_trips_weather_1   | 2023-07-03,1371,36.18
-filter_trips_weather_1   | 2023-09-18,729,32.57
-filter_trips_weather_1   | 2023-04-26,2466,38.27
-filter_trips_1           | 2023-07-03,0,2016
-filter_trips_1           | 2023-09-18,0,2017
-filter_trips_stations_1  | 2016,R15ZGJGI99
-filter_trips_1           | 2023-03-02,0,2016
-filter_trips_weather_1   | 2023-08-14,3380,33.0
-filter_trips_stations_2  | 2017,PH1BZHQDCX
-filter_trips_1           | 2023-04-26,0,2016
-filter_trips_stations_1  | 2016,C9YU6AD3NK
-filter_trips_stations_2  | 2016,KKTLZG3WCV
-filter_trips_1           | 2023-06-24,0,2016
-filter_trips_stations_1  | 2017,W8G2HQF6L0
-filter_trips_1           | 2023-08-19,1,2017
+em_joiners               | New worker: join_trip_weather_queue
+stations_handler         | [stations_handler] listo para recibir
+em_joiners               | New worker: join_trip_station_queue
+em_groupby               | New worker: group_by_2
+filter_trips_stations_2  | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_stations_queue
+filter_trips_weather_1   | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_weather_queue
+filter_trips_stations_1  | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_stations_queue
+filter_trips_1           | 2023-06-28,1,2017
+filter_trips_1           | 2023-11-12,1,2017
+filter_trips_stations_2  | 2017,0CSHNJSXTX
+filter_trips_1           | 2023-02-14,1,2016
+filter_trips_1           | 2023-04-12,1,2016
+filter_trips_1           | 2023-02-28,0,2016
+filter_trips_stations_1  | 2017,KCZ6LHAS77
+filter_trips_stations_1  | 2016,GNRWXH7UZE
+filter_trips_stations_2  | 2016,83E1UK194V
+filter_trips_1           | 2023-05-02,1,2017
+filter_trips_stations_1  | 2016,GNRWXH7UZE
+filter_trips_1           | 2023-12-15,0,2017
+filter_trips_stations_2  | 2017,KUP5AKUY9B
+filter_trips_weather_1   | 2023-02-14,787,37.35
+filter_trips_stations_2  | 2016,0CSHNJSXTX
+filter_trips_stations_1  | 2017,HAKE0ZMND5
+filter_trips_1           | 2023-05-25,1,2016
+filter_trips_1           | 2023-07-14,0,2016
+filter_trips_stations_1  | 2016,94EG3YYJ0X
+filter_trips_weather_1   | 2023-04-12,2796,36.27
+filter_trips_1           | 2023-01-04,0,2017
+filter_trips_stations_1  | 2016,1J3E27S6LP
+filter_trips_weather_1   | 2023-02-28,2113,32.05
+filter_trips_1           | 2023-11-26,1,2016
+filter_trips_stations_1  | 2016,5WFCSIRY6N
+filter_trips_weather_1   | 2023-12-15,1012,34.0
+filter_trips_1           | 2023-03-14,1,2016
+filter_trips_weather_1   | 2023-05-25,1183,35.72
+filter_trips_1           | 2023-01-07,1,2016
+filter_trips_stations_1  | 2016,IVK5QHEE7D
+filter_trips_weather_1   | 2023-07-14,1987,30.38
+filter_trips_stations_1  | 2017,KCZ6LHAS77
+filter_trips_1           | 2023-06-22,0,2017
+filter_trips_stations_1  | 2017,I5Y3WXNZ3P
+filter_trips_stations_2  | 2017,FH9CVS9U2S
+filter_trips_1           | 2023-07-07,0,2017
+filter_trips_stations_2  | 2016,IVK5QHEE7D
+filter_trips_stations_2  | 2016,X6TELM5E2B
+filter_trips_weather_1   | 2023-11-26,2742,37.0
+filter_trips_1           | 2023-05-18,0,2016
+filter_trips_stations_1  | 2016,FH9CVS9U2S
+filter_trips_stations_1  | 2016,AJ9KD37U2R
+filter_trips_1           | 2023-12-09,1,2016
+filter_trips_weather_1   | 2023-07-07,3405,36.54
+filter_trips_stations_2  | 2016,NWVN1CI48P
+filter_trips_1           | 2023-06-04,1,2016
+filter_trips_weather_1   | 2023-12-09,716,33.98
+filter_trips_1           | 2023-12-22,0,2016
+filter_trips_weather_1   | 2023-06-04,1035,38.55
+filter_trips_stations_1  | 2017,B7SYR71RNY
+filter_trips_weather_1   | 2023-12-22,3237,32.95
+filter_trips_1           | 2023-07-10,1,2016
+filter_trips_1           | 2023-02-18,0,2017
+filter_trips_1           | 2023-06-21,1,2017
+filter_trips_1           | 2023-04-08,1,2016
+filter_trips_stations_2  | 2017,ZHVV5Q7K8A
+filter_trips_weather_1   | 2023-02-18,3484,38.44
+filter_trips_weather_1   | 2023-06-21,3177,37.06
+filter_trips_1           | 2023-02-13,1,2016
+filter_trips_stations_1  | 2016,QC7LSIYO7J
+filter_trips_1           | 2023-08-03,0,2017
+filter_trips_weather_1   | 2023-08-03,1035,37.05
+filter_trips_1           | 2023-06-01,0,2017
+filter_trips_stations_2  | 2016,T791BXIM86
+filter_trips_1           | 2023-03-21,0,2017
+filter_trips_1           | 2023-05-08,1,2017
+filter_trips_stations_1  | 2017,KN922LRUIN
+filter_trips_1           | 2023-03-13,1,2016
+filter_trips_1           | 2023-03-08,0,2016
+filter_trips_weather_1   | 2023-03-21,3056,32.86
+filter_trips_stations_2  | 2017,L4XWDIYV32
+filter_trips_stations_1  | 2017,8V92X5TPKE
+filter_trips_weather_1   | 2023-05-08,744,39.41
+filter_trips_weather_1   | 2023-03-13,933,36.96
+filter_trips_weather_1   | 2023-08-15,378,34.01
+filter_trips_1           | 2023-08-15,0,2017
+filter_trips_stations_2  | 2017,J0FQWF4F6E
+filter_trips_stations_1  | 2016,7AJ52NTL9Q
+filter_trips_stations_2  | 2016,PZWXNV3AY6
+filter_trips_weather_1   | 2023-12-28,1976,32.56
+filter_trips_1           | 2023-12-28,0,2016
+filter_trips_stations_1  | 2017,1JJK81UPU2
+filter_trips_stations_2  | 2016,MA0WWNYFQB
+filter_trips_1           | 2023-01-07,1,2017
+filter_trips_1           | 2023-02-07,0,2017
+filter_trips_stations_2  | 2017,ZSB3X436T1
+filter_trips_stations_1  | 2017,PZWXNV3AY6
+filter_trips_1           | 2023-04-13,0,2016
+filter_trips_stations_1  | 2016,W5BE0OJSDK
+filter_trips_stations_1  | 2016,WZPHXMSXLS
+filter_trips_stations_1  | 2017,W19MFG4QU2
+filter_trips_weather_1   | 2023-02-07,1426,31.24
+filter_trips_stations_2  | 2016,1J3E27S6LP
+filter_trips_1           | 2023-09-04,0,2016
+filter_trips_stations_2  | 2016,TQNUS1J5DV
+filter_trips_stations_1  | 2016,KMJE8ZELR8
+filter_trips_stations_2  | 2016,KOFK6BKR2B
+filter_trips_stations_1  | 2016,FW8HGIXSTI
+filter_trips_1           | 2023-04-21,1,2017
+filter_trips_stations_2  | 2016,HDMN9XMCLU
+filter_trips_weather_1   | 2023-09-04,1581,38.26
+filter_trips_stations_1  | 2016,KOFK6BKR2B
+filter_trips_1           | 2023-10-23,1,2016
+filter_trips_stations_1  | 2017,G87RJW6J7J
+filter_trips_stations_2  | 2016,YVJVNHLTYX
 filter_trips_1           | 2023-08-14,1,2016
-filter_trips_1           | 2023-07-15,0,2016
-filter_trips_weather_1   | 2023-11-18,3398,32.46
-filter_trips_stations_1  | 2017,03VC7UZZJA
-filter_trips_stations_2  | 2016,9ATG8ODQBA
-filter_trips_stations_1  | 2016,WKZUH5D3II
-filter_trips_stations_2  | 2016,N4HWFBHR3E
-filter_trips_1           | 2023-11-18,0,2017
-filter_trips_stations_1  | 2017,4ZQ6W9GOEB
-filter_trips_stations_2  | 2017,Y1XO8J4V3O
-filter_trips_1           | 2023-10-02,0,2016
-filter_trips_weather_1   | 2023-05-21,2653,30.56
-filter_trips_1           | 2023-04-07,0,2017
-filter_trips_stations_1  | 2017,O8M2P9X0P6
-filter_trips_stations_1  | 2017,JX0QU3OBAQ
-filter_trips_stations_2  | 2016,BQEB4555HQ
-filter_trips_1           | 2023-05-29,1,2016
-filter_trips_weather_1   | 2023-04-19,3448,37.61
-filter_trips_stations_1  | 2016,2BE5297BNI
-filter_trips_1           | 2023-11-06,0,2016
-filter_trips_weather_1   | 2023-03-08,157,38.5
-filter_trips_1           | 2023-02-13,1,2017
-filter_trips_1           | 2023-05-01,0,2017
-filter_trips_1           | 2023-05-21,0,2017
-filter_trips_stations_1  | 2016,VPMLWADDDZ
-filter_trips_1           | 2023-07-06,1,2016
-filter_trips_stations_1  | 2016,1M0UIG7Q6G
-filter_trips_stations_2  | 2017,KB417JBJYM
-filter_trips_stations_2  | 2017,9RL7VKP173
-filter_trips_stations_2  | 2017,AA1MD1RVKA
-filter_trips_stations_1  | 2016,A3GNDHG8MV
-filter_trips_1           | 2023-04-19,1,2017
-filter_trips_stations_1  | 2017,36PS4ROLIJ
-filter_trips_1           | 2023-03-08,1,2017
-filter_trips_stations_2  | 2017,AINFQ80BB3
-filter_trips_stations_2  | 2017,R15ZGJGI99
-filter_trips_1           | 2023-08-31,0,2016
-filter_trips_1           | 2023-11-14,1,2016
-filter_trips_1           | 2023-09-23,1,2017
-filter_trips_1           | 2023-03-05,1,2017
-filter_trips_weather_1   | 2023-06-26,643,36.94
-filter_trips_stations_2  | 2016,9A2EV7H2RK
-filter_trips_stations_1  | 2017,RW4OJNWJFA
-filter_trips_1           | 2023-04-25,1,2016
-filter_trips_1           | 2023-06-26,0,2016
-filter_trips_1           | 2023-10-25,0,2017
-filter_trips_1           | 2023-07-04,1,2017
-filter_trips_stations_2  | 2016,EZ4TZUY8W0
-filter_trips_stations_2  | 2017,NI9S7SY8J4
-filter_trips_1           | 2023-05-06,1,2017
-filter_trips_1           | 2023-05-05,0,2016
-filter_trips_1           | 2023-02-11,0,2017
-filter_trips_stations_1  | 2016,6YJB1TWISF
-filter_trips_weather_1   | 2023-10-25,3394,36.56
-filter_trips_weather_1   | 2023-07-04,2755,37.17
-filter_trips_stations_1  | 2017,DWPVTHZPIZ
-filter_trips_stations_1  | 2017,6RYPN0U12V
-filter_trips_stations_2  | 2017,GVDO31DR1P
-filter_trips_1           | 2023-09-04,1,2016
-filter_trips_1           | 2023-09-06,1,2017
-filter_trips_stations_1  | 2016,DBONZAN6NR
-filter_trips_weather_1   | 2023-02-11,2952,37.13
-filter_trips_weather_1   | 2023-09-04,2841,34.66
-filter_trips_1           | 2023-03-26,1,2016
-filter_trips_stations_2  | 2016,9ATG8ODQBA
-filter_trips_weather_1   | 2023-03-26,2200,30.79
-filter_trips_weather_1   | 2023-03-31,68,30.45
-filter_trips_1           | 2023-03-31,0,2017
-filter_trips_1           | 2023-02-04,0,2017
-filter_trips_1           | 2023-08-18,0,2017
-filter_trips_weather_1   | 2023-08-18,472,32.09
-filter_trips_weather_1   | 2023-05-07,2713,35.69
-filter_trips_weather_1   | 2023-08-18,253,32.09
-filter_trips_1           | 2023-05-07,1,2016
-filter_trips_1           | 2023-08-18,0,2016
-filter_trips_1           | 2023-11-28,0,2017
-filter_trips_weather_1   | 2023-11-28,1992,31.44
+filter_trips_weather_1   | 2023-04-21,2068,34.22
+filter_trips_weather_1   | 2023-08-14,1654,35.17
+filter_trips_1           | 2023-07-20,1,2016
+filter_trips_stations_1  | 2016,W5BE0OJSDK
+filter_trips_stations_2  | 2016,KF8ESF0H12
+filter_trips_stations_1  | 2016,BN4TQYANXH
+filter_trips_stations_2  | 2016,AS8GLPNIGB
+filter_trips_1           | 2023-12-19,1,2016
+filter_trips_stations_2  | 2017,8BGVRYTYRX
+filter_trips_stations_1  | 2016,CQ2CFNM73R
+filter_trips_weather_1   | 2023-12-19,3501,38.86
+filter_trips_weather_1   | 2023-09-12,2105,31.29
+filter_trips_stations_1  | 2016,WI40R9LM69
+filter_trips_stations_2  | 2016,J8D6VPGLFN
+filter_trips_1           | 2023-09-12,1,2016
+filter_trips_stations_2  | 2016,WL8AKQPXIP
+filter_trips_weather_1   | 2023-12-21,3212,36.35
+filter_trips_stations_1  | 2016,IJSXMJNAUG
+filter_trips_stations_2  | 2016,Q2T4NA9DY3
+filter_trips_1           | 2023-12-21,0,2016
+filter_trips_stations_2  | 2016,YDX2BTJBPP
+filter_trips_stations_1  | 2016,XESZYBI0GV
+filter_trips_1           | 2023-12-29,0,2016
+filter_trips_weather_1   | 2023-07-01,1310,31.29
+filter_trips_stations_2  | 2016,KVGT6P8EU1
+filter_trips_stations_1  | 2016,LHU5OQR1YU
 filter_trips_1           | 2023-02-06,0,2017
-filter_trips_1           | 2023-07-26,1,2016
-filter_trips_1           | 2023-07-26,0,2017
-filter_trips_weather_1   | 2023-05-11,1169,33.4
-filter_trips_1           | 2023-09-12,0,2016
-filter_trips_weather_1   | 2023-03-15,783,37.49
-filter_trips_weather_1   | 2023-04-05,3203,31.63
-filter_trips_1           | 2023-05-11,1,2016
-filter_trips_stations_2  | 2017,YHA3Y6E32R
-filter_trips_1           | 2023-05-01,1,2017
-filter_trips_1           | 2023-03-15,1,2017
-filter_trips_weather_1   | 2023-06-07,3115,38.48
-filter_trips_stations_2  | 2016,92H43CY2H0
-filter_trips_stations_1  | 2017,36PS4ROLIJ
-filter_trips_1           | 2023-09-10,1,2017
-filter_trips_stations_2  | 2017,H3Z6M8XVYE
-filter_trips_stations_2  | 2016,UYOA0HOAJF
-filter_trips_1           | 2023-09-16,0,2017
-filter_trips_1           | 2023-04-05,0,2017
-filter_trips_stations_1  | 2016,8X6WRFKCZ8
-filter_trips_1           | 2023-11-20,1,2017
-filter_trips_1           | 2023-03-04,1,2017
-filter_trips_stations_2  | 2017,OGRX447FFT
-filter_trips_stations_1  | 2017,64IWVDX9X3
-filter_trips_1           | 2023-06-07,0,2016
-filter_trips_stations_2  | 2017,RCX1EPD3AB
-filter_trips_1           | 2023-10-06,0,2016
-filter_trips_stations_1  | 2017,RH5VP7TGII
-filter_trips_1           | 2023-06-05,1,2017
-filter_trips_stations_1  | 2017,6YJB1TWISF
-filter_trips_stations_2  | 2017,IH6CQ8YDVD
-filter_trips_weather_1   | 2023-07-07,1339,33.86
-filter_trips_1           | 2023-07-12,0,2017
-filter_trips_stations_2  | 2017,21YEXD1IYV
-filter_trips_weather_1   | 2023-07-02,2947,39.05
-filter_trips_stations_1  | 2016,LVPVW159WI
-filter_trips_1           | 2023-08-20,1,2017
-filter_trips_stations_2  | 2016,TMOPKF12EE
-filter_trips_stations_1  | 2017,QGI365I1VI
-filter_trips_weather_1   | 2023-03-15,188,37.49
+filter_trips_weather_1   | 2023-06-16,1329,39.32
+filter_trips_stations_2  | 2017,EY62PCE8KM
+filter_trips_stations_1  | 2017,J1TQQ2CFUA
+filter_trips_weather_1   | 2023-02-16,2911,34.83
+filter_trips_1           | 2023-07-01,1,2016
+filter_trips_stations_1  | 2016,KCZ6LHAS77
+filter_trips_weather_1   | 2023-05-21,1526,32.18
+filter_trips_1           | 2023-06-16,1,2016
+filter_trips_stations_1  | 2016,65EUCK8BJO
+filter_trips_weather_1   | 2023-01-27,116,35.27
+filter_trips_stations_2  | 2017,XIFVP4BXQ6
+filter_trips_1           | 2023-02-16,1,2016
+filter_trips_1           | 2023-05-21,1,2016
+filter_trips_stations_1  | 2017,MOZSB04AR5
+filter_trips_stations_1  | 2017,FW8HGIXSTI
+filter_trips_weather_1   | 2023-10-11,929,37.26
+filter_trips_1           | 2023-01-27,1,2016
+filter_trips_weather_1   | 2023-12-11,2124,34.96
+filter_trips_stations_1  | 2017,UAQ2WOZS5V
+filter_trips_1           | 2023-05-22,1,2016
+filter_trips_weather_1   | 2023-02-23,2403,31.16
+filter_trips_stations_2  | 2016,4W6JD2MJF1
+filter_trips_1           | 2023-01-21,0,2017
+filter_trips_stations_1  | 2016,KOFK6BKR2B
+filter_trips_1           | 2023-10-11,0,2016
+filter_trips_stations_2  | 2016,X6TELM5E2B
+filter_trips_1           | 2023-12-11,1,2016
 em_joiners               | eof arrived
 em_joiners               | Closing worker: join_trip_weather_queue, 1
-filter_trips_stations_1  | 2017,WKKQAM77B6
-filter_trips_1           | 2023-07-07,1,2016
-filter_trips_stations_2  | 2017,UERWQ9HNLS
-filter_trips_weather_1   | 2023-08-18,3012,32.09
+filter_trips_weather_1   | 2023-07-27,2004,31.36
+filter_trips_stations_1  | 2017,VNJB550F5O
+filter_trips_stations_2  | 2016,Q2T4NA9DY3
+filter_trips_weather_1   | 2023-05-21,1864,32.18
+filter_trips_1           | 2023-02-23,1,2016
+filter_trips_stations_1  | 2017,WL8AKQPXIP
 filter_trips_1           | 2023-07-02,0,2016
-filter_trips_1           | 2023-03-15,0,2017
-filter_trips_1           | 2023-08-06,1,2017
-filter_trips_weather_1   | 2023-03-15,1283,37.49
-filter_trips_1           | 2023-08-29,1,2017
-filter_trips_stations_2  | 2016,1LNFYQSWKF
-filter_trips_1           | 2023-08-18,1,2017
-filter_trips_weather_1   | 2023-04-26,2134,38.27
-filter_trips_stations_1  | 2016,R6XMAG9M7X
-filter_trips_stations_2  | 2017,4ROYM2TSWZ
-filter_trips_1           | 2023-01-04,0,2017
-filter_trips_stations_1  | 2017,AQU699OPJI
-filter_trips_1           | 2023-03-15,0,2016
-filter_trips_weather_1   | 2023-03-11,254,32.9
-filter_trips_1           | 2023-04-26,1,2017
-filter_trips_stations_2  | 2017,FTT01JN8Y3
-filter_trips_stations_1  | 2017,B773P7B47X
-filter_trips_1           | 2023-07-23,1,2016
-filter_trips_stations_2  | 2017,CKASI1TFTY
-filter_trips_weather_1   | 2023-12-05,3400,32.3
-filter_trips_stations_1  | 2016,UERWQ9HNLS
-filter_trips_1           | 2023-01-02,0,2017
-filter_trips_stations_2  | 2017,2DPFG1R6TN
-filter_trips_1           | 2023-03-11,1,2017
-filter_trips_weather_1   | 2023-01-19,2529,31.22
-filter_trips_stations_2  | 2017,ZB9HKKOZYT
-filter_trips_stations_1  | 2016,N4HWFBHR3E
-filter_trips_1           | 2023-09-15,0,2017
-filter_trips_stations_1  | 2017,HLV18STMGL
-filter_trips_1           | 2023-01-23,1,2017
-filter_trips_stations_2  | 2017,BBE5FS6AKC
-filter_trips_weather_1   | 2023-05-26,681,37.95
-filter_trips_stations_1  | 2017,03VC7UZZJA
-filter_trips_1           | 2023-09-02,0,2016
-filter_trips_weather_1   | 2023-11-08,675,32.24
-filter_trips_1           | 2023-12-05,0,2017
-filter_trips_stations_2  | 2016,SW5TUBPHXZ
-filter_trips_1           | 2023-01-19,1,2016
-filter_trips_stations_1  | 2017,UOTDL3HAT4
-filter_trips_1           | 2023-08-20,1,2016
-filter_trips_stations_2  | 2016,AINFQ80BB3
-filter_trips_weather_1   | 2023-12-06,3219,30.75
-filter_trips_1           | 2023-06-28,1,2016
-filter_trips_weather_1   | 2023-11-19,1032,36.41
-filter_trips_1           | 2023-05-26,0,2017
-filter_trips_weather_1   | 2023-10-14,3588,37.09
-filter_trips_stations_1  | 2016,T9HJG7YKPU
-filter_trips_1           | 2023-11-08,1,2017
-filter_trips_stations_2  | 2016,MVM58WECXW
-filter_trips_1           | 2023-04-22,0,2016
-filter_trips_stations_1  | 2017,LT8QBYKY6W
-filter_trips_1           | 2023-03-09,0,2017
-filter_trips_stations_2  | 2017,BQEB4555HQ
-filter_trips_1           | 2023-12-06,1,2017
-filter_trips_weather_1   | 2023-04-26,2151,36.58
-filter_trips_weather_1   | 2023-05-04,322,33.36
-filter_trips_1           | 2023-05-28,1,2016
-filter_trips_stations_1  | 2016,C9YU6AD3NK
-filter_trips_1           | 2023-11-19,1,2017
-filter_trips_weather_1   | 2023-08-10,1331,31.67
-filter_trips_1           | 2023-10-14,0,2017
-filter_trips_stations_2  | 2017,FTT01JN8Y3
-filter_trips_stations_2  | 2016,CT6LCMS56E
-filter_trips_stations_1  | 2017,365Z07Z6MO
-filter_trips_weather_1   | 2023-06-03,1396,34.52
-filter_trips_1           | 2023-09-29,1,2017
-filter_trips_1           | 2023-10-08,1,2017
-filter_trips_1           | 2023-01-04,1,2017
-filter_trips_weather_1   | 2023-04-29,1272,38.81
-filter_trips_1           | 2023-06-22,1,2017
-filter_trips_1           | 2023-04-26,0,2017
-filter_trips_1           | 2023-05-04,1,2016
-filter_trips_stations_2  | 2017,R15ZGJGI99
-filter_trips_1           | 2023-08-10,0,2017
-filter_trips_stations_1  | 2017,9ZZUW6Z87N
-filter_trips_weather_1   | 2023-12-16,1471,39.61
-filter_trips_1           | 2023-06-03,0,2017
-filter_trips_stations_2  | 2017,PDGH37FYQY
-filter_trips_stations_1  | 2017,D39MCFG88I
-filter_trips_weather_1   | 2023-09-28,68,35.21
-filter_trips_1           | 2023-09-29,0,2017
-filter_trips_stations_2  | 2017,4V3JFYC0L3
-filter_trips_1           | 2023-04-29,0,2016
-filter_trips_stations_1  | 2017,RDULPDZ5RO
-filter_trips_1           | 2023-01-28,1,2017
-filter_trips_1           | 2023-08-30,0,2017
-filter_trips_1           | 2023-10-04,1,2016
-filter_trips_1           | 2023-09-03,1,2017
-filter_trips_weather_1   | 2023-03-13,782,34.77
-filter_trips_weather_1   | 2023-05-03,2905,35.25
-filter_trips_1           | 2023-12-16,1,2017
-filter_trips_stations_2  | 2017,FCY1LVU8EF
-filter_trips_1           | 2023-09-28,1,2017
-filter_trips_stations_2  | 2017,W6U597HWFG
-filter_trips_stations_2  | 2017,HPD7UKUSE6
-filter_trips_stations_1  | 2016,R24EEQM3JQ
-filter_trips_stations_1  | 2017,EC28P3TASF
-filter_trips_stations_1  | 2016,KYLIXNQ249
-filter_trips_1           | 2023-03-13,1,2016
-filter_trips_1           | 2023-08-05,1,2016
-filter_trips_stations_2  | 2017,R7Q6YNF514
-filter_trips_weather_1   | 2023-02-13,1018,38.83
-filter_trips_1           | 2023-05-03,1,2016
-filter_trips_1           | 2023-12-30,1,2016
-filter_trips_stations_1  | 2017,GJ4HLFNKZP
-filter_trips_1           | 2023-01-03,1,2017
-filter_trips_1           | 2023-10-23,0,2016
-filter_trips_stations_2  | 2016,BYC222PC1W
-filter_trips_stations_1  | 2017,LLVRVM2WYQ
-filter_trips_stations_1  | 2017,244YJ6ZKZL
-filter_trips_stations_2  | 2017,YTQR3D0VE3
-filter_trips_stations_2  | 2016,VQJ8CTNT2V
-filter_trips_stations_1  | 2016,7BG82U71RZ
-filter_trips_weather_1   | 2023-06-06,2231,31.96
-filter_trips_1           | 2023-12-15,0,2016
-filter_trips_1           | 2023-02-13,1,2017
-filter_trips_1           | 2023-11-05,1,2017
-filter_trips_1           | 2023-07-28,1,2017
-filter_trips_1           | 2023-04-04,0,2016
-filter_trips_weather_1   | 2023-01-31,2061,36.48
-filter_trips_weather_1   | 2023-03-12,2676,36.83
-filter_trips_1           | 2023-04-16,0,2016
-filter_trips_1           | 2023-06-06,1,2016
-filter_trips_stations_1  | 2016,YSBJG0PQNZ
-filter_trips_stations_1  | 2016,0CWFWZ5FDA
-filter_trips_1           | 2023-01-31,0,2016
-filter_trips_1           | 2023-03-12,0,2016
-filter_trips_1           | 2023-05-05,0,2017
-filter_trips_1           | 2023-01-16,0,2016
-filter_trips_1           | 2023-08-06,1,2016
-filter_trips_1           | 2023-02-04,0,2016
-filter_trips_1           | 2023-03-17,1,2017
-filter_trips_1           | 2023-07-30,0,2016
-filter_trips_1           | 2023-11-12,1,2017
-filter_trips_stations_2  | 2017,7WJG7C5W5R
-filter_trips_1           | 2023-12-13,0,2017
-filter_trips_1           | 2023-08-26,1,2017
-filter_trips_1           | 2023-02-05,0,2016
-filter_trips_weather_1   | 2023-02-04,3142,31.37
-filter_trips_stations_1  | 2016,PTF5YHKH2U
-filter_trips_stations_1  | 2017,C4MM6C2C7N
-filter_trips_stations_2  | 2016,GTEXPYXT8U
-filter_trips_1           | 2023-11-05,1,2016
-filter_trips_1           | 2023-09-04,0,2017
-filter_trips_1           | 2023-07-19,1,2016
-filter_trips_1           | 2023-12-23,1,2016
-filter_trips_1           | 2023-12-28,0,2016
-filter_trips_1           | 2023-12-10,1,2016
-filter_trips_1           | 2023-09-11,0,2016
-filter_trips_1           | 2023-04-11,0,2017
-filter_trips_1           | 2023-06-28,0,2016
-filter_trips_1           | 2023-11-29,1,2017
-filter_trips_1           | 2023-08-27,0,2016
-client exited with code 0
-filter_trips_1           | 2023-10-23,1,2017
-filter_trips_1           | 2023-05-21,1,2017
-filter_trips_1           | 2023-12-31,0,2016
-filter_trips_weather_1   | 2023-03-17,2144,33.0
-filter_trips_stations_1  | 2017,P9K7JAJ3ZT
-filter_trips_stations_2  | 2017,JW00JSNOZZ
-filter_trips_weather_1   | 2023-07-30,3388,37.65
-filter_trips_stations_1  | 2016,6QLM3DBCEP
-filter_trips_stations_2  | 2016,IFU0MVD1ZZ
-filter_trips_1           | 2023-01-03,1,2017
-filter_trips_1           | 2023-11-12,1,2016
-filter_trips_stations_1  | 2016,Z3GWGH8KU1
-filter_trips_stations_2  | 2016,JW00JSNOZZ
-filter_trips_1           | 2023-10-24,1,2017
-filter_trips_weather_1   | 2023-11-12,1393,39.93
-filter_trips_stations_1  | 2016,IY9BBSFQ3K
-filter_trips_stations_1  | 2017,BYC222PC1W
-filter_trips_1           | 2023-11-27,1,2016
-filter_trips_1           | 2023-07-14,1,2017
-filter_trips_stations_1  | 2016,YZ4BAXGYR1
-filter_trips_1           | 2023-10-29,0,2017
-filter_trips_1           | 2023-01-26,1,2016
-filter_trips_stations_2  | 2016,XZH3U5DFT0
-filter_trips_1           | 2023-04-22,1,2016
-filter_trips_weather_1   | 2023-12-28,3304,33.75
-filter_trips_stations_1  | 2016,AVJ4XF8EG5
-filter_trips_1           | 2023-10-27,0,2017
-filter_trips_stations_2  | 2017,RAU8ONYIJC
-filter_trips_weather_1   | 2023-09-11,986,36.95
-filter_trips_1           | 2023-07-20,1,2016
-filter_trips_stations_1  | 2016,7BG82U71RZ
-filter_trips_weather_1   | 2023-06-28,2217,37.02
-filter_trips_weather_1   | 2023-11-29,1546,32.73
-filter_trips_weather_1   | 2023-11-12,3092,39.93
-filter_trips_stations_1  | 2017,U545HI6ZK1
-filter_trips_stations_1  | 2017,PAO83C88MG
-filter_trips_1           | 2023-05-29,0,2016
-filter_trips_1           | 2023-10-24,1,2016
-filter_trips_stations_2  | 2017,UPEZ9TAHPG
-filter_trips_1           | 2023-02-10,1,2017
-filter_trips_stations_2  | 2017,R7YMGAV78H
-filter_trips_1           | 2023-07-23,1,2017
-filter_trips_stations_2  | 2016,TJZAIVGKGE
-filter_trips_1           | 2023-08-02,1,2016
-filter_trips_stations_2  | 2016,T4TSPBWA7Z
-filter_trips_1           | 2023-08-17,0,2016
-filter_trips_1           | 2023-08-19,0,2016
-filter_trips_1           | 2023-02-10,0,2017
-filter_trips_weather_1   | 2023-10-24,1985,37.89
-filter_trips_1           | 2023-07-07,1,2017
-filter_trips_weather_1   | 2023-11-27,1084,30.5
-filter_trips_stations_2  | 2016,XY1K8N93T9
-filter_trips_weather_1   | 2023-07-14,813,30.61
-filter_trips_weather_1   | 2023-10-29,2089,31.05
-filter_trips_1           | 2023-08-11,1,2017
-filter_trips_stations_1  | 2016,HCCBCCE2RK
-filter_trips_weather_1   | 2023-01-26,1314,37.96
-filter_trips_weather_1   | 2023-04-22,2769,33.89
-filter_trips_stations_1  | 2016,FDGY11FROR
-filter_trips_stations_2  | 2016,GTEXPYXT8U
-filter_trips_stations_2  | 2016,O7RVVMA0MO
-filter_trips_1           | 2023-03-11,1,2017
-filter_trips_weather_1   | 2023-10-27,3037,33.9
-filter_trips_stations_1  | 2017,61NH61LT58
-filter_trips_stations_1  | 2016,GTEXPYXT8U
-filter_trips_weather_1   | 2023-07-20,2757,34.25
-filter_trips_1           | 2023-11-17,1,2017
-filter_trips_1           | 2023-08-17,1,2016
-filter_trips_1           | 2023-01-15,0,2017
-filter_trips_stations_2  | 2017,ZIG5IL6SZB
-filter_trips_weather_1   | 2023-05-29,1373,35.2
-filter_trips_1           | 2023-12-23,0,2016
-filter_trips_weather_1   | 2023-10-24,3471,37.89
-filter_trips_stations_1  | 2016,R59TXL394U
-filter_trips_1           | 2023-08-10,0,2017
-filter_trips_1           | 2023-11-05,1,2016
-filter_trips_stations_2  | 2017,L1KX7EZSV1
-filter_trips_stations_2  | 2017,JS9JIQVCFO
-filter_trips_1           | 2023-08-17,1,2016
-filter_trips_1           | 2023-06-04,0,2017
-filter_trips_1           | 2023-10-23,1,2016
-filter_trips_stations_2  | 2016,DRF3GZZEOO
-filter_trips_1           | 2023-07-23,1,2017
-filter_trips_weather_1   | 2023-08-17,2891,34.29
-filter_trips_1           | 2023-02-02,1,2017
-filter_trips_stations_1  | 2017,EC28P3TASF
-filter_trips_stations_2  | 2016,DJJ8P7BHD1
-filter_trips_weather_1   | 2023-08-19,1277,30.3
-filter_trips_1           | 2023-06-14,1,2017
-filter_trips_weather_1   | 2023-07-07,1553,34.13
-filter_trips_1           | 2023-01-19,0,2017
-filter_trips_weather_1   | 2023-08-11,1139,32.48
-filter_trips_1           | 2023-06-09,1,2016
-filter_trips_stations_2  | 2017,7BF4U8Y0SN
-filter_trips_stations_1  | 2016,B4QLUZXYW3
-filter_trips_1           | 2023-10-15,0,2017
-filter_trips_stations_2  | 2017,7BF4U8Y0SN
-filter_trips_stations_2  | 2017,8C8F8QWVDG
-filter_trips_1           | 2023-06-05,1,2017
-filter_trips_1           | 2023-02-08,1,2016
-filter_trips_weather_1   | 2023-11-17,3260,32.54
-filter_trips_1           | 2023-08-28,0,2016
-filter_trips_1           | 2023-11-19,0,2017
-filter_trips_1           | 2023-01-09,1,2017
-filter_trips_1           | 2023-03-26,1,2017
-filter_trips_stations_1  | 2016,0653TP8ISD
-filter_trips_1           | 2023-12-17,0,2017
-filter_trips_stations_2  | 2016,HFKL4JP1XZ
-filter_trips_stations_1  | 2017,ATD06BBJYM
-filter_trips_stations_2  | 2016,YKDBGNTTPO
-filter_trips_weather_1   | 2023-08-17,998,34.29
-filter_trips_1           | 2023-01-07,1,2016
-filter_trips_1           | 2023-07-01,1,2016
-filter_trips_stations_1  | 2016,31Q5T25R55
-filter_trips_stations_1  | 2016,BQHFIW87NK
-filter_trips_1           | 2023-05-04,0,2016
-filter_trips_stations_2  | 2017,WNEKLXF1PO
-filter_trips_weather_1   | 2023-08-10,1366,31.67
-filter_trips_1           | 2023-12-24,0,2016
-filter_trips_stations_1  | 2017,NLJP2PWMUR
-filter_trips_1           | 2023-03-30,0,2017
-filter_trips_stations_2  | 2016,DBD7MRY3ZZ
-filter_trips_1           | 2023-12-12,1,2016
-filter_trips_weather_1   | 2023-08-17,203,34.29
-filter_trips_stations_1  | 2016,R24EEQM3JQ
-filter_trips_1           | 2023-11-06,0,2016
-filter_trips_1           | 2023-08-24,0,2017
-filter_trips_stations_2  | 2016,1IIT1IMFUS
-filter_trips_1           | 2023-01-31,1,2016
-filter_trips_stations_1  | 2017,LAXORX3JH4
-filter_trips_1           | 2023-03-19,0,2016
-filter_trips_stations_2  | 2017,BGJLNAE47P
-filter_trips_1           | 2023-03-02,1,2016
-filter_trips_stations_1  | 2017,KYLIXNQ249
-filter_trips_1           | 2023-12-11,0,2017
-filter_trips_weather_1   | 2023-06-09,2502,37.41
-filter_trips_stations_2  | 2017,ODGYVFNRXK
-filter_trips_weather_1   | 2023-10-15,533,33.69
-filter_trips_stations_1  | 2017,AF7L6W07X2
-filter_trips_1           | 2023-06-09,0,2017
-filter_trips_1           | 2023-06-09,0,2017
-filter_trips_stations_2  | 2016,3ZZFQ61VNS
-filter_trips_stations_1  | 2017,143U9CHYRC
-filter_trips_1           | 2023-04-11,1,2017
-filter_trips_weather_1   | 2023-08-28,751,37.29
-filter_trips_weather_1   | 2023-01-09,3233,34.56
-filter_trips_stations_2  | 2016,HFKL4JP1XZ
-filter_trips_weather_1   | 2023-12-17,2113,30.7
-filter_trips_1           | 2023-06-21,0,2016
-filter_trips_weather_1   | 2023-01-07,1719,30.78
-filter_trips_stations_1  | 2017,VZMVXIXN0A
-filter_trips_weather_1   | 2023-05-04,3120,33.36
-filter_trips_1           | 2023-11-22,0,2017
-filter_trips_1           | 2023-03-29,0,2016
-filter_trips_weather_1   | 2023-12-24,1653,35.24
-filter_trips_1           | 2023-05-12,0,2017
-filter_trips_1           | 2023-07-08,1,2017
-filter_trips_weather_1   | 2023-03-30,2885,36.53
-filter_trips_weather_1   | 2023-08-24,430,38.74
-filter_trips_stations_2  | 2016,M2HIS3WLNO
-filter_trips_stations_1  | 2016,B4QLUZXYW3
-filter_trips_weather_1   | 2023-01-31,934,30.49
-filter_trips_1           | 2023-02-21,0,2017
-filter_trips_weather_1   | 2023-03-19,373,38.55
-filter_trips_weather_1   | 2023-03-02,2753,32.63
-filter_trips_stations_2  | 2017,7T4RPA0YHI
-filter_trips_1           | 2023-11-08,0,2017
-filter_trips_weather_1   | 2023-06-09,848,34.63
-filter_trips_stations_1  | 2016,C4MM6C2C7N
-filter_trips_stations_2  | 2017,VI7Q490FL2
-filter_trips_weather_1   | 2023-06-09,527,34.63
-filter_trips_weather_1   | 2023-06-21,327,36.47
-filter_trips_weather_1   | 2023-11-22,1247,35.97
-filter_trips_1           | 2023-07-31,1,2017
-filter_trips_stations_1  | 2017,4S7V9FPBIM
-filter_trips_1           | 2023-01-07,1,2016
-filter_trips_weather_1   | 2023-05-12,1849,34.2
-filter_trips_stations_2  | 2017,FX8TFG2P69
-filter_trips_stations_1  | 2017,VI7Q490FL2
-filter_trips_weather_1   | 2023-11-08,1085,38.06
-filter_trips_1           | 2023-03-03,0,2017
-filter_trips_stations_1  | 2016,ODCJOXQ36B
-filter_trips_1           | 2023-02-17,1,2016
-filter_trips_weather_1   | 2023-09-21,2016,31.93
-filter_trips_stations_2  | 2017,BBZNU8L4EX
-filter_trips_weather_1   | 2023-10-19,1483,34.8
-filter_trips_1           | 2023-09-21,0,2016
-filter_trips_weather_1   | 2023-08-20,1813,38.29
-filter_trips_1           | 2023-08-25,0,2017
-filter_trips_stations_1  | 2017,KDFPPSZUAZ
-filter_trips_stations_2  | 2016,RAU8ONYIJC
-filter_trips_weather_1   | 2023-05-04,2772,31.98
-filter_trips_1           | 2023-06-03,0,2017
-filter_trips_1           | 2023-10-19,1,2016
-filter_trips_1           | 2023-08-20,0,2016
-filter_trips_stations_2  | 2016,NNCVK55CSM
-filter_trips_1           | 2023-05-04,1,2016
-filter_trips_weather_1   | 2023-09-27,1015,38.24
-filter_trips_1           | 2023-03-13,1,2017
-filter_trips_stations_2  | 2017,28CMJ4F8C6
-filter_trips_1           | 2023-08-23,1,2016
-filter_trips_stations_1  | 2017,P9K7JAJ3ZT
-filter_trips_1           | 2023-09-27,1,2017
-filter_trips_stations_1  | 2017,R7YMGAV78H
-filter_trips_weather_1   | 2023-07-15,284,33.76
-filter_trips_1           | 2023-05-11,1,2017
-filter_trips_stations_2  | 2017,QJHQAJDUYZ
-filter_trips_weather_1   | 2023-10-01,137,32.48
-filter_trips_1           | 2023-03-29,1,2016
-filter_trips_stations_1  | 2016,1P6YWQ1DPC
-filter_trips_1           | 2023-02-11,0,2017
-filter_trips_stations_2  | 2016,4SJO1SE7QE
-filter_trips_1           | 2023-05-09,1,2016
-filter_trips_stations_1  | 2016,B4QLUZXYW3
-filter_trips_stations_2  | 2016,OIOV2ED9AQ
-filter_trips_1           | 2023-10-30,0,2017
-filter_trips_stations_1  | 2017,IG28JET5OB
-filter_trips_1           | 2023-02-16,0,2016
-filter_trips_stations_1  | 2016,FO5VFQ53X6
-filter_trips_stations_1  | 2016,NJI853BDXZ
-filter_trips_weather_1   | 2023-01-23,1437,38.31
-filter_trips_1           | 2023-07-15,1,2017
-filter_trips_1           | 2023-10-01,1,2016
-filter_trips_1           | 2023-01-21,1,2016
-filter_trips_stations_1  | 2017,4R0A5F6YXZ
-filter_trips_1           | 2023-01-23,1,2016
-filter_trips_weather_1   | 2023-01-14,3381,33.33
-filter_trips_stations_2  | 2016,ZCFS9BK4P2
-filter_trips_weather_1   | 2023-04-10,94,36.92
-filter_trips_1           | 2023-01-14,0,2016
-filter_trips_stations_1  | 2016,B9W3FTVG2J
-filter_trips_1           | 2023-04-10,0,2016
-filter_trips_weather_1   | 2023-03-31,1332,39.83
-filter_trips_stations_2  | 2016,FZCSDOBZYE
-filter_trips_1           | 2023-03-31,1,2017
-filter_trips_stations_1  | 2017,4R0A5F6YXZ
-filter_trips_weather_1   | 2023-07-17,2651,35.62
-filter_trips_1           | 2023-03-11,0,2017
-filter_trips_stations_2  | 2017,MOVZZ7CJ42
-filter_trips_weather_1   | 2023-09-16,817,31.25
-filter_trips_1           | 2023-07-17,0,2017
-filter_trips_weather_1   | 2023-06-01,1169,36.97
-filter_trips_stations_1  | 2017,SHIZG9KSE4
-filter_trips_weather_1   | 2023-09-10,482,38.88
-filter_trips_stations_2  | 2017,KBIE1DHF6Q
-filter_trips_1           | 2023-09-16,0,2016
-filter_trips_stations_1  | 2016,YGN8UOFYTL
-filter_trips_stations_2  | 2017,J2VEZN7UR8
-filter_trips_1           | 2023-06-01,1,2016
-filter_trips_1           | 2023-09-10,0,2016
-filter_trips_1           | 2023-12-15,0,2017
-filter_trips_stations_2  | 2017,2UVVF9DGFP
-filter_trips_stations_2  | 2017,WKQP3YCI03
-filter_trips_stations_1  | 2016,FZCSDOBZYE
-filter_trips_stations_1  | 2017,DXJO9FHXL1
-filter_trips_1           | 2023-10-06,0,2016
-filter_trips_1           | 2023-07-31,1,2016
-filter_trips_1           | 2023-03-02,1,2016
-filter_trips_1           | 2023-12-12,1,2016
-filter_trips_weather_1   | 2023-03-02,994,32.63
-filter_trips_weather_1   | 2023-06-14,287,33.96
-filter_trips_stations_1  | 2017,X62IKR56E2
-filter_trips_1           | 2023-06-03,1,2016
-filter_trips_weather_1   | 2023-12-24,577,37.22
-filter_trips_weather_1   | 2023-10-27,2965,30.4
-filter_trips_1           | 2023-06-14,1,2016
-filter_trips_1           | 2023-12-24,1,2016
-filter_trips_1           | 2023-10-27,0,2017
-filter_trips_1           | 2023-05-30,0,2016
-filter_trips_1           | 2023-08-22,1,2017
-filter_trips_stations_2  | 2017,KI103PA7YL
-filter_trips_1           | 2023-03-20,0,2016
-filter_trips_1           | 2023-06-02,1,2017
-filter_trips_stations_1  | 2016,5EGCU371SH
-filter_trips_stations_1  | 2017,TFXVM066BF
-filter_trips_1           | 2023-04-18,0,2016
-filter_trips_1           | 2023-10-12,1,2017
-filter_trips_1           | 2023-04-15,1,2017
-filter_trips_1           | 2023-11-30,0,2017
-filter_trips_stations_2  | 2016,3COPSRYUFB
-filter_trips_stations_2  | 2017,5KEEZXBYNT
-filter_trips_stations_1  | 2016,KBIE1DHF6Q
-filter_trips_weather_1   | 2023-06-02,2645,30.72
-filter_trips_stations_2  | 2016,HQ253W9GJI
-receiver exited with code 0
-filter_trips_1           | 2023-12-19,1,2017
-filter_trips_1           | 2023-09-26,1,2016
-filter_trips_weather_1   | 2023-04-18,681,38.05
-filter_trips_1           | 2023-10-10,0,2017
-filter_trips_1           | 2023-12-13,0,2017
-filter_trips_stations_2  | 2016,Q5HOYM8OQR
-filter_trips_weather_1   | 2023-04-15,3118,38.05
-filter_trips_1           | 2023-11-14,0,2016
-filter_trips_stations_2  | 2016,0Z32RRPH9K
-filter_trips_1           | 2023-02-02,1,2017
-filter_trips_stations_1  | 2017,X4R77CFL4B
-filter_trips_stations_2  | 2017,UNDFTN843M
-filter_trips_1           | 2023-01-11,0,2017
-filter_trips_stations_2  | 2016,1ZJJ3K0NHD
-filter_trips_1           | 2023-02-20,1,2017
-filter_trips_stations_2  | 2017,TE315E0PKJ
-filter_trips_weather_1   | 2023-12-19,2615,38.37
-filter_trips_1           | 2023-03-20,1,2017
-filter_trips_stations_2  | 2017,FXHBZAIFLI
-filter_trips_1           | 2023-12-19,0,2017
-filter_trips_stations_1  | 2016,QB9G0PK0X6
-filter_trips_1           | 2023-08-05,1,2017
-filter_trips_stations_2  | 2017,741TCUI71M
-filter_trips_stations_1  | 2016,VWLTHDMBPE
-filter_trips_1           | 2023-12-16,0,2016
-filter_trips_weather_1   | 2023-10-10,2103,31.61
-filter_trips_stations_1  | 2017,HOJ5C0TYB5
-filter_trips_weather_1   | 2023-12-13,2750,38.7
-filter_trips_stations_2  | 2016,X29WPWX5QO
-filter_trips_stations_1  | 2017,3P0KT59UYG
-filter_trips_stations_2  | 2016,PQ7BJH5HY0
-filter_trips_stations_1  | 2016,2HBEWLIHV0
-filter_trips_stations_1  | 2016,4ENIWKQCKG
-filter_trips_weather_1   | 2023-11-14,2770,33.07
-filter_trips_1           | 2023-10-12,0,2016
-filter_trips_stations_2  | 2016,KK7SDHBVAV
-filter_trips_1           | 2023-07-26,0,2016
-filter_trips_stations_1  | 2016,XNLR96GPFN
-filter_trips_1           | 2023-12-18,0,2017
-filter_trips_stations_2  | 2017,X27RAP45YT
-filter_trips_stations_1  | 2017,Y2M120TZWG
-filter_trips_stations_2  | 2017,0V79UIPBWQ
-filter_trips_1           | 2023-04-03,0,2017
-filter_trips_stations_1  | 2016,EMY7BI8E7B
-filter_trips_stations_2  | 2016,QKH751W0D2
-filter_trips_stations_2  | 2017,UTDGFUT9RE
-filter_trips_stations_2  | 2016,ONITDUYMS5
-filter_trips_stations_2  | 2016,8JRO86JY3X
-filter_trips_stations_1  | 2016,9S9AHG3H9D
-filter_trips_stations_2  | 2016,LWHN9QRT3J
-filter_trips_1           | 2023-06-11,1,2016
-filter_trips_stations_2  | 2016,KYEKGUE0P7
-filter_trips_stations_1  | 2016,0Z32RRPH9K
-filter_trips_stations_2  | 2016,UTDGFUT9RE
-filter_trips_stations_2  | 2017,WT25Y4RRJ6
-filter_trips_stations_1  | 2016,TCNA29Y77J
-filter_trips_1           | 2023-04-04,0,2016
-filter_trips_stations_2  | 2016,X4R77CFL4B
-filter_trips_1           | 2023-09-10,0,2017
-filter_trips_1           | 2023-07-15,1,2016
-filter_trips_stations_1  | 2017,DXJO9FHXL1
-filter_trips_stations_2  | 2016,IOME6DDSXY
-filter_trips_1           | 2023-12-31,0,2017
-filter_trips_1           | 2023-03-22,1,2016
-filter_trips_stations_2  | 2017,5EGCU371SH
-filter_trips_1           | 2023-08-13,0,2017
-filter_trips_weather_1   | 2023-12-19,2545,38.37
-filter_trips_1           | 2023-11-18,0,2017
-filter_trips_1           | 2023-10-07,1,2017
-filter_trips_stations_2  | 2016,3FM1N7CY2K
+filter_trips_weather_1   | 2023-12-15,452,34.0
+filter_trips_weather_1   | 2023-09-16,1174,35.7
+filter_trips_stations_2  | 2016,395XSGKAIT
+filter_trips_1           | 2023-07-06,1,2016
+filter_trips_weather_1   | 2023-06-29,943,33.93
+filter_trips_1           | 2023-07-27,1,2016
+filter_trips_stations_1  | 2017,WYVFZIINL6
+filter_trips_1           | 2023-05-21,1,2016
+filter_trips_stations_2  | 2016,0CSHNJSXTX
+filter_trips_1           | 2023-12-15,1,2016
+filter_trips_stations_1  | 2016,1TKWIPX69S
+filter_trips_1           | 2023-09-16,1,2016
+filter_trips_weather_1   | 2023-12-12,1503,30.71
+filter_trips_1           | 2023-06-29,0,2017
+filter_trips_stations_2  | 2017,KUP5AKUY9B
 filter_trips_1           | 2023-10-21,1,2017
-filter_trips_weather_1   | 2023-08-05,3499,39.11
+filter_trips_stations_1  | 2016,HY2EPZK8J1
+filter_trips_1           | 2023-03-28,0,2016
+filter_trips_1           | 2023-12-12,1,2017
+filter_trips_stations_2  | 2017,SHJKK4648M
+filter_trips_stations_1  | 2017,XESZYBI0GV
+filter_trips_1           | 2023-10-05,0,2016
+filter_trips_stations_2  | 2017,65EUCK8BJO
+filter_trips_weather_1   | 2023-03-24,3232,31.76
+filter_trips_stations_2  | 2016,U17ENL68EE
+filter_trips_weather_1   | 2023-07-19,972,36.8
+filter_trips_weather_1   | 2023-10-03,1350,39.97
+filter_trips_1           | 2023-05-26,1,2017
+filter_trips_stations_1  | 2017,IJSXMJNAUG
+filter_trips_1           | 2023-03-24,0,2017
+filter_trips_stations_1  | 2017,P4N8MNBXM3
+filter_trips_stations_1  | 2016,Q6GXCY81EK
+filter_trips_1           | 2023-07-28,1,2017
+filter_trips_1           | 2023-09-03,1,2016
+filter_trips_1           | 2023-07-19,0,2016
+filter_trips_1           | 2023-10-03,1,2016
+filter_trips_stations_2  | 2016,WL8AKQPXIP
+filter_trips_1           | 2023-12-31,0,2017
+filter_trips_weather_1   | 2023-08-03,3039,37.05
+filter_trips_stations_2  | 2017,K45TUB51UQ
+filter_trips_1           | 2023-03-30,0,2016
+filter_trips_stations_1  | 2016,GUUPXHGDAV
+filter_trips_1           | 2023-06-23,0,2017
+filter_trips_1           | 2023-08-03,1,2016
+filter_trips_1           | 2023-10-04,0,2017
+filter_trips_weather_1   | 2023-04-26,1445,30.63
+filter_trips_1           | 2023-12-25,1,2016
+filter_trips_weather_1   | 2023-09-01,3299,34.08
+filter_trips_1           | 2023-04-26,1,2016
+filter_trips_1           | 2023-09-01,1,2017
+filter_trips_stations_2  | 2017,GRS6ITZBRV
+filter_trips_stations_1  | 2016,2NPKPG4JOB
+filter_trips_weather_1   | 2023-01-26,3282,38.58
+filter_trips_stations_2  | 2016,83E1UK194V
+filter_trips_1           | 2023-05-13,1,2016
+filter_trips_stations_2  | 2017,N7NU4TKDDT
+filter_trips_stations_1  | 2016,0BA55GFQ63
+filter_trips_1           | 2023-01-26,1,2017
+filter_trips_stations_2  | 2016,I5Y3WXNZ3P
+filter_trips_weather_1   | 2023-03-22,1947,33.05
+filter_trips_stations_1  | 2016,CZERSKLWF8
+filter_trips_1           | 2023-07-26,1,2017
+filter_trips_weather_1   | 2023-04-15,2348,34.26
+filter_trips_stations_2  | 2017,GNRWXH7UZE
+filter_trips_1           | 2023-03-22,0,2017
+filter_trips_stations_1  | 2016,9UWW9N17XD
+filter_trips_weather_1   | 2023-05-11,1946,34.65
+filter_trips_1           | 2023-04-30,1,2017
+filter_trips_stations_1  | 2017,DB4FVAE5G6
+filter_trips_1           | 2023-04-15,1,2016
+filter_trips_weather_1   | 2023-09-04,152,38.26
+filter_trips_1           | 2023-05-11,1,2017
+filter_trips_stations_1  | 2016,WCX04G56F9
+filter_trips_1           | 2023-03-11,0,2016
+filter_trips_weather_1   | 2023-05-14,1066,38.37
+filter_trips_stations_1  | 2017,N7RD6R7IO9
+filter_trips_1           | 2023-01-05,0,2016
+filter_trips_1           | 2023-09-04,0,2017
+filter_trips_stations_1  | 2017,BX5JAU50EZ
+filter_trips_1           | 2023-05-14,1,2016
+filter_trips_stations_1  | 2017,FH6CSFXPOS
+filter_trips_stations_2  | 2017,L81LDEVMDI
+filter_trips_1           | 2023-06-03,1,2017
+filter_trips_weather_1   | 2023-11-27,682,33.73
+filter_trips_stations_2  | 2017,R62EQIVNP9
+filter_trips_1           | 2023-08-18,0,2016
+filter_trips_stations_1  | 2016,N0KOXI6K8F
+filter_trips_stations_1  | 2017,JNWXPLD1TR
+filter_trips_weather_1   | 2023-06-15,2003,31.44
+filter_trips_1           | 2023-11-27,1,2016
+filter_trips_stations_2  | 2016,FY5XB8N4V9
+filter_trips_1           | 2023-06-15,0,2016
+filter_trips_1           | 2023-04-12,1,2017
+filter_trips_stations_1  | 2017,PJNWPRV7T9
+filter_trips_1           | 2023-01-13,1,2016
+filter_trips_stations_1  | 2017,F7Y304QJA5
+filter_trips_weather_1   | 2023-04-12,3586,36.27
+filter_trips_stations_2  | 2017,NS02B8OJT1
+filter_trips_stations_1  | 2016,B9XNNF03J9
+filter_trips_1           | 2023-10-09,1,2016
+filter_trips_1           | 2023-04-02,0,2017
+filter_trips_1           | 2023-07-09,1,2016
+filter_trips_stations_1  | 2017,QJ6887VDO1
+filter_trips_stations_1  | 2017,B4DCA7NIZ6
+filter_trips_1           | 2023-06-03,1,2017
+filter_trips_weather_1   | 2023-10-09,3160,38.16
+filter_trips_1           | 2023-07-30,1,2017
+filter_trips_1           | 2023-12-10,1,2016
+filter_trips_weather_1   | 2023-04-02,1923,39.59
+filter_trips_weather_1   | 2023-07-09,1550,33.18
+filter_trips_stations_1  | 2017,XQEWRQ3GU5
+filter_trips_stations_2  | 2017,QZFEUETAYE
+filter_trips_stations_1  | 2017,AHSS3G0JOP
+filter_trips_stations_2  | 2017,04Y8FQCK1P
+filter_trips_stations_2  | 2017,W9W9XWTRWK
+filter_trips_1           | 2023-02-04,0,2017
+filter_trips_stations_1  | 2016,0L5PUCVQ9Q
+filter_trips_stations_1  | 2016,QNOK1R3Q30
+filter_trips_stations_1  | 2017,1JMS28PXEK
+filter_trips_stations_2  | 2016,C2JLW7BJM9
+filter_trips_stations_1  | 2017,X8AX66S4I4
+filter_trips_weather_1   | 2023-12-10,2630,30.34
+filter_trips_1           | 2023-03-06,1,2017
+filter_trips_stations_2  | 2016,OX6ZM5ZE47
+filter_trips_stations_2  | 2017,N4KZ6DM2Q7
+filter_trips_stations_2  | 2017,UZIJOKC7OZ
+filter_trips_weather_1   | 2023-02-04,2439,34.93
+filter_trips_weather_1   | 2023-12-05,1543,30.98
+filter_trips_stations_1  | 2017,3BWJ3DTK77
+filter_trips_weather_1   | 2023-12-31,450,31.3
+filter_trips_stations_1  | 2017,X286210EBF
+filter_trips_1           | 2023-12-05,1,2017
+filter_trips_1           | 2023-12-31,1,2016
+filter_trips_1           | 2023-08-11,0,2017
+filter_trips_1           | 2023-08-26,0,2017
+filter_trips_stations_1  | 2016,0L5PUCVQ9Q
+filter_trips_stations_2  | 2017,TC5M1I1EKB
+filter_trips_stations_2  | 2016,K3D9W5S84C
+filter_trips_1           | 2023-05-17,1,2016
+filter_trips_1           | 2023-10-16,1,2017
+filter_trips_1           | 2023-02-09,1,2017
+filter_trips_stations_2  | 2016,NJXN4J5MD0
+filter_trips_1           | 2023-06-10,1,2017
+filter_trips_1           | 2023-04-27,0,2017
+filter_trips_1           | 2023-05-14,1,2016
+filter_trips_1           | 2023-01-24,1,2017
 filter_trips_1           | 2023-10-14,0,2017
-filter_trips_1           | 2023-12-24,0,2016
-filter_trips_1           | 2023-11-16,1,2016
-filter_trips_1           | 2023-04-22,0,2016
-filter_trips_weather_1   | 2023-12-16,3560,36.42
-filter_trips_1           | 2023-04-24,0,2016
-filter_trips_1           | 2023-01-12,0,2017
-filter_trips_stations_2  | 2017,6GGMVL8L6I
-filter_trips_1           | 2023-05-08,1,2016
-filter_trips_1           | 2023-05-19,0,2016
-filter_trips_1           | 2023-10-26,1,2017
-filter_trips_stations_1  | 2017,0T3IC42CO4
-filter_trips_weather_1   | 2023-07-26,1510,35.92
-filter_trips_stations_2  | 2017,GJJ2XHJR3N
-filter_trips_weather_1   | 2023-12-18,2632,38.74
-filter_trips_weather_1   | 2023-04-03,1424,36.34
-filter_trips_stations_1  | 2017,7G1LDHF0RA
-filter_trips_stations_2  | 2016,TDMLHONRIB
-filter_trips_weather_1   | 2023-04-04,1744,34.11
-filter_trips_stations_1  | 2017,VWMZ6ODUGI
-filter_trips_stations_1  | 2017,741TCUI71M
-filter_trips_stations_2  | 2016,SR29LJ2SBR
-filter_trips_stations_1  | 2017,Z8BNQZ4A4I
-filter_trips_stations_2  | 2017,SHIZG9KSE4
-filter_trips_weather_1   | 2023-09-10,3524,38.88
-filter_trips_stations_1  | 2017,Z8BNQZ4A4I
-filter_trips_stations_1  | 2017,GUC7746GKW
-filter_trips_weather_1   | 2023-07-15,2964,33.76
-filter_trips_stations_2  | 2017,KJ2E4GRP45
-filter_trips_stations_1  | 2017,FDISB5CV4Y
-filter_trips_stations_2  | 2016,EME6DLBDT0
-filter_trips_stations_1  | 2016,RDCIVP31DR
-filter_trips_stations_1  | 2016,SHIZG9KSE4
-filter_trips_weather_1   | 2023-03-22,2130,35.83
-filter_trips_stations_2  | 2017,3P0KT59UYG
-filter_trips_stations_1  | 2017,ZLY3AFNDFF
-filter_trips_weather_1   | 2023-08-13,680,35.95
-filter_trips_stations_2  | 2016,EMY7BI8E7B
-filter_trips_stations_1  | 2016,0Z32RRPH9K
-filter_trips_weather_1   | 2023-10-21,2243,36.55
-filter_trips_stations_2  | 2017,1ZJJ3K0NHD
-filter_trips_stations_1  | 2016,37QOIX9WJ2
-filter_trips_weather_1   | 2023-10-14,2481,31.6
-filter_trips_weather_1   | 2023-12-24,2350,37.22
-filter_trips_stations_2  | 2017,2YS5F82Q01
-filter_trips_stations_1  | 2016,P0EBFYCCNV
-filter_trips_weather_1   | 2023-11-16,1942,34.12
-filter_trips_stations_2  | 2017,7X8OWF2T4Z
-filter_trips_weather_1   | 2023-04-22,3433,31.72
-filter_trips_stations_1  | 2017,MOVZZ7CJ42
-filter_trips_stations_2  | 2017,KY3ZNSW6HZ
-filter_trips_stations_1  | 2017,UZHDN5Z2XX
-filter_trips_stations_2  | 2017,O4PT1EPOEJ
-filter_trips_stations_1  | 2016,TFXVM066BF
-filter_trips_weather_1   | 2023-10-26,420,32.82
-filter_trips_stations_2  | 2016,5KEEZXBYNT
-filter_trips_stations_1  | 2016,TG5FLUQUZS
-filter_trips_stations_2  | 2016,2D1KM5DO12
-filter_trips_stations_1  | 2017,QAXRQBFZ8I
+filter_trips_1           | 2023-05-07,0,2017
+filter_trips_1           | 2023-05-31,1,2017
+filter_trips_stations_1  | 2016,QXF9V5DPSC
+filter_trips_stations_2  | 2016,K9B5TZ0FXQ
+filter_trips_stations_2  | 2016,RZA5TQWE7P
+filter_trips_stations_2  | 2016,PS4VZJM16V
+filter_trips_stations_2  | 2016,TWAEW6AYXN
+filter_trips_weather_1   | 2023-06-10,1129,30.41
+filter_trips_weather_1   | 2023-04-27,3563,34.11
+filter_trips_1           | 2023-06-18,0,2017
+filter_trips_1           | 2023-12-23,1,2016
+filter_trips_stations_1  | 2017,XDFYFP98NW
+filter_trips_weather_1   | 2023-05-14,99,38.88
+filter_trips_stations_2  | 2017,XQEWRQ3GU5
+filter_trips_stations_1  | 2016,IY9M28QS1B
+filter_trips_1           | 2023-05-09,0,2017
+filter_trips_stations_1  | 2016,PPW05JGG3M
+filter_trips_1           | 2023-12-01,1,2016
+filter_trips_1           | 2023-11-20,0,2016
+filter_trips_stations_2  | 2017,XDFYFP98NW
+filter_trips_weather_1   | 2023-10-14,2348,31.66
+filter_trips_weather_1   | 2023-05-07,3237,35.54
+filter_trips_stations_1  | 2016,55OK8SGWQX
+filter_trips_stations_2  | 2017,TOTTDMWI2T
+filter_trips_1           | 2023-01-02,1,2017
+filter_trips_weather_1   | 2023-06-18,3230,32.21
+filter_trips_stations_2  | 2016,ZNBAIIUYRA
+filter_trips_1           | 2023-06-26,1,2017
+filter_trips_stations_1  | 2016,PJNWPRV7T9
+filter_trips_1           | 2023-03-30,0,2016
+filter_trips_weather_1   | 2023-12-23,3209,38.92
+filter_trips_stations_1  | 2016,HQGENRGTSA
+filter_trips_stations_2  | 2017,L81LDEVMDI
+filter_trips_stations_2  | 2016,4J6B5HC9E2
+filter_trips_weather_1   | 2023-05-09,2331,34.11
+filter_trips_1           | 2023-12-25,1,2017
+filter_trips_1           | 2023-10-09,1,2017
+filter_trips_stations_2  | 2017,VQTKSMM5HO
+filter_trips_stations_1  | 2016,36GSA3PCQE
+client exited with code 0
+filter_trips_stations_2  | 2016,FS5H0GTJ65
+filter_trips_stations_1  | 2016,ZKPOVUTVWP
+filter_trips_stations_2  | 2016,NJXN4J5MD0
+filter_trips_weather_1   | 2023-01-02,148,36.76
+filter_trips_1           | 2023-01-14,0,2017
+filter_trips_1           | 2023-08-17,1,2017
+filter_trips_1           | 2023-06-27,0,2017
+filter_trips_stations_2  | 2017,3BWJ3DTK77
+filter_trips_stations_1  | 2017,X2FXX45HRN
+filter_trips_1           | 2023-05-25,0,2016
+filter_trips_weather_1   | 2023-12-25,1730,34.46
+filter_trips_weather_1   | 2023-01-14,2720,32.51
+filter_trips_1           | 2023-12-26,1,2016
+filter_trips_stations_2  | 2016,JR1TQVHXZ8
+filter_trips_weather_1   | 2023-08-17,971,34.56
+filter_trips_stations_1  | 2017,S9WMB8J8QL
+filter_trips_stations_2  | 2017,I3UM18B4NQ
+filter_trips_1           | 2023-11-10,1,2016
+filter_trips_stations_1  | 2017,N7RD6R7IO9
+filter_trips_weather_1   | 2023-05-25,330,34.78
+filter_trips_1           | 2023-12-15,1,2016
+filter_trips_stations_1  | 2016,9OUSBEMYVM
+filter_trips_1           | 2023-03-06,1,2016
+filter_trips_stations_2  | 2016,5KNXC0VLLE
+filter_trips_weather_1   | 2023-04-23,2168,38.08
+filter_trips_1           | 2023-04-23,1,2016
+filter_trips_stations_1  | 2017,G1VYXEQTMI
+filter_trips_1           | 2023-09-27,0,2016
+filter_trips_stations_2  | 2016,O8K7LJJS7R
+filter_trips_weather_1   | 2023-02-22,3157,39.08
+filter_trips_stations_1  | 2016,VD8LFZB4BF
+filter_trips_1           | 2023-02-22,0,2016
+filter_trips_weather_1   | 2023-04-22,905,36.16
+filter_trips_stations_2  | 2016,DQCWPLDCP8
+filter_trips_1           | 2023-04-22,0,2017
+filter_trips_weather_1   | 2023-05-16,3337,35.61
+filter_trips_stations_1  | 2017,KGNN8GTSKJ
+filter_trips_1           | 2023-08-15,0,2017
+filter_trips_stations_1  | 2017,HLPWUMMWY4
+filter_trips_1           | 2023-11-30,1,2016
+filter_trips_weather_1   | 2023-09-05,140,34.91
+filter_trips_stations_2  | 2017,CRT9YSC09S
+filter_trips_weather_1   | 2023-06-11,778,35.08
+filter_trips_1           | 2023-05-16,0,2016
+filter_trips_1           | 2023-09-05,0,2017
+filter_trips_stations_2  | 2016,MZ5HBTPBSU
+filter_trips_stations_1  | 2017,36GSA3PCQE
+filter_trips_1           | 2023-06-11,1,2016
+filter_trips_stations_1  | 2016,N4KZ6DM2Q7
+filter_trips_1           | 2023-08-09,1,2017
+filter_trips_stations_2  | 2016,OGGBP2EIUE
+filter_trips_1           | 2023-04-04,0,2016
+filter_trips_stations_1  | 2016,ZM5VK78R95
+filter_trips_1           | 2023-08-03,0,2016
+filter_trips_weather_1   | 2023-04-04,2979,33.93
+filter_trips_1           | 2023-04-08,1,2017
+filter_trips_weather_1   | 2023-08-03,702,32.04
+filter_trips_1           | 2023-09-21,0,2016
+filter_trips_stations_2  | 2017,79IE6P65HC
+filter_trips_1           | 2023-10-04,1,2016
+filter_trips_1           | 2023-02-21,1,2017
+filter_trips_1           | 2023-10-10,1,2016
+filter_trips_1           | 2023-10-09,1,2016
+filter_trips_1           | 2023-05-25,1,2016
+filter_trips_weather_1   | 2023-04-08,3522,33.29
+filter_trips_1           | 2023-09-05,1,2016
+filter_trips_stations_1  | 2016,DQCWPLDCP8
+filter_trips_stations_2  | 2016,AKAMS5D44C
+filter_trips_stations_1  | 2016,4TBYFZQVNY
+filter_trips_1           | 2023-10-27,1,2017
+filter_trips_weather_1   | 2023-09-21,1065,37.39
+filter_trips_stations_2  | 2016,HT966ZEO7X
+filter_trips_stations_1  | 2017,MM06V01PAO
+filter_trips_1           | 2023-10-03,1,2017
+filter_trips_weather_1   | 2023-10-04,807,31.94
+filter_trips_1           | 2023-05-27,1,2016
+filter_trips_weather_1   | 2023-02-21,2451,34.39
+filter_trips_stations_2  | 2017,8FSQPWTSZR
+filter_trips_1           | 2023-07-06,0,2017
+filter_trips_weather_1   | 2023-10-10,2061,32.88
+filter_trips_1           | 2023-01-16,1,2017
+filter_trips_1           | 2023-10-04,0,2017
+filter_trips_1           | 2023-01-28,0,2016
+filter_trips_weather_1   | 2023-05-25,2461,34.78
+filter_trips_1           | 2023-10-30,0,2016
+filter_trips_1           | 2023-05-28,0,2017
+filter_trips_weather_1   | 2023-09-05,2378,34.91
+filter_trips_1           | 2023-07-05,1,2016
+filter_trips_1           | 2023-02-18,1,2016
+filter_trips_weather_1   | 2023-10-03,3395,35.63
+filter_trips_stations_2  | 2017,PJNWPRV7T9
+filter_trips_1           | 2023-01-18,0,2016
+filter_trips_1           | 2023-12-21,1,2017
+filter_trips_stations_1  | 2017,XOWIFFGWC0
+filter_trips_weather_1   | 2023-07-06,3440,37.97
+filter_trips_1           | 2023-02-12,0,2017
+filter_trips_stations_2  | 2016,R62EQIVNP9
+filter_trips_1           | 2023-01-26,1,2017
+filter_trips_weather_1   | 2023-10-04,1611,31.94
+filter_trips_stations_1  | 2016,JNWXPLD1TR
+filter_trips_weather_1   | 2023-01-28,2598,30.46
+filter_trips_stations_2  | 2016,S70W4910Z1
+filter_trips_1           | 2023-03-08,1,2017
+filter_trips_stations_1  | 2016,UO5BV414AI
+filter_trips_1           | 2023-04-16,1,2016
+filter_trips_stations_2  | 2016,DQCWPLDCP8
+filter_trips_1           | 2023-05-09,0,2016
+filter_trips_stations_1  | 2017,D20BQSB2LG
+filter_trips_1           | 2023-10-12,1,2016
+filter_trips_stations_2  | 2016,VQTKSMM5HO
+filter_trips_1           | 2023-06-08,0,2017
+filter_trips_weather_1   | 2023-01-18,2129,37.62
+filter_trips_stations_1  | 2016,FS5H0GTJ65
+filter_trips_1           | 2023-02-06,0,2016
+filter_trips_stations_2  | 2016,E4Q1BFU3G7
+filter_trips_stations_1  | 2016,M6FTOGVSFM
+filter_trips_1           | 2023-11-19,1,2016
+filter_trips_weather_1   | 2023-03-08,1638,31.69
+filter_trips_stations_2  | 2017,MM06V01PAO
+filter_trips_stations_1  | 2016,XK6R24BHYF
+filter_trips_1           | 2023-10-23,1,2016
+filter_trips_weather_1   | 2023-05-09,1907,34.11
+filter_trips_stations_2  | 2017,XQEWRQ3GU5
+filter_trips_stations_1  | 2017,48ZHAI3Z8R
+filter_trips_1           | 2023-11-22,0,2016
+filter_trips_stations_2  | 2017,TG5SDJQE26
+filter_trips_weather_1   | 2023-02-06,1328,34.64
+filter_trips_stations_1  | 2017,YQWIJS1I58
+filter_trips_weather_1   | 2023-11-19,1852,35.08
+filter_trips_stations_2  | 2016,ANV2REO0EP
+filter_trips_1           | 2023-06-13,1,2016
+filter_trips_stations_1  | 2017,QJSB11RFBH
+filter_trips_1           | 2023-01-25,0,2017
+filter_trips_stations_2  | 2016,3E7XX9ED2G
+filter_trips_1           | 2023-05-17,0,2017
+filter_trips_weather_1   | 2023-11-22,3198,36.04
+filter_trips_1           | 2023-08-02,1,2017
+filter_trips_stations_1  | 2017,72KDRH4AWR
+filter_trips_stations_2  | 2017,KIBODEWXM9
+filter_trips_stations_2  | 2016,IO0I58M0IP
+filter_trips_1           | 2023-10-01,0,2017
+filter_trips_stations_1  | 2016,QJSB11RFBH
+filter_trips_1           | 2023-04-14,1,2016
+receiver exited with code 0
+filter_trips_stations_1  | 2016,3IMQK8GOIB
+filter_trips_stations_2  | 2016,8I7MUGRZ8S
+filter_trips_1           | 2023-02-22,0,2016
+filter_trips_stations_1  | 2016,DJLUUGON56
+filter_trips_1           | 2023-01-01,1,2016
+filter_trips_stations_2  | 2016,BMOWVRBBQN
+filter_trips_1           | 2023-07-08,0,2016
+filter_trips_stations_2  | 2017,V730U0760N
+filter_trips_1           | 2023-10-11,0,2016
+filter_trips_stations_1  | 2017,YN66AWLOKB
+filter_trips_weather_1   | 2023-04-14,665,32.26
+filter_trips_stations_2  | 2017,19SRFU7604
+filter_trips_1           | 2023-10-23,1,2017
+filter_trips_weather_1   | 2023-02-22,2140,39.08
+filter_trips_1           | 2023-01-17,0,2016
+filter_trips_stations_1  | 2016,SDV10CN050
+filter_trips_weather_1   | 2023-01-01,2230,39.85
+filter_trips_1           | 2023-04-22,1,2016
+filter_trips_stations_2  | 2016,72KDRH4AWR
+filter_trips_weather_1   | 2023-07-08,1429,32.99
+filter_trips_1           | 2023-07-22,1,2016
+filter_trips_stations_1  | 2016,C435KPGAO7
+filter_trips_1           | 2023-05-07,1,2016
+filter_trips_stations_2  | 2017,ZT1K518RWX
+filter_trips_stations_1  | 2016,341426TGUI
+filter_trips_1           | 2023-06-26,1,2017
+filter_trips_weather_1   | 2023-01-17,3324,31.48
+filter_trips_1           | 2023-07-20,1,2016
+filter_trips_weather_1   | 2023-04-22,1313,36.16
+filter_trips_stations_2  | 2016,8GPMK7ZI7B
+filter_trips_stations_1  | 2017,KIBODEWXM9
+filter_trips_weather_1   | 2023-07-22,1802,36.94
+filter_trips_1           | 2023-03-31,0,2017
+filter_trips_stations_2  | 2016,MULLKW19K4
+filter_trips_stations_1  | 2016,2KYFPMZSAM
+filter_trips_1           | 2023-12-05,1,2017
+filter_trips_weather_1   | 2023-05-07,3018,35.54
+filter_trips_stations_2  | 2017,YA3O6M1EYY
+filter_trips_stations_1  | 2017,2VW7UOXE3W
+filter_trips_1           | 2023-05-01,1,2017
+filter_trips_1           | 2023-12-10,1,2017
+filter_trips_stations_2  | 2016,UMWAWGAK2T
+filter_trips_1           | 2023-04-01,0,2016
+filter_trips_weather_1   | 2023-03-31,1946,32.85
+filter_trips_1           | 2023-11-17,1,2017
+filter_trips_stations_1  | 2016,46UY0340PI
+filter_trips_weather_1   | 2023-12-05,2926,30.98
+filter_trips_1           | 2023-11-29,0,2016
+filter_trips_weather_1   | 2023-05-01,880,33.04
+filter_trips_stations_2  | 2017,ME4TTFXVZX
+filter_trips_1           | 2023-04-10,1,2017
+filter_trips_weather_1   | 2023-12-10,1430,36.52
+filter_trips_stations_1  | 2017,BRO2CX6G0E
+filter_trips_stations_2  | 2016,TRFMPQW6F6
+filter_trips_1           | 2023-03-17,0,2017
+filter_trips_stations_2  | 2016,IZSJYC5NF9
+filter_trips_weather_1   | 2023-03-17,1193,31.44
+filter_trips_stations_1  | 2016,C96H0ITLCK
+filter_trips_1           | 2023-10-03,1,2016
+filter_trips_stations_2  | 2017,TSCD5Q6UUQ
+filter_trips_1           | 2023-02-25,0,2016
+filter_trips_1           | 2023-05-18,0,2016
+filter_trips_stations_2  | 2016,O4VZTGHVU8
+filter_trips_1           | 2023-08-11,1,2016
+filter_trips_stations_1  | 2017,RK23H4BNZ6
+filter_trips_stations_2  | 2017,3XMIFYU6PM
+filter_trips_1           | 2023-12-29,1,2016
+filter_trips_weather_1   | 2023-12-29,537,32.25
+filter_trips_stations_2  | 2017,JN7A0J0BSS
+filter_trips_1           | 2023-02-23,0,2016
+filter_trips_stations_2  | 2017,7I8DRLW69B
+filter_trips_weather_1   | 2023-01-04,3254,36.12
+filter_trips_1           | 2023-01-04,0,2017
+filter_trips_stations_1  | 2017,HXRLU3UWB2
+filter_trips_stations_2  | 2017,Z777BMP216
+filter_trips_1           | 2023-09-09,0,2017
+filter_trips_weather_1   | 2023-03-17,1044,31.44
+filter_trips_1           | 2023-08-03,0,2017
+filter_trips_stations_1  | 2017,SFQYYUS6YX
+filter_trips_stations_2  | 2016,HVBEC74ZOD
+filter_trips_1           | 2023-03-17,1,2016
+filter_trips_stations_1  | 2016,C80UL47T0Y
+filter_trips_weather_1   | 2023-07-12,147,39.02
+filter_trips_stations_2  | 2016,6SHFQOUUVL
+filter_trips_1           | 2023-05-23,0,2016
+filter_trips_stations_2  | 2017,THI5E787OL
+filter_trips_1           | 2023-07-12,1,2016
+filter_trips_stations_2  | 2017,34M8JO30MX
+filter_trips_1           | 2023-08-03,1,2017
+filter_trips_stations_1  | 2016,A1IN5XGZK2
+filter_trips_1           | 2023-03-13,0,2016
+filter_trips_weather_1   | 2023-01-10,1700,34.27
+filter_trips_stations_2  | 2017,IZSJYC5NF9
+filter_trips_1           | 2023-10-12,1,2016
+filter_trips_stations_1  | 2016,8I7MUGRZ8S
+filter_trips_stations_1  | 2016,SUD0FHTI16
+filter_trips_1           | 2023-01-10,1,2017
+filter_trips_1           | 2023-07-08,0,2016
+filter_trips_stations_2  | 2016,SFS2PH4S3Z
+filter_trips_1           | 2023-11-22,1,2016
+filter_trips_stations_2  | 2017,642BPCYNTR
+filter_trips_1           | 2023-01-27,0,2017
+filter_trips_weather_1   | 2023-11-22,1614,39.85
+filter_trips_1           | 2023-05-24,0,2017
+filter_trips_stations_2  | 2017,ANV2REO0EP
+filter_trips_stations_1  | 2016,SUD0FHTI16
+filter_trips_weather_1   | 2023-01-27,2904,38.69
+filter_trips_1           | 2023-06-10,1,2016
+filter_trips_stations_2  | 2017,1ZTHCRXNBK
+filter_trips_stations_2  | 2017,KAI337SN3L
+filter_trips_1           | 2023-08-02,0,2016
+filter_trips_weather_1   | 2023-06-10,3232,36.87
+filter_trips_stations_1  | 2016,E028SJGYJ3
+filter_trips_1           | 2023-11-08,1,2017
+filter_trips_1           | 2023-10-17,0,2017
+filter_trips_stations_2  | 2017,P2ZHL6BVP7
+filter_trips_weather_1   | 2023-10-17,3403,38.9
+filter_trips_stations_1  | 2016,2IKLC3MAF9
+filter_trips_1           | 2023-03-23,1,2016
+filter_trips_stations_2  | 2016,PSSJRTJN1F
+filter_trips_1           | 2023-09-19,0,2016
+filter_trips_1           | 2023-01-23,1,2016
+filter_trips_1           | 2023-11-21,1,2017
+filter_trips_stations_1  | 2016,J70D6Z38DK
+filter_trips_stations_2  | 2016,TDKTITNI4I
+filter_trips_1           | 2023-07-05,1,2016
+filter_trips_stations_1  | 2017,2VW7UOXE3W
+filter_trips_weather_1   | 2023-07-05,2906,37.25
+filter_trips_1           | 2023-03-05,1,2017
+filter_trips_stations_2  | 2016,O4VZTGHVU8
+filter_trips_1           | 2023-10-25,0,2017
+filter_trips_stations_1  | 2017,B24VVBHPZ2
+filter_trips_1           | 2023-08-26,0,2017
+filter_trips_weather_1   | 2023-08-26,2395,30.43
+filter_trips_stations_2  | 2016,HVUK4EZEAO
+filter_trips_1           | 2023-01-15,1,2017
+filter_trips_stations_1  | 2016,WZ8WMD4L06
+filter_trips_stations_2  | 2017,8VLFL410A4
+filter_trips_1           | 2023-11-29,0,2017
+filter_trips_stations_2  | 2016,2IKLC3MAF9
+filter_trips_stations_1  | 2017,CKB08ST8QY
+filter_trips_1           | 2023-04-19,1,2017
+filter_trips_weather_1   | 2023-03-17,2484,31.44
+filter_trips_weather_1   | 2023-10-30,3289,34.27
+filter_trips_stations_1  | 2017,FV9U2VDOT7
+filter_trips_stations_2  | 2016,72KDRH4AWR
 weather_handler          | [weather_handler] close: success
-filter_trips_stations_1  | 2016,QKH751W0D2
+filter_trips_1           | 2023-07-27,1,2017
+filter_trips_stations_2  | 2016,YN66AWLOKB
+filter_trips_1           | 2023-06-19,1,2016
+filter_trips_stations_1  | 2017,FBDDZYALLU
+filter_trips_1           | 2023-03-17,0,2016
+filter_trips_1           | 2023-10-30,0,2016
 em_joiners               | Worker done
 em_joiners               | Closing worker: join_trip_station_queue, 1
-filter_trips_stations_2  | 2016,C6FDZJFEB1
-filter_trips_stations_1  | 2017,7G1M5PNEAC
+filter_trips_stations_1  | 2016,IO0I58M0IP
+filter_trips_1           | 2023-02-16,1,2017
+filter_trips_weather_1   | 2023-01-10,209,34.27
+filter_trips_stations_2  | 2016,DJLUUGON56
+filter_trips_stations_2  | 2016,SUD0FHTI16
+filter_trips_stations_2  | 2016,Y92C88BZYN
+filter_trips_1           | 2023-05-14,0,2017
+filter_trips_stations_2  | 2016,WK9DV7ST6G
+filter_trips_1           | 2023-01-10,1,2016
+filter_trips_stations_1  | 2016,AJVWGYVHDK
+filter_trips_weather_1   | 2023-10-11,103,37.12
+filter_trips_1           | 2023-12-28,1,2017
+filter_trips_stations_2  | 2017,7487AUFN0L
+filter_trips_1           | 2023-12-24,1,2016
+filter_trips_stations_2  | 2017,04LL19UU9Q
+filter_trips_1           | 2023-10-11,0,2016
+filter_trips_1           | 2023-09-21,1,2016
+filter_trips_stations_1  | 2017,6SHFQOUUVL
+filter_trips_1           | 2023-01-17,1,2017
+filter_trips_1           | 2023-03-01,1,2016
+filter_trips_1           | 2023-03-27,1,2017
+filter_trips_1           | 2023-06-27,0,2017
+filter_trips_stations_2  | 2017,S98XZN1GFV
+filter_trips_stations_1  | 2016,87SP028EJS
+filter_trips_1           | 2023-02-10,0,2017
+filter_trips_stations_2  | 2017,87SP028EJS
+filter_trips_weather_1   | 2023-04-09,1447,36.87
+filter_trips_1           | 2023-04-01,0,2016
+filter_trips_1           | 2023-04-20,0,2017
+filter_trips_stations_1  | 2016,18YB9JW5UQ
+filter_trips_stations_2  | 2017,ZX5JW7LMI4
+filter_trips_weather_1   | 2023-08-09,3574,33.92
+filter_trips_stations_1  | 2016,KF4NT8IS95
+filter_trips_1           | 2023-04-09,1,2016
+filter_trips_stations_2  | 2017,7487AUFN0L
+filter_trips_weather_1   | 2023-10-28,464,34.92
+filter_trips_1           | 2023-10-29,1,2016
+filter_trips_1           | 2023-07-26,1,2016
+filter_trips_1           | 2023-08-09,0,2016
+filter_trips_stations_2  | 2016,IZSJYC5NF9
+filter_trips_1           | 2023-08-28,1,2017
+filter_trips_stations_1  | 2016,TBY1TD8IS2
+filter_trips_1           | 2023-09-19,0,2016
+filter_trips_1           | 2023-10-28,0,2017
+filter_trips_weather_1   | 2023-06-10,2213,36.87
+filter_trips_weather_1   | 2023-08-17,1663,39.87
+filter_trips_weather_1   | 2023-12-05,3599,33.02
+filter_trips_1           | 2023-09-19,0,2016
+filter_trips_stations_2  | 2016,DJLUUGON56
+filter_trips_stations_1  | 2017,P7HXULYVOW
+filter_trips_weather_1   | 2023-12-03,3115,34.2
+filter_trips_stations_2  | 2016,UMWAWGAK2T
+filter_trips_weather_1   | 2023-04-11,2321,36.19
+filter_trips_1           | 2023-06-05,0,2016
+filter_trips_1           | 2023-03-14,1,2017
+filter_trips_weather_1   | 2023-07-11,3554,38.72
+filter_trips_stations_1  | 2016,BP9PBXAS6C
+filter_trips_stations_2  | 2017,EC22R5PLF3
+filter_trips_weather_1   | 2023-03-30,3565,38.11
+filter_trips_stations_2  | 2017,3LR892C5G2
+filter_trips_1           | 2023-06-02,1,2016
+filter_trips_1           | 2023-10-05,1,2017
+filter_trips_weather_1   | 2023-05-28,1509,34.41
 stations_handler         | [stations_handler] close: success
+filter_trips_1           | 2023-05-15,0,2016
 em_joiners               | Worker done
 em_joiners               | Mandando eof next stage
+filter_trips_weather_1   | 2023-01-24,2034,32.7
+filter_trips_1           | 2023-06-10,0,2017
+filter_trips_1           | 2023-08-17,0,2016
 em_filters               | eof arrived
+em_filters               | Closing worker: trips_weather_queue, 1
+filter_trips_weather_1   | 2023-05-12,2281,38.96
+filter_trips_weather_1   | 2023-11-18,1047,36.03
+filter_trips_weather_1   | 2023-10-30,1745,34.27
+filter_trips_weather_1   | 2023-10-10,1480,35.88
+filter_trips_1           | 2023-12-05,0,2017
+filter_trips_1           | 2023-12-03,0,2016
+filter_trips_1           | 2023-04-11,0,2016
+filter_trips_1           | 2023-07-11,0,2016
+filter_trips_weather_1   | 2023-07-22,1785,38.98
+filter_trips_1           | 2023-03-30,1,2016
+filter_trips_weather_1   | 2023-03-17,680,31.44
+filter_trips_1           | 2023-04-05,0,2016
+filter_trips_weather_1   | 2023-09-29,2670,34.65
+filter_trips_1           | 2023-05-28,0,2017
+filter_trips_1           | 2023-01-24,1,2016
+filter_trips_weather_1   | 2023-11-06,993,33.69
+filter_trips_weather_1   | 2023-12-30,1717,36.88
+filter_trips_1           | 2023-04-28,0,2017
+filter_trips_1           | 2023-08-03,0,2017
+filter_trips_1           | 2023-07-26,0,2017
+filter_trips_1           | 2023-05-12,0,2016
+filter_trips_1           | 2023-01-23,0,2017
+filter_trips_weather_1   | 2023-07-24,825,32.74
+filter_trips_1           | 2023-11-18,1,2016
+filter_trips_1           | 2023-09-16,1,2017
+filter_trips_1           | 2023-01-23,1,2016
+filter_trips_1           | 2023-10-30,1,2017
+filter_trips_1           | 2023-10-10,0,2016
+filter_trips_1           | 2023-07-22,1,2016
+filter_trips_1           | 2023-03-17,1,2017
+filter_trips_1           | 2023-09-29,0,2016
+filter_trips_1           | 2023-11-06,1,2016
+filter_trips_1           | 2023-12-30,0,2016
+filter_trips_1           | 2023-07-24,0,2017
+filter_trips_1           | 2023-11-04,1,2017
+em_filters               | Worker done
 em_filters               | Closing worker: trips_queue, 1
 em_filters               | Worker done
 em_filters               | Closing worker: trips_stations_queue, 2
 em_filters               | Worker done
-em_filters               | Closing worker: trips_weather_queue, 1
-em_filters               | Worker done
 em_filters               | Closing worker: trips_stations_queue, 1
 em_filters               | Worker done
 em_filters               | Mandando eof next stage
-groupby_1                | EOF arrived
 em_groupby               | eof arrived
-em_groupby               | Closing worker: group_by_1, 1
-em_groupby               | Worker done
 em_groupby               | Closing worker: group_by_2, 1
-query_state_verifier     | [query1] 2023-10-30,0.0006056935190793458
-query_state_verifier     | [query1] 2023-07-22,0.0005701254275940707
-query_state_verifier     | [query1] 2023-10-29,0.0007945967421533572
-query_state_verifier     | [query1] 2023-12-18,0.00040559724193875484
-query_state_verifier     | [query1] 2023-05-31,0.0008025682182985554
-query_state_verifier     | [query1] 2023-07-03,0.0007293946024799417
-query_state_verifier     | [query1] 2023-09-18,0.0013717421124828531
-query_state_verifier     | [query1] 2023-04-26,0.00044437861057621095
-query_state_verifier     | [query1] 2023-08-14,0.0002958579881656805
-query_state_verifier     | [query1] 2023-11-18,0.0002942907592701589
-query_state_verifier     | [query1] 2023-05-21,0.0003769317753486619
-query_state_verifier     | [query1] 2023-04-19,0.0002900232018561485
-query_state_verifier     | [query1] 2023-03-08,0.006369426751592357
-query_state_verifier     | [query1] 2023-06-26,0.0015552099533437014
-query_state_verifier     | [query1] 2023-10-25,0.0002946375957572186
-query_state_verifier     | [query1] 2023-07-04,0.0003629764065335753
-query_state_verifier     | [query1] 2023-02-11,0.00033875338753387534
-query_state_verifier     | [query1] 2023-09-04,0.00035198873636043646
-query_state_verifier     | [query1] 2023-03-26,0.00045454545454545455
-query_state_verifier     | [query1] 2023-03-31,0.0014285714285714286
-query_state_verifier     | [query1] 2023-08-18,0.0008027829810008028
-query_state_verifier     | [query1] 2023-05-07,0.00036859565057132326
-query_state_verifier     | [query1] 2023-11-28,0.000502008032128514
-query_state_verifier     | [query1] 2023-05-11,0.000855431993156544
-query_state_verifier     | [query1] 2023-03-15,0.0013309671694764862
-query_state_verifier     | [query1] 2023-04-05,0.00031220730565095225
-query_state_verifier     | [query1] 2023-06-07,0.00032102728731942215
 groupby_2                | EOF arrived
-query_state_verifier     | [query1] 2023-07-07,0.0006915629322268327
-query_state_verifier     | [query1] 2023-07-02,0.00033932813030200206
-query_state_verifier     | [query1] 2023-03-11,0.003937007874015748
-query_state_verifier     | [query1] 2023-12-05,0.0002941176470588235
-query_state_verifier     | [query1] 2023-01-19,0.00039541320680110717
-query_state_verifier     | [query1] 2023-05-26,0.0014684287812041115
-query_state_verifier     | [query1] 2023-11-08,0.0011363636363636363
-query_state_verifier     | [query1] 2023-12-06,0.00031065548306927616
-query_state_verifier     | [query1] 2023-11-19,0.0009689922480620155
-query_state_verifier     | [query1] 2023-10-14,0.00032954358213873783
-query_state_verifier     | [query1] 2023-05-04,0.00048278081750885096
-query_state_verifier     | [query1] 2023-08-10,0.0007415647015202076
-query_state_verifier     | [query1] 2023-06-03,0.0007163323782234957
-query_state_verifier     | [query1] 2023-04-29,0.0007861635220125787
-query_state_verifier     | [query1] 2023-12-16,0.0003975352812562115
-query_state_verifier     | [query1] 2023-09-28,0.014705882352941176
-query_state_verifier     | [query1] 2023-03-13,0.0012787723785166241
-query_state_verifier     | [query1] 2023-05-03,0.00034423407917383823
-query_state_verifier     | [query1] 2023-02-13,0.0009823182711198428
-query_state_verifier     | [query1] 2023-06-06,0.00044822949350067237
-query_state_verifier     | [query1] 2023-01-31,0.000667779632721202
-query_state_verifier     | [query1] 2023-03-12,0.0003736920777279522
-query_state_verifier     | [query1] 2023-02-04,0.00031826861871419476
-query_state_verifier     | [query1] 2023-03-17,0.0004664179104477612
-query_state_verifier     | [query1] 2023-07-30,0.00029515938606847696
-query_state_verifier     | [query1] 2023-11-12,0.0004459308807134894
-query_state_verifier     | [query1] 2023-12-28,0.0003026634382566586
-query_state_verifier     | [query1] 2023-09-11,0.0010141987829614604
-query_state_verifier     | [query1] 2023-06-28,0.0004510599909788002
-query_state_verifier     | [query1] 2023-11-29,0.000646830530401035
-query_state_verifier     | [query1] 2023-10-24,0.00036656891495601173
-query_state_verifier     | [query1] 2023-11-27,0.0009225092250922509
-query_state_verifier     | [query1] 2023-07-14,0.0012300123001230013
-query_state_verifier     | [query1] 2023-01-26,0.00076103500761035
-query_state_verifier     | [query1] 2023-04-22,0.0003224766204450177
-query_state_verifier     | [query1] 2023-10-27,0.0003332222592469177
-query_state_verifier     | [query1] 2023-07-20,0.0003627130939426913
-query_state_verifier     | [query1] 2023-05-29,0.0007283321194464676
-query_state_verifier     | [query1] 2023-08-17,0.0007331378299120235
-query_state_verifier     | [query1] 2023-08-19,0.0007830853563038371
-query_state_verifier     | [query1] 2023-08-11,0.000877963125548727
-query_state_verifier     | [query1] 2023-11-17,0.00030674846625766873
-query_state_verifier     | [query1] 2023-06-09,0.0007737941707505803
-query_state_verifier     | [query1] 2023-10-15,0.001876172607879925
-query_state_verifier     | [query1] 2023-08-28,0.0013315579227696406
-query_state_verifier     | [query1] 2023-01-09,0.0003093102381688834
-query_state_verifier     | [query1] 2023-12-17,0.000473260766682442
-query_state_verifier     | [query1] 2023-01-07,0.0005817335660267597
-query_state_verifier     | [query1] 2023-12-24,0.0006550218340611354
-query_state_verifier     | [query1] 2023-03-30,0.0003466204506065858
-query_state_verifier     | [query1] 2023-08-24,0.002325581395348837
-query_state_verifier     | [query1] 2023-03-19,0.002680965147453083
-query_state_verifier     | [query1] 2023-03-02,0.0005337603416066186
-query_state_verifier     | [query1] 2023-06-21,0.0030581039755351682
-query_state_verifier     | [query1] 2023-11-22,0.0008019246190858059
-query_state_verifier     | [query1] 2023-05-12,0.0005408328826392645
-query_state_verifier     | [query1] 2023-09-21,0.000496031746031746
-query_state_verifier     | [query1] 2023-10-19,0.0006743088334457181
-query_state_verifier     | [query1] 2023-08-20,0.0005515719801434088
-query_state_verifier     | [query1] 2023-09-27,0.0009852216748768472
-query_state_verifier     | [query1] 2023-07-15,0.0006157635467980296
-query_state_verifier     | [query1] 2023-10-01,0.0072992700729927005
-query_state_verifier     | [query1] 2023-01-23,0.0006958942240779402
-query_state_verifier     | [query1] 2023-01-14,0.0002957704821058858
-query_state_verifier     | [query1] 2023-04-10,0.010638297872340425
-query_state_verifier     | [query1] 2023-07-17,0.0003772161448509996
-query_state_verifier     | [query1] 2023-09-16,0.0012239902080783353
-query_state_verifier     | [query1] 2023-06-01,0.000855431993156544
-query_state_verifier     | [query1] 2023-09-10,0.0004992511233150275
-query_state_verifier     | [query1] 2023-06-14,0.003484320557491289
-query_state_verifier     | [query1] 2023-06-02,0.0003780718336483932
-query_state_verifier     | [query1] 2023-04-18,0.0014684287812041115
-query_state_verifier     | [query1] 2023-04-15,0.00032071840923669016
-query_state_verifier     | [query1] 2023-12-19,0.0003875968992248062
-query_state_verifier     | [query1] 2023-10-10,0.00047551117451260106
-query_state_verifier     | [query1] 2023-12-13,0.0003636363636363636
-query_state_verifier     | [query1] 2023-11-14,0.00036101083032490973
-query_state_verifier     | [query1] 2023-08-05,0.0002857959416976279
-query_state_verifier     | [query1] 2023-07-26,0.0006622516556291391
-query_state_verifier     | [query1] 2023-04-03,0.0007022471910112359
-query_state_verifier     | [query1] 2023-04-04,0.0005733944954128441
-query_state_verifier     | [query1] 2023-03-22,0.00046948356807511736
-query_state_verifier     | [query1] 2023-08-13,0.0014705882352941176
-query_state_verifier     | [query1] 2023-10-21,0.00044583147570218456
-query_state_verifier     | [query1] 2023-11-16,0.0005149330587023687
-query_state_verifier     | [query1] 2023-10-26,0.002380952380952381
-query_state_verifier     | [query2] OADBT523KS,0,1
-query_state_verifier     | [query2] ZB9HKKOZYT,0,2
-query_state_verifier     | [query2] XDF40YTZ5F,0,1
-query_state_verifier     | [query2] 6025PFZD7Z,0,1
-query_state_verifier     | [query2] W8G2HQF6L0,0,1
-query_state_verifier     | [query2] Y1XO8J4V3O,0,1
-query_state_verifier     | [query2] 4QY6LGU1OD,0,1
-query_state_verifier     | [query2] 9RL7VKP173,0,1
-query_state_verifier     | [query2] LT8QBYKY6W,0,2
-query_state_verifier     | [query2] RW4OJNWJFA,0,1
-query_state_verifier     | [query2] PH1BZHQDCX,0,1
-query_state_verifier     | [query2] 03VC7UZZJA,0,2
-query_state_verifier     | [query2] NI9S7SY8J4,0,1
-query_state_verifier     | [query2] GVDO31DR1P,0,1
-query_state_verifier     | [query2] YHA3Y6E32R,0,1
-query_state_verifier     | [query2] H3Z6M8XVYE,0,1
-query_state_verifier     | [query2] 4ZQ6W9GOEB,0,1
-query_state_verifier     | [query2] 64IWVDX9X3,0,1
-query_state_verifier     | [query2] RH5VP7TGII,0,1
-query_state_verifier     | [query2] O8M2P9X0P6,0,1
-query_state_verifier     | [query2] JX0QU3OBAQ,0,1
-query_state_verifier     | [query2] 21YEXD1IYV,0,1
-query_state_verifier     | [query2] QGI365I1VI,0,1
-query_state_verifier     | [query2] KB417JBJYM,0,1
-query_state_verifier     | [query2] WKKQAM77B6,0,1
-query_state_verifier     | [query2] AA1MD1RVKA,0,1
-query_state_verifier     | [query2] 4ROYM2TSWZ,0,1
-query_state_verifier     | [query2] 6RYPN0U12V,0,1
-query_state_verifier     | [query2] FTT01JN8Y3,0,2
-query_state_verifier     | [query2] OGRX447FFT,0,1
-query_state_verifier     | [query2] CKASI1TFTY,0,1
-query_state_verifier     | [query2] RCX1EPD3AB,0,1
-query_state_verifier     | [query2] HLV18STMGL,0,1
-query_state_verifier     | [query2] IH6CQ8YDVD,0,1
-query_state_verifier     | [query2] AQU699OPJI,0,1
-query_state_verifier     | [query2] UOTDL3HAT4,0,1
-query_state_verifier     | [query2] 365Z07Z6MO,0,1
-query_state_verifier     | [query2] B773P7B47X,0,1
-query_state_verifier     | [query2] PDGH37FYQY,0,1
-query_state_verifier     | [query2] 2DPFG1R6TN,0,1
-query_state_verifier     | [query2] 4V3JFYC0L3,0,1
-query_state_verifier     | [query2] W6U597HWFG,0,1
-query_state_verifier     | [query2] HPD7UKUSE6,0,1
-query_state_verifier     | [query2] R7Q6YNF514,0,1
-query_state_verifier     | [query2] YTQR3D0VE3,0,1
-query_state_verifier     | [query2] 7WJG7C5W5R,0,1
-query_state_verifier     | [query2] P9K7JAJ3ZT,0,2
-query_state_verifier     | [query2] UPEZ9TAHPG,0,1
-query_state_verifier     | [query2] U545HI6ZK1,0,1
-query_state_verifier     | [query2] 61NH61LT58,0,1
-query_state_verifier     | [query2] L1KX7EZSV1,0,1
-query_state_verifier     | [query2] JS9JIQVCFO,0,1
-query_state_verifier     | [query2] ATD06BBJYM,0,1
-query_state_verifier     | [query2] WNEKLXF1PO,0,1
-query_state_verifier     | [query2] LAXORX3JH4,0,1
-query_state_verifier     | [query2] ODGYVFNRXK,0,1
-query_state_verifier     | [query2] VZMVXIXN0A,0,1
-query_state_verifier     | [query2] 7T4RPA0YHI,0,1
-query_state_verifier     | [query2] 4S7V9FPBIM,0,1
-query_state_verifier     | [query2] 28CMJ4F8C6,0,1
-query_state_verifier     | [query2] 9ZZUW6Z87N,0,1
-query_state_verifier     | [query2] D39MCFG88I,0,1
-query_state_verifier     | [query2] RDULPDZ5RO,0,1
-query_state_verifier     | [query2] FCY1LVU8EF,0,1
-query_state_verifier     | [query2] EC28P3TASF,0,2
-query_state_verifier     | [query2] GJ4HLFNKZP,0,1
-query_state_verifier     | [query2] LLVRVM2WYQ,0,1
-query_state_verifier     | [query2] 244YJ6ZKZL,0,1
-query_state_verifier     | [query2] IG28JET5OB,0,1
-query_state_verifier     | [query2] R7YMGAV78H,0,2
-query_state_verifier     | [query2] PAO83C88MG,0,1
-query_state_verifier     | [query2] 4R0A5F6YXZ,0,2
-query_state_verifier     | [query2] ZIG5IL6SZB,0,1
-query_state_verifier     | [query2] MOVZZ7CJ42,0,2
-query_state_verifier     | [query2] 7BF4U8Y0SN,0,2
-query_state_verifier     | [query2] J2VEZN7UR8,0,1
-query_state_verifier     | [query2] DXJO9FHXL1,0,2
-query_state_verifier     | [query2] X62IKR56E2,0,1
-query_state_verifier     | [query2] 741TCUI71M,0,2
-query_state_verifier     | [query2] 3P0KT59UYG,0,2
-query_state_verifier     | [query2] Y2M120TZWG,0,1
-query_state_verifier     | [query2] WT25Y4RRJ6,0,1
-query_state_verifier     | [query2] 0T3IC42CO4,0,1
-query_state_verifier     | [query2] GJJ2XHJR3N,0,1
-query_state_verifier     | [query2] 8C8F8QWVDG,0,1
-query_state_verifier     | [query2] VWMZ6ODUGI,0,1
-query_state_verifier     | [query2] Z8BNQZ4A4I,0,2
-query_state_verifier     | [query2] NLJP2PWMUR,0,1
-query_state_verifier     | [query2] BGJLNAE47P,0,1
-query_state_verifier     | [query2] AF7L6W07X2,0,1
-query_state_verifier     | [query2] 143U9CHYRC,0,1
-query_state_verifier     | [query2] VI7Q490FL2,0,2
-query_state_verifier     | [query2] FX8TFG2P69,0,1
-query_state_verifier     | [query2] BBZNU8L4EX,0,1
-query_state_verifier     | [query2] KDFPPSZUAZ,0,1
-query_state_verifier     | [query2] QJHQAJDUYZ,0,1
-query_state_verifier     | [query2] 2UVVF9DGFP,0,1
-query_state_verifier     | [query2] WKQP3YCI03,0,1
-query_state_verifier     | [query2] KI103PA7YL,0,1
-query_state_verifier     | [query2] UNDFTN843M,0,1
-query_state_verifier     | [query2] TE315E0PKJ,0,1
-query_state_verifier     | [query2] GUC7746GKW,0,1
-query_state_verifier     | [query2] FDISB5CV4Y,0,1
-query_state_verifier     | [query2] KY3ZNSW6HZ,0,1
-query_state_verifier     | [query2] O4PT1EPOEJ,0,1
-query_state_verifier     | [query2] QAXRQBFZ8I,0,1
-query_state_verifier     | [query2] FXHBZAIFLI,0,1
-query_state_verifier     | [query2] HOJ5C0TYB5,0,1
-query_state_verifier     | [query2] X27RAP45YT,0,1
-query_state_verifier     | [query2] 0V79UIPBWQ,0,1
-query_state_verifier     | [query2] 6GGMVL8L6I,0,1
-query_state_verifier     | [query2] 7G1LDHF0RA,0,1
-query_state_verifier     | [query2] KJ2E4GRP45,0,1
-query_state_verifier     | [query2] ZLY3AFNDFF,0,1
-query_state_verifier     | [query2] 2YS5F82Q01,0,1
-query_state_verifier     | [query2] 7X8OWF2T4Z,0,1
-query_state_verifier     | [query2] UZHDN5Z2XX,0,1
-query_state_verifier     | [query2] 7G1M5PNEAC,0,1
 em_groupby               | Worker done
 em_groupby               | Closing worker: group_by_3, 1
 groupby_3                | EOF arrived
-em_applier               | eof arrived
-em_applier               | Closing worker: applier_3, 1
+groupby_1                | EOF arrived
+em_groupby               | Worker done
+em_groupby               | Closing worker: group_by_1, 1
 em_groupby               | Worker done
 em_groupby               | Mandando eof next stage
+em_applier               | eof arrived
+em_applier               | Closing worker: applier_1, 1
 em_applier               | Worker done
 em_applier               | Closing worker: applier_2, 2
 em_applier               | Worker done
-em_applier               | Closing worker: applier_1, 1
-em_applier               | Worker done
 em_applier               | Closing worker: applier_2, 1
-query_state_verifier     | Recibido: EOF
+em_applier               | Worker done
+em_applier               | Closing worker: applier_3, 1
 em_applier               | Worker done
 em_applier               | Mandando eof next stage
+query_state_verifier     | Recibido: EOF
 query_state_verifier     | Query terminada: query1
 query_state_verifier     | Query terminada: query2
 query_state_verifier     | Query terminada: query3
-stations_handler exited with code 0
-filter_trips_1 exited with code 0
 weather_handler exited with code 0
+stations_handler exited with code 0
+filter_trips_weather_1 exited with code 0
 em_joiners exited with code 0
+filter_trips_1 exited with code 0
 filter_trips_stations_2 exited with code 0
 filter_trips_stations_1 exited with code 0
-filter_trips_weather_1 exited with code 0
-em_filters exited with code 0
-query_state_verifier exited with code 0
 groupby_2 exited with code 0
-applier_3_1 exited with code 0
-groupby_1 exited with code 0
-em_groupby exited with code 0
-applier_1_1 exited with code 0
 groupby_3 exited with code 0
-em_applier exited with code 0
-applier_2_1 exited with code 0
+em_filters exited with code 0
+em_groupby exited with code 0
+groupby_1 exited with code 0
+applier_1_1 exited with code 0
 applier_2_2 exited with code 0
+applier_2_1 exited with code 0
+applier_3_1 exited with code 0
+em_applier exited with code 0
+query_state_verifier exited with code 0

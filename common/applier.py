@@ -1,3 +1,7 @@
+from common.connection import Connection
+from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
+from common.utils import *
+
 class Applier:
   def __init__(self, operation):
     self.operation = operation
@@ -5,16 +9,38 @@ class Applier:
   def apply(self, key, value):
     return self.operation(key, value)
 
-"""
-op = lambda k,v: [k, v[0] / v[1]]
-mean_applier = Applier(op)
-mean_applier.apply('2014-06-12', [378.3, 2])
+class ApplierController:
+  def __init__(self, recv_queue, em_queue, send_queue, operation, gen_result_msg, id_query):
+    self.id_query = id_query
+    self.gen_result_msg = gen_result_msg
+    self.applier = Applier(operation)
+    self.__connect(recv_queue, em_queue, send_queue)
+    self.recv_queue.receive(self.recv_data_to_apply, auto_ack=False)
+    self.conn.start_receiving()
 
-# ['2014-06-12', 189.15]
+  def __connect(self, recv_queue, em_queue, send_queue):
+    self.conn = Connection()
+    self.recv_queue = self.conn.basic_queue(recv_queue)
+    self.send_queue = self.conn.routing_queue(send_queue)
 
-op = lambda k,v: [k, v[1] > 2*v[0]]
-double_checker = Applier(op)
-double_checker.apply("Square St-Louis", [25, 54])
+    self.em_queue = self.conn.pubsub_queue(em_queue)
+    self.em_queue.send(recv_queue)
 
-# ["Square St-Louis", True]
-"""
+  def recv_data_to_apply(self, ch, method, properties, body):
+    msg = decode(body)
+    if msg == EOF_MSG:
+      self.__eof_arrived(ch, method.delivery_tag)
+    else:
+      self.__apply(msg, ch, method.delivery_tag)
+
+  def __eof_arrived(self, ch, delivery_tag):
+    self.conn.stop_receiving()
+    self.em_queue.send(WORKER_DONE_MSG)
+    ch.basic_ack(delivery_tag = delivery_tag)
+    
+  def __apply(self, msg, ch, delivery_tag):
+    result, msg_to_send = self.gen_result_msg(msg, self.applier)
+    if result:
+      self.send_queue.send(msg_to_send, routing_key=self.id_query)
+
+    ch.basic_ack(delivery_tag = delivery_tag)
