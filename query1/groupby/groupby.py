@@ -9,7 +9,7 @@ def main():
 	SEND_QUEUE = "applier_1"
 	EM_QUEUE = "eof_groupby_queue"
 
-	operation = lambda old, new: [old[0]+new, old[1]+1]
+	operation = lambda old, new: [old[0]+max(new,0), old[1]+1]
 	base_data = [0,0]
 	g = Groupby(operation, base_data)
 

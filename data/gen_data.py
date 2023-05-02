@@ -3,7 +3,6 @@ import string
 from datetime import datetime, timedelta
 
 def gen_data():
-
     # Generar datos aleatorios para la tabla Stations
     stations = []
     for i in range(200):
