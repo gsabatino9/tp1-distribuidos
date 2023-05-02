@@ -16,7 +16,7 @@ EM_QUEUE = os.environ['EM_QUEUE']
 
 def main():
 	initialize_log()
-	logging.info(f"action: server up | Host: {HOST} | Ports: {PORT_STATIC},{PORT_TRIPS}")
+	logging.info(f"action: server_up | result: success | Host: {HOST} | Ports: {PORT_STATIC},{PORT_TRIPS}")
 
 	StaticDataReceiver(HOST, PORT_STATIC, STATIONS_QUEUE, WEATHER_QUEUE)
 	TripsReceiver(HOST, PORT_TRIPS, [TRIPS_QUEUE, JOIN_TRIPS_STATIONS_QUEUE, JOIN_TRIPS_WEATHER_QUEUE], EM_QUEUE)
