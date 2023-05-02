@@ -1,7 +1,12 @@
+docker build -f ./client/Dockerfile -t "client:latest" .
 docker build -f ./receiver/Dockerfile -t "receiver:latest" .
 docker build -f ./joiners/stations_handler/Dockerfile -t "stations_handler:latest" .
+docker build -f ./joiners/weather_handler/Dockerfile -t "weather_handler:latest" .
 docker build -f ./filters/filter_trips/Dockerfile -t "filter_trips:latest" .
 docker build -f ./filters/filter_trips_stations/Dockerfile -t "filter_trips_stations:latest" .
+docker build -f ./filters/filter_trips_weather/Dockerfile -t "filter_trips_weather:latest" .
+docker build -f ./query1/applier/Dockerfile -t "applier_1:latest" .
+docker build -f ./query1/groupby/Dockerfile -t "groupby_1:latest" .
 docker build -f ./query2/applier/Dockerfile -t "applier_2:latest" .
 docker build -f ./query2/groupby/Dockerfile -t "groupby_2:latest" .
 docker build -f ./query_state_verifier/Dockerfile -t "query_state_verifier:latest" .
@@ -12,278 +17,36 @@ docker build -f ./eof_manager/applier/Dockerfile -t "em_applier:latest" .
 docker build -f ./eof_manager/query_state_verifier/Dockerfile -t "em_query_state_verifier:latest" .
 docker compose -f docker-compose-dev.yaml up -d --build
 docker compose -f docker-compose-dev.yaml logs -f
-rabbitmq                 | 2023-05-01 22:45:36.956418+00:00 [notice] <0.44.0> Application syslog exited with reason: stopped
-rabbitmq                 | 2023-05-01 22:45:36.961206+00:00 [notice] <0.230.0> Logging: switching to configured handler(s); following messages may not be visible in this log output
-rabbitmq                 | [38;5;87m2023-05-01 22:45:36.972726+00:00 [notice] <0.230.0> Logging: configured log handlers are now ACTIVE[0m
-rabbitmq                 | 2023-05-01 22:45:37.142926+00:00 [info] <0.230.0> ra: starting system quorum_queues[0m
-rabbitmq                 | 2023-05-01 22:45:37.142973+00:00 [info] <0.230.0> starting Ra system: quorum_queues in directory: /var/lib/rabbitmq/mnesia/rabbit@3baa4b94f70f/quorum/rabbit@3baa4b94f70f[0m
-rabbitmq                 | 2023-05-01 22:45:37.205482+00:00 [info] <0.266.0> ra system 'quorum_queues' running pre init for 0 registered servers[0m
-rabbitmq                 | 2023-05-01 22:45:37.216165+00:00 [info] <0.267.0> ra: meta data store initialised for system quorum_queues. 0 record(s) recovered[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:37.274483+00:00 [notice] <0.272.0> WAL: ra_log_wal init, open tbls: ra_log_open_mem_tables, closed tbls: ra_log_closed_mem_tables[0m
-rabbitmq                 | 2023-05-01 22:45:37.304772+00:00 [info] <0.230.0> ra: starting system coordination[0m
-rabbitmq                 | 2023-05-01 22:45:37.304851+00:00 [info] <0.230.0> starting Ra system: coordination in directory: /var/lib/rabbitmq/mnesia/rabbit@3baa4b94f70f/coordination/rabbit@3baa4b94f70f[0m
-rabbitmq                 | 2023-05-01 22:45:37.308993+00:00 [info] <0.279.0> ra system 'coordination' running pre init for 0 registered servers[0m
-rabbitmq                 | 2023-05-01 22:45:37.316535+00:00 [info] <0.280.0> ra: meta data store initialised for system coordination. 0 record(s) recovered[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:37.318214+00:00 [notice] <0.285.0> WAL: ra_coordination_log_wal init, open tbls: ra_coordination_log_open_mem_tables, closed tbls: ra_coordination_log_closed_mem_tables[0m
-rabbitmq                 | 2023-05-01 22:45:37.341154+00:00 [info] <0.230.0> [0m
-rabbitmq                 | 2023-05-01 22:45:37.341154+00:00 [info] <0.230.0>  Starting RabbitMQ 3.11.14 on Erlang 25.3.1 [jit][0m
-rabbitmq                 | 2023-05-01 22:45:37.341154+00:00 [info] <0.230.0>  Copyright (c) 2007-2023 VMware, Inc. or its affiliates.[0m
-rabbitmq                 | 2023-05-01 22:45:37.341154+00:00 [info] <0.230.0>  Licensed under the MPL 2.0. Website: https://rabbitmq.com[0m
-rabbitmq                 | 
-rabbitmq                 |   ##  ##      RabbitMQ 3.11.14
-rabbitmq                 |   ##  ##
-rabbitmq                 |   ##########  Copyright (c) 2007-2023 VMware, Inc. or its affiliates.
-rabbitmq                 |   ######  ##
-rabbitmq                 |   ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com
-rabbitmq                 | 
-rabbitmq                 |   Erlang:      25.3.1 [jit]
-rabbitmq                 |   TLS Library: OpenSSL - OpenSSL 3.0.8 7 Feb 2023
-rabbitmq                 |   Release series support status: supported
-rabbitmq                 | 
-rabbitmq                 |   Doc guides:  https://rabbitmq.com/documentation.html
-rabbitmq                 |   Support:     https://rabbitmq.com/contact.html
-rabbitmq                 |   Tutorials:   https://rabbitmq.com/getstarted.html
-rabbitmq                 |   Monitoring:  https://rabbitmq.com/monitoring.html
-rabbitmq                 | 
-rabbitmq                 |   Logs: /var/log/rabbitmq/rabbit@3baa4b94f70f_upgrade.log
-rabbitmq                 |         <stdout>
-rabbitmq                 | 
-rabbitmq                 |   Config file(s): /etc/rabbitmq/conf.d/10-defaults.conf
-rabbitmq                 | 
-rabbitmq                 |   Starting broker...2023-05-01 22:45:37.346563+00:00 [info] <0.230.0> [0m
-rabbitmq                 | 2023-05-01 22:45:37.346563+00:00 [info] <0.230.0>  node           : rabbit@3baa4b94f70f[0m
-rabbitmq                 | 2023-05-01 22:45:37.346563+00:00 [info] <0.230.0>  home dir       : /var/lib/rabbitmq[0m
-rabbitmq                 | 2023-05-01 22:45:37.346563+00:00 [info] <0.230.0>  config file(s) : /etc/rabbitmq/conf.d/10-defaults.conf[0m
-rabbitmq                 | 2023-05-01 22:45:37.346563+00:00 [info] <0.230.0>  cookie hash    : pUDW86KludL+//keRClFvQ==[0m
-rabbitmq                 | 2023-05-01 22:45:37.346563+00:00 [info] <0.230.0>  log(s)         : /var/log/rabbitmq/rabbit@3baa4b94f70f_upgrade.log[0m
-rabbitmq                 | 2023-05-01 22:45:37.346563+00:00 [info] <0.230.0>                 : <stdout>[0m
-rabbitmq                 | 2023-05-01 22:45:37.346563+00:00 [info] <0.230.0>  database dir   : /var/lib/rabbitmq/mnesia/rabbit@3baa4b94f70f[0m
-rabbitmq                 | 2023-05-01 22:45:39.922761+00:00 [info] <0.230.0> Running boot step pre_boot defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.922825+00:00 [info] <0.230.0> Running boot step rabbit_global_counters defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.923038+00:00 [info] <0.230.0> Running boot step rabbit_osiris_metrics defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.923117+00:00 [info] <0.230.0> Running boot step rabbit_core_metrics defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.923499+00:00 [info] <0.230.0> Running boot step rabbit_alarm defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.926364+00:00 [info] <0.300.0> Memory high watermark set to 1573 MiB (1649804902 bytes) of 3933 MiB (4124512256 bytes) total[0m
-rabbitmq                 | 2023-05-01 22:45:39.928252+00:00 [info] <0.302.0> Enabling free disk space monitoring (disk free space: 44780724224, total memory: 4124512256)[0m
-rabbitmq                 | 2023-05-01 22:45:39.928273+00:00 [info] <0.302.0> Disk free limit set to 50MB[0m
-rabbitmq                 | 2023-05-01 22:45:39.929340+00:00 [info] <0.230.0> Running boot step code_server_cache defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.929370+00:00 [info] <0.230.0> Running boot step file_handle_cache defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.929526+00:00 [info] <0.305.0> Limiting to approx 1048479 file handles (943629 sockets)[0m
-rabbitmq                 | 2023-05-01 22:45:39.929590+00:00 [info] <0.306.0> FHC read buffering: OFF[0m
-rabbitmq                 | 2023-05-01 22:45:39.929605+00:00 [info] <0.306.0> FHC write buffering: ON[0m
-rabbitmq                 | 2023-05-01 22:45:39.929914+00:00 [info] <0.230.0> Running boot step worker_pool defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.929960+00:00 [info] <0.287.0> Will use 4 processes for default worker pool[0m
-rabbitmq                 | 2023-05-01 22:45:39.929983+00:00 [info] <0.287.0> Starting worker pool 'worker_pool' with 4 processes in it[0m
-rabbitmq                 | 2023-05-01 22:45:39.930167+00:00 [info] <0.230.0> Running boot step database defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:39.930389+00:00 [info] <0.230.0> Node database directory at /var/lib/rabbitmq/mnesia/rabbit@3baa4b94f70f is empty. Assuming we need to join an existing cluster or initialise from scratch...[0m
-rabbitmq                 | 2023-05-01 22:45:39.930426+00:00 [info] <0.230.0> Configured peer discovery backend: rabbit_peer_discovery_classic_config[0m
-rabbitmq                 | 2023-05-01 22:45:39.930437+00:00 [info] <0.230.0> Will try to lock with peer discovery backend rabbit_peer_discovery_classic_config[0m
-rabbitmq                 | 2023-05-01 22:45:39.930463+00:00 [info] <0.230.0> All discovered existing cluster peers:[0m
-rabbitmq                 | 2023-05-01 22:45:39.930475+00:00 [info] <0.230.0> Discovered no peer nodes to cluster with. Some discovery backends can filter nodes out based on a readiness criteria. Enabling debug logging might help troubleshoot.[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:39.932484+00:00 [notice] <0.44.0> Application mnesia exited with reason: stopped[0m
-rabbitmq                 | 2023-05-01 22:45:39.966462+00:00 [info] <0.230.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
-rabbitmq                 | 2023-05-01 22:45:39.966518+00:00 [info] <0.230.0> Successfully synced tables from a peer[0m
-rabbitmq                 | 2023-05-01 22:45:39.970423+00:00 [info] <0.230.0> Feature flags: `feature_flags_v2`: supported, attempt to enable...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:39.982310+00:00 [notice] <0.288.0> Feature flags: attempt to enable `classic_mirrored_queue_version`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:39.994914+00:00 [notice] <0.288.0> Feature flags: `classic_mirrored_queue_version` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:39.995082+00:00 [notice] <0.288.0> Feature flags: attempt to enable `classic_queue_type_delivery_support`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.000905+00:00 [notice] <0.288.0> Feature flags: attempt to enable `stream_queue`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.012385+00:00 [notice] <0.288.0> Feature flags: `stream_queue` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.018924+00:00 [notice] <0.288.0> Feature flags: `classic_queue_type_delivery_support` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.019165+00:00 [notice] <0.288.0> Feature flags: attempt to enable `direct_exchange_routing_v2`...[0m
-rabbitmq                 | 2023-05-01 22:45:40.025052+00:00 [info] <0.499.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
-rabbitmq                 | 2023-05-01 22:45:40.025110+00:00 [info] <0.499.0> Successfully synced tables from a peer[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.034064+00:00 [notice] <0.288.0> Feature flags: `direct_exchange_routing_v2` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.034247+00:00 [notice] <0.288.0> Feature flags: attempt to enable `drop_unroutable_metric`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.045855+00:00 [notice] <0.288.0> Feature flags: `drop_unroutable_metric` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.046104+00:00 [notice] <0.288.0> Feature flags: attempt to enable `empty_basic_get_metric`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.058599+00:00 [notice] <0.288.0> Feature flags: `empty_basic_get_metric` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.059045+00:00 [notice] <0.288.0> Feature flags: attempt to enable `listener_records_in_ets`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.077432+00:00 [notice] <0.288.0> Feature flags: `listener_records_in_ets` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.077818+00:00 [notice] <0.288.0> Feature flags: attempt to enable `stream_sac_coordinator_unblock_group`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.083653+00:00 [notice] <0.288.0> Feature flags: attempt to enable `stream_single_active_consumer`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.094711+00:00 [notice] <0.288.0> Feature flags: `stream_single_active_consumer` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.100659+00:00 [notice] <0.288.0> Feature flags: `stream_sac_coordinator_unblock_group` enabled[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.100884+00:00 [notice] <0.288.0> Feature flags: attempt to enable `tracking_records_in_ets`...[0m
-rabbitmq                 | [38;5;87m2023-05-01 22:45:40.112886+00:00 [notice] <0.288.0> Feature flags: `tracking_records_in_ets` enabled[0m
-rabbitmq                 | 2023-05-01 22:45:40.113240+00:00 [info] <0.230.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
-rabbitmq                 | 2023-05-01 22:45:40.113294+00:00 [info] <0.230.0> Successfully synced tables from a peer[0m
-rabbitmq                 | 2023-05-01 22:45:40.118373+00:00 [info] <0.230.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
-rabbitmq                 | 2023-05-01 22:45:40.118414+00:00 [info] <0.230.0> Successfully synced tables from a peer[0m
-rabbitmq                 | 2023-05-01 22:45:40.118424+00:00 [info] <0.230.0> Peer discovery backend rabbit_peer_discovery_classic_config does not support registration, skipping registration.[0m
-rabbitmq                 | 2023-05-01 22:45:40.118439+00:00 [info] <0.230.0> Will try to unlock with peer discovery backend rabbit_peer_discovery_classic_config[0m
-rabbitmq                 | 2023-05-01 22:45:40.118482+00:00 [info] <0.230.0> Running boot step tracking_metadata_store defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118602+00:00 [info] <0.632.0> Setting up a table for connection tracking on this node: tracked_connection[0m
-rabbitmq                 | 2023-05-01 22:45:40.118626+00:00 [info] <0.632.0> Setting up a table for per-vhost connection counting on this node: tracked_connection_per_vhost[0m
-rabbitmq                 | 2023-05-01 22:45:40.118650+00:00 [info] <0.632.0> Setting up a table for per-user connection counting on this node: tracked_connection_per_user[0m
-rabbitmq                 | 2023-05-01 22:45:40.118669+00:00 [info] <0.632.0> Setting up a table for channel tracking on this node: tracked_channel[0m
-rabbitmq                 | 2023-05-01 22:45:40.118683+00:00 [info] <0.632.0> Setting up a table for channel tracking on this node: tracked_channel_per_user[0m
-rabbitmq                 | 2023-05-01 22:45:40.118713+00:00 [info] <0.230.0> Running boot step networking_metadata_store defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118734+00:00 [info] <0.230.0> Running boot step database_sync defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118748+00:00 [info] <0.230.0> Running boot step feature_flags defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118882+00:00 [info] <0.230.0> Running boot step codec_correctness_check defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118901+00:00 [info] <0.230.0> Running boot step external_infrastructure defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118909+00:00 [info] <0.230.0> Running boot step rabbit_event defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118944+00:00 [info] <0.230.0> Running boot step rabbit_registry defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118966+00:00 [info] <0.230.0> Running boot step rabbit_auth_mechanism_amqplain defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.118993+00:00 [info] <0.230.0> Running boot step rabbit_auth_mechanism_cr_demo defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119018+00:00 [info] <0.230.0> Running boot step rabbit_auth_mechanism_plain defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119034+00:00 [info] <0.230.0> Running boot step rabbit_exchange_type_direct defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119053+00:00 [info] <0.230.0> Running boot step rabbit_exchange_type_fanout defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119070+00:00 [info] <0.230.0> Running boot step rabbit_exchange_type_headers defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119082+00:00 [info] <0.230.0> Running boot step rabbit_exchange_type_topic defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119093+00:00 [info] <0.230.0> Running boot step rabbit_mirror_queue_mode_all defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119104+00:00 [info] <0.230.0> Running boot step rabbit_mirror_queue_mode_exactly defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119118+00:00 [info] <0.230.0> Running boot step rabbit_mirror_queue_mode_nodes defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119139+00:00 [info] <0.230.0> Running boot step rabbit_priority_queue defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119148+00:00 [info] <0.230.0> Priority queues enabled, real BQ is rabbit_variable_queue[0m
-rabbitmq                 | 2023-05-01 22:45:40.119173+00:00 [info] <0.230.0> Running boot step rabbit_queue_location_client_local defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119216+00:00 [info] <0.230.0> Running boot step rabbit_queue_location_min_masters defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119261+00:00 [info] <0.230.0> Running boot step rabbit_queue_location_random defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119287+00:00 [info] <0.230.0> Running boot step kernel_ready defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119300+00:00 [info] <0.230.0> Running boot step rabbit_sysmon_minder defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119376+00:00 [info] <0.230.0> Running boot step rabbit_epmd_monitor defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.119922+00:00 [info] <0.641.0> epmd monitor knows us, inter-node communication (distribution) port: 25672[0m
-rabbitmq                 | 2023-05-01 22:45:40.119966+00:00 [info] <0.230.0> Running boot step guid_generator defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.120849+00:00 [info] <0.230.0> Running boot step rabbit_node_monitor defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.120929+00:00 [info] <0.645.0> Starting rabbit_node_monitor[0m
-rabbitmq                 | 2023-05-01 22:45:40.120995+00:00 [info] <0.230.0> Running boot step delegate_sup defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.121202+00:00 [info] <0.230.0> Running boot step rabbit_memory_monitor defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.121302+00:00 [info] <0.230.0> Running boot step rabbit_fifo_dlx_sup defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.121327+00:00 [info] <0.230.0> Running boot step core_initialized defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.121335+00:00 [info] <0.230.0> Running boot step upgrade_queues defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.124031+00:00 [info] <0.230.0> message_store upgrades: 1 to apply[0m
-rabbitmq                 | 2023-05-01 22:45:40.124064+00:00 [info] <0.230.0> message_store upgrades: Applying rabbit_variable_queue:move_messages_to_vhost_store[0m
-rabbitmq                 | 2023-05-01 22:45:40.124126+00:00 [info] <0.230.0> message_store upgrades: No durable queues found. Skipping message store migration[0m
-rabbitmq                 | 2023-05-01 22:45:40.124159+00:00 [info] <0.230.0> message_store upgrades: Removing the old message store data[0m
-rabbitmq                 | 2023-05-01 22:45:40.124447+00:00 [info] <0.230.0> message_store upgrades: All upgrades applied successfully[0m
-rabbitmq                 | 2023-05-01 22:45:40.128000+00:00 [info] <0.230.0> Running boot step channel_tracking defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128020+00:00 [info] <0.230.0> Running boot step rabbit_channel_tracking_handler defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128037+00:00 [info] <0.230.0> Running boot step connection_tracking defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128054+00:00 [info] <0.230.0> Running boot step rabbit_connection_tracking_handler defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128085+00:00 [info] <0.230.0> Running boot step rabbit_definitions_hashing defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128169+00:00 [info] <0.230.0> Running boot step rabbit_exchange_parameters defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128202+00:00 [info] <0.230.0> Running boot step rabbit_mirror_queue_misc defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128292+00:00 [info] <0.230.0> Running boot step rabbit_policies defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128391+00:00 [info] <0.230.0> Running boot step rabbit_policy defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128408+00:00 [info] <0.230.0> Running boot step rabbit_queue_location_validator defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128430+00:00 [info] <0.230.0> Running boot step rabbit_quorum_memory_manager defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128446+00:00 [info] <0.230.0> Running boot step rabbit_stream_coordinator defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128537+00:00 [info] <0.230.0> Running boot step rabbit_vhost_limit defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.128563+00:00 [info] <0.230.0> Running boot step rabbit_mgmt_reset_handler defined by app rabbitmq_management[0m
-rabbitmq                 | 2023-05-01 22:45:40.128592+00:00 [info] <0.230.0> Running boot step rabbit_mgmt_db_handler defined by app rabbitmq_management_agent[0m
-rabbitmq                 | 2023-05-01 22:45:40.128605+00:00 [info] <0.230.0> Management plugin: using rates mode 'basic'[0m
-rabbitmq                 | 2023-05-01 22:45:40.128767+00:00 [info] <0.230.0> Running boot step recovery defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.129207+00:00 [info] <0.230.0> Running boot step empty_db_check defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.129239+00:00 [info] <0.230.0> Will seed default virtual host and user...[0m
-rabbitmq                 | 2023-05-01 22:45:40.129292+00:00 [info] <0.230.0> Adding vhost '/' (description: 'Default virtual host', tags: [])[0m
-rabbitmq                 | 2023-05-01 22:45:40.133755+00:00 [info] <0.687.0> Making sure data directory '/var/lib/rabbitmq/mnesia/rabbit@3baa4b94f70f/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L' for vhost '/' exists[0m
-rabbitmq                 | 2023-05-01 22:45:40.134330+00:00 [info] <0.687.0> Setting segment_entry_count for vhost '/' with 0 queues to '2048'[0m
-rabbitmq                 | 2023-05-01 22:45:40.135425+00:00 [info] <0.687.0> Starting message stores for vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:40.135493+00:00 [info] <0.692.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_transient": using rabbit_msg_store_ets_index to provide index[0m
-rabbitmq                 | 2023-05-01 22:45:40.136146+00:00 [info] <0.687.0> Started message store of type transient for vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:40.136221+00:00 [info] <0.696.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": using rabbit_msg_store_ets_index to provide index[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:40.136680+00:00 [warning] <0.696.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": rebuilding indices from scratch[0m
-rabbitmq                 | 2023-05-01 22:45:40.137032+00:00 [info] <0.687.0> Started message store of type persistent for vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:40.137081+00:00 [info] <0.687.0> Recovering 0 queues of type rabbit_classic_queue took 2ms[0m
-rabbitmq                 | 2023-05-01 22:45:40.137104+00:00 [info] <0.687.0> Recovering 0 queues of type rabbit_quorum_queue took 0ms[0m
-rabbitmq                 | 2023-05-01 22:45:40.137121+00:00 [info] <0.687.0> Recovering 0 queues of type rabbit_stream_queue took 0ms[0m
-rabbitmq                 | 2023-05-01 22:45:40.138173+00:00 [info] <0.230.0> Created user 'guest'[0m
-rabbitmq                 | 2023-05-01 22:45:40.138654+00:00 [info] <0.230.0> Successfully set user tags for user 'guest' to [administrator][0m
-rabbitmq                 | 2023-05-01 22:45:40.139159+00:00 [info] <0.230.0> Successfully set permissions for 'guest' in virtual host '/' to '.*', '.*', '.*'[0m
-rabbitmq                 | 2023-05-01 22:45:40.139178+00:00 [info] <0.230.0> Running boot step rabbit_observer_cli defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139198+00:00 [info] <0.230.0> Running boot step rabbit_looking_glass defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139216+00:00 [info] <0.230.0> Running boot step rabbit_core_metrics_gc defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139251+00:00 [info] <0.230.0> Running boot step background_gc defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139290+00:00 [info] <0.230.0> Running boot step routing_ready defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139303+00:00 [info] <0.230.0> Running boot step pre_flight defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139311+00:00 [info] <0.230.0> Running boot step notify_cluster defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139319+00:00 [info] <0.230.0> Running boot step networking defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139346+00:00 [info] <0.230.0> Running boot step definition_import_worker_pool defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139377+00:00 [info] <0.287.0> Starting worker pool 'definition_import_pool' with 4 processes in it[0m
-rabbitmq                 | 2023-05-01 22:45:40.139621+00:00 [info] <0.230.0> Running boot step cluster_name defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.139655+00:00 [info] <0.230.0> Initialising internal cluster ID to 'rabbitmq-cluster-id-PI6DxASz16kgWp8NWK6gqw'[0m
-rabbitmq                 | 2023-05-01 22:45:40.140345+00:00 [info] <0.230.0> Running boot step direct_client defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.140390+00:00 [info] <0.230.0> Running boot step rabbit_maintenance_mode_state defined by app rabbit[0m
-rabbitmq                 | 2023-05-01 22:45:40.140409+00:00 [info] <0.230.0> Creating table rabbit_node_maintenance_states for maintenance mode status[0m
-rabbitmq                 | 2023-05-01 22:45:40.141737+00:00 [info] <0.230.0> Running boot step rabbit_management_load_definitions defined by app rabbitmq_management[0m
-rabbitmq                 | 2023-05-01 22:45:40.141793+00:00 [info] <0.733.0> Resetting node maintenance status[0m
-rabbitmq                 | 2023-05-01 22:45:40.146873+00:00 [info] <0.792.0> Management plugin: HTTP (non-TLS) listener started on port 15672[0m
-rabbitmq                 | 2023-05-01 22:45:40.146926+00:00 [info] <0.820.0> Statistics database started.[0m
-rabbitmq                 | 2023-05-01 22:45:40.146961+00:00 [info] <0.819.0> Starting worker pool 'management_worker_pool' with 3 processes in it[0m
-rabbitmq                 | 2023-05-01 22:45:40.150106+00:00 [info] <0.834.0> Prometheus metrics: HTTP (non-TLS) listener started on port 15692[0m
-rabbitmq                 | 2023-05-01 22:45:40.150231+00:00 [info] <0.733.0> Ready to start client connection listeners[0m
-rabbitmq                 | 2023-05-01 22:45:40.151049+00:00 [info] <0.878.0> started TCP listener on [::]:5672[0m
-rabbitmq                 | 2023-05-01 22:45:40.378596+00:00 [info] <0.733.0> Server startup complete; 4 plugins started.[0m
-rabbitmq                 | 2023-05-01 22:45:40.378596+00:00 [info] <0.733.0>  * rabbitmq_prometheus[0m
-rabbitmq                 | 2023-05-01 22:45:40.378596+00:00 [info] <0.733.0>  * rabbitmq_management[0m
-rabbitmq                 | 2023-05-01 22:45:40.378596+00:00 [info] <0.733.0>  * rabbitmq_web_dispatch[0m
-rabbitmq                 | 2023-05-01 22:45:40.378596+00:00 [info] <0.733.0>  * rabbitmq_management_agent[0m
-rabbitmq                 |  completed with 4 plugins.
-rabbitmq                 | 2023-05-01 22:45:43.829560+00:00 [info] <0.881.0> accepting AMQP connection <0.881.0> (192.168.240.3:39166 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:43.833867+00:00 [info] <0.881.0> connection <0.881.0> (192.168.240.3:39166 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:44.001353+00:00 [info] <0.901.0> accepting AMQP connection <0.901.0> (192.168.240.4:55980 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:44.005122+00:00 [info] <0.901.0> connection <0.901.0> (192.168.240.4:55980 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:44.485058+00:00 [info] <0.922.0> accepting AMQP connection <0.922.0> (192.168.240.7:49480 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:44.485587+00:00 [info] <0.925.0> accepting AMQP connection <0.925.0> (192.168.240.6:56694 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:44.489000+00:00 [info] <0.922.0> connection <0.922.0> (192.168.240.7:49480 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:44.489321+00:00 [info] <0.925.0> connection <0.925.0> (192.168.240.6:56694 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:44.563479+00:00 [info] <0.971.0> accepting AMQP connection <0.971.0> (192.168.240.8:51108 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:44.566820+00:00 [info] <0.971.0> connection <0.971.0> (192.168.240.8:51108 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:44.592672+00:00 [info] <0.990.0> accepting AMQP connection <0.990.0> (192.168.240.9:49186 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:44.594563+00:00 [info] <0.993.0> accepting AMQP connection <0.993.0> (192.168.240.5:38628 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:44.596075+00:00 [info] <0.990.0> connection <0.990.0> (192.168.240.9:49186 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:44.597328+00:00 [info] <0.993.0> connection <0.993.0> (192.168.240.5:38628 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-em_query_state_verifier  | New worker: query_result_queue
-rabbitmq                 | 2023-05-01 22:45:45.156083+00:00 [info] <0.1027.0> accepting AMQP connection <0.1027.0> (192.168.240.10:52302 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:45.159962+00:00 [info] <0.1027.0> connection <0.1027.0> (192.168.240.10:52302 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-filter_trips_stations_1  | [trips_transformer] listo para recibir
-em_filters               | New worker: trips_stations_queue
-rabbitmq                 | 2023-05-01 22:45:45.293266+00:00 [info] <0.1050.0> accepting AMQP connection <0.1050.0> (192.168.240.11:41122 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:45.293733+00:00 [info] <0.1053.0> accepting AMQP connection <0.1053.0> (192.168.240.14:48080 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:45.297583+00:00 [info] <0.1053.0> connection <0.1053.0> (192.168.240.14:48080 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:45.298526+00:00 [info] <0.1050.0> connection <0.1050.0> (192.168.240.11:41122 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-rabbitmq                 | 2023-05-01 22:45:45.305770+00:00 [info] <0.1076.0> accepting AMQP connection <0.1076.0> (192.168.240.12:51776 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:45.308763+00:00 [info] <0.1076.0> connection <0.1076.0> (192.168.240.12:51776 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-filter_trips_1           | [trips_transformer] listo para recibir
-em_applier               | New worker: applier_2
-em_filters               | New worker: trips_queue
 filter_trips_stations_2  | [trips_transformer] listo para recibir
 em_filters               | New worker: trips_stations_queue
-rabbitmq                 | 2023-05-01 22:45:45.412637+00:00 [info] <0.1099.0> accepting AMQP connection <0.1099.0> (192.168.240.16:48982 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:45.415886+00:00 [info] <0.1099.0> connection <0.1099.0> (192.168.240.16:48982 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-em_groupby               | New worker: group_by_2
-rabbitmq                 | 2023-05-01 22:45:45.428558+00:00 [info] <0.1112.0> accepting AMQP connection <0.1112.0> (192.168.240.15:54070 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:45.431292+00:00 [info] <0.1112.0> connection <0.1112.0> (192.168.240.15:54070 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+filter_trips_1           | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_queue
+filter_trips_weather_1   | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_weather_queue
+filter_trips_stations_1  | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_stations_queue
 em_applier               | New worker: applier_2
-rabbitmq                 | 2023-05-01 22:45:46.301690+00:00 [info] <0.1125.0> accepting AMQP connection <0.1125.0> (192.168.240.13:38136 -> 192.168.240.2:5672)[0m
-rabbitmq                 | 2023-05-01 22:45:46.304190+00:00 [info] <0.1125.0> connection <0.1125.0> (192.168.240.13:38136 -> 192.168.240.2:5672): user 'guest' authenticated and granted access to vhost '/'[0m
-em_joiners               | New worker: join_trip_station_queue
+em_groupby               | New worker: group_by_1
+em_query_state_verifier  | New worker: query_result_queue
+em_groupby               | New worker: group_by_2
+em_applier               | New worker: applier_2
+em_applier               | New worker: applier_1
 stations_handler         | [stations_handler] listo para recibir
-stations_handler         | 6209,Milton / Clark,45.51252,-73.57061999999999,2016
-stations_handler         | 6436,Côte St-Antoine / Clarke,45.48645209646392,-73.59523415565491,2016
-stations_handler         | 6214,Square St-Louis,45.51735,-73.56906,2016
-stations_handler         | 6248,St-Dominique / Rachel,45.518593,-73.58156600000001,2016
-stations_handler         | 6164,Chambord / Laurier,45.5329550401632,-73.58419418334961,2016
-stations_handler         | 6216,Parc Jeanne Mance (monument George-Étienne Cartier),45.514959999999995,-73.58503,2016
-stations_handler         | 6082,6e avenue / Rosemont,45.550613,-73.582883,2016
-stations_handler         | 6149,Chapleau / du Mont-Royal,45.53867,-73.56936,2016
-stations_handler         | 6265,Parthenais / Laurier,45.539259,-73.577338,2016
-stations_handler         | 6211,Roy / St-Laurent,45.515609999999995,-73.57569000000001,2016
-stations_handler         | 6252,Mozart / St-Laurent,45.53318,-73.61544,2016
-stations_handler         | 6233,Bernard / Jeanne-Mance,45.524295872822634,-73.60484719276428,2016
-stations_handler         | 6209,Milton / Clark,45.51252,-73.57061999999999,2017
-stations_handler         | 6436,Côte St-Antoine / Clarke,45.48645209646392,-73.59523415565491,2017
-stations_handler         | 6214,Square St-Louis,45.51735,-73.56906,2017
-stations_handler         | 6248,St-Dominique / Rachel,45.518593,-73.58156600000001,2017
-stations_handler         | 6164,Chambord / Laurier,45.5329550401632,-73.58419418334961,2017
-stations_handler         | 6216,Parc Jeanne Mance (monument George-Étienne Cartier),45.514959999999995,-73.58503,2017
-stations_handler         | 6082,6e avenue / Rosemont,45.550613,-73.582883,2017
-stations_handler         | 6149,Chapleau / du Mont-Royal,45.53867,-73.56936,2017
-stations_handler         | 6265,Parthenais / Laurier,45.539259,-73.577338,2017
-stations_handler         | 6211,Roy / St-Laurent,45.515609999999995,-73.57569000000001,2017
-stations_handler         | 6252,Mozart / St-Laurent,45.53318,-73.61544,2017
-stations_handler         | 6233,Bernard / Jeanne-Mance,45.524295872822634,-73.60484719276428,2017
+em_joiners               | New worker: join_trip_station_queue
+em_joiners               | New worker: join_trip_weather_queue
+weather_handler          | [weather_handler] listo para recibir
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_weather_1   | 2014-06-01,45,35
+filter_trips_weather_1   | 2014-06-01,28,35
+filter_trips_weather_1   | 2014-06-01,35,35
+filter_trips_weather_1   | 2014-06-01,64,35
+filter_trips_weather_1   | 2014-06-01,64,35
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2017
 filter_trips_1           | 2014-06-01,0,2016
 filter_trips_1           | 2014-06-01,0,2016
 filter_trips_1           | 2014-06-01,0,2016
@@ -291,72 +54,92 @@ filter_trips_1           | 2014-06-01,0,2017
 filter_trips_1           | 2014-06-01,0,2016
 filter_trips_1           | 2014-06-01,0,2017
 filter_trips_1           | 2014-06-01,0,2017
+filter_trips_weather_1   | 2014-06-01,64,35
+filter_trips_weather_1   | 2014-06-01,64,35
+filter_trips_stations_2  | 2016,Milton / Clark
+filter_trips_stations_2  | 2016,Square St-Louis
+filter_trips_stations_2  | 2016,6e avenue / Rosemont
+filter_trips_stations_2  | 2017,6e avenue / Rosemont
 filter_trips_stations_2  | 2016,Côte St-Antoine / Clarke
+filter_trips_stations_2  | 2017,6e avenue / Rosemont
+filter_trips_stations_2  | 2017,6e avenue / Rosemont
+filter_trips_stations_2  | 2016,Milton / Clark
+filter_trips_stations_1  | 2016,Côte St-Antoine / Clarke
+filter_trips_stations_1  | 2017,6e avenue / Rosemont
+filter_trips_stations_1  | 2017,6e avenue / Rosemont
 filter_trips_stations_1  | 2016,Milton / Clark
 filter_trips_stations_1  | 2016,Square St-Louis
-rabbitmq                 | 2023-05-01 22:45:47.517326+00:00 [info] <0.922.0> closing AMQP connection <0.922.0> (192.168.240.7:49480 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
 filter_trips_stations_1  | 2016,6e avenue / Rosemont
-em_joiners               | eof arrived
-em_joiners               | Closing worker
-filter_trips_stations_2  | 2017,6e avenue / Rosemont
-filter_trips_stations_2  | 2017,6e avenue / Rosemont
 filter_trips_stations_1  | 2017,6e avenue / Rosemont
-stations_handler         | [stations_handler] close: success
+filter_trips_stations_1  | 2016,Côte St-Antoine / Clarke
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+em_joiners               | eof arrived
+em_joiners               | Closing worker: join_trip_weather_queue
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_stations_2  | 2016,Square St-Louis
+filter_trips_stations_1  | 2017,6e avenue / Rosemont
+filter_trips_stations_2  | 2016,6e avenue / Rosemont
+filter_trips_stations_1  | 2017,6e avenue / Rosemont
+filter_trips_stations_2  | 2017,6e avenue / Rosemont
+weather_handler          | [weather_handler] close: success
+em_joiners               | Worker done
+em_joiners               | Closing worker: join_trip_station_queue
 em_joiners               | Worker done
 em_joiners               | Mandando eof next stage
+stations_handler         | [stations_handler] close: success
 em_filters               | eof arrived
-em_filters               | Closing worker
-rabbitmq                 | 2023-05-01 22:45:47.522642+00:00 [info] <0.1125.0> closing AMQP connection <0.1125.0> (192.168.240.13:38136 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
+em_filters               | Closing worker: trips_queue
 em_filters               | Worker done
-em_filters               | Closing worker
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.538943+00:00 [warning] <0.1050.0> closing AMQP connection <0.1050.0> (192.168.240.11:41122 -> 192.168.240.2:5672, vhost: '/', user: 'guest'):[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.538943+00:00 [warning] <0.1050.0> client unexpectedly closed TCP connection[0m
-rabbitmq                 | 2023-05-01 22:45:47.540112+00:00 [info] <0.993.0> closing AMQP connection <0.993.0> (192.168.240.5:38628 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
+em_filters               | Closing worker: trips_weather_queue
 em_filters               | Worker done
-em_filters               | Closing worker
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.552174+00:00 [warning] <0.1076.0> closing AMQP connection <0.1076.0> (192.168.240.12:51776 -> 192.168.240.2:5672, vhost: '/', user: 'guest'):[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.552174+00:00 [warning] <0.1076.0> client unexpectedly closed TCP connection[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.557631+00:00 [warning] <0.1027.0> closing AMQP connection <0.1027.0> (192.168.240.10:52302 -> 192.168.240.2:5672, vhost: '/', user: 'guest'):[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.557631+00:00 [warning] <0.1027.0> client unexpectedly closed TCP connection[0m
+em_filters               | Closing worker: trips_stations_queue
 em_filters               | Worker done
-em_groupby               | eof arrived
+em_filters               | Closing worker: trips_stations_queue
+em_filters               | Worker done
 em_filters               | Mandando eof next stage
-em_groupby               | Closing worker
-em_groupby               | Worker done
+em_groupby               | eof arrived
+em_groupby               | Closing worker: group_by_2
 groupby_2                | EOF arrived
+em_groupby               | Worker done
+em_groupby               | Closing worker: group_by_1
+query_state_verifier     | [Query] 6e avenue / Rosemont,3,9
+groupby_1                | EOF arrived
+em_groupby               | Worker done
 em_groupby               | Mandando eof next stage
-query_state_verifier     | [Query 2] 6e avenue / Rosemont, 1, 3
+query_state_verifier     | [Query] 2014-06-01,0.019230769230769232
 em_applier               | eof arrived
-em_applier               | Closing worker
-rabbitmq                 | 2023-05-01 22:45:47.569199+00:00 [info] <0.1099.0> closing AMQP connection <0.1099.0> (192.168.240.16:48982 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
-rabbitmq                 | 2023-05-01 22:45:47.571649+00:00 [info] <0.901.0> closing AMQP connection <0.901.0> (192.168.240.4:55980 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.591125+00:00 [warning] <0.1053.0> closing AMQP connection <0.1053.0> (192.168.240.14:48080 -> 192.168.240.2:5672, vhost: '/', user: 'guest'):[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.591125+00:00 [warning] <0.1053.0> client unexpectedly closed TCP connection[0m
-rabbitmq                 | 2023-05-01 22:45:47.591438+00:00 [info] <0.971.0> closing AMQP connection <0.971.0> (192.168.240.8:51108 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
+em_applier               | Closing worker: applier_1
 em_applier               | Worker done
-em_applier               | Closing worker
-query_state_verifier     | Todas las queries terminadas.
-em_query_state_verifier  | eof arrived
-em_query_state_verifier  | Closing worker
-em_query_state_verifier  | Worker done
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.603435+00:00 [warning] <0.1112.0> closing AMQP connection <0.1112.0> (192.168.240.15:54070 -> 192.168.240.2:5672, vhost: '/', user: 'guest'):[0m
-rabbitmq                 | [38;5;214m2023-05-01 22:45:47.603435+00:00 [warning] <0.1112.0> client unexpectedly closed TCP connection[0m
+em_applier               | Closing worker: applier_2
+em_applier               | Worker done
+em_applier               | Closing worker: applier_2
 em_applier               | Worker done
 em_applier               | Mandando eof next stage
-rabbitmq                 | 2023-05-01 22:45:47.612204+00:00 [info] <0.925.0> closing AMQP connection <0.925.0> (192.168.240.6:56694 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
-rabbitmq                 | 2023-05-01 22:45:47.614394+00:00 [info] <0.990.0> closing AMQP connection <0.990.0> (192.168.240.9:49186 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
-rabbitmq                 | 2023-05-01 22:45:47.630603+00:00 [info] <0.881.0> closing AMQP connection <0.881.0> (192.168.240.3:39166 -> 192.168.240.2:5672, vhost: '/', user: 'guest')[0m
+em_query_state_verifier  | eof arrived
+em_query_state_verifier  | Closing worker: query_result_queue
+query_state_verifier     | Todas las queries terminadas.
+em_query_state_verifier  | Worker done
+client exited with code 0
 receiver exited with code 0
-em_joiners exited with code 0
 filter_trips_1 exited with code 0
-stations_handler exited with code 0
 filter_trips_stations_2 exited with code 0
-applier_2_2 exited with code 0
+stations_handler exited with code 0
+weather_handler exited with code 0
+em_joiners exited with code 0
+filter_trips_weather_1 exited with code 0
 groupby_2 exited with code 0
 em_filters exited with code 0
-em_groupby exited with code 0
 filter_trips_stations_1 exited with code 0
-applier_2_1 exited with code 0
-query_state_verifier exited with code 0
-em_query_state_verifier exited with code 0
+groupby_1 exited with code 0
 em_applier exited with code 0
+em_query_state_verifier exited with code 0
+applier_2_2 exited with code 0
+em_groupby exited with code 0
+query_state_verifier exited with code 0
+applier_2_1 exited with code 0
+applier_1_1 exited with code 0

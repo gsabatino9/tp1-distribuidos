@@ -36,12 +36,3 @@ class TripsReceiver:
 	def close(self):
 		self.client_conn.close()
 		self.connection.close()
-
-HOST = 'server'
-PORT = 12346
-TRIPS_QUEUE = "trips_queue"
-JOIN_TRIPS_STATIONS_QUEUE = "join_trip_station_queue"
-EM_QUEUE = "eof_handler_queue"
-
-if __name__ == "__main__":
-	TripsReceiver(HOST, PORT, [TRIPS_QUEUE, JOIN_TRIPS_STATIONS_QUEUE], EM_QUEUE)

@@ -13,10 +13,14 @@ server-image:
 	docker build -f ./receiver/Dockerfile -t "receiver:latest" .
 
 	docker build -f ./joiners/stations_handler/Dockerfile -t "stations_handler:latest" .
+	docker build -f ./joiners/weather_handler/Dockerfile -t "weather_handler:latest" .
 
 	docker build -f ./filters/filter_trips/Dockerfile -t "filter_trips:latest" .
 	docker build -f ./filters/filter_trips_stations/Dockerfile -t "filter_trips_stations:latest" .
+	docker build -f ./filters/filter_trips_weather/Dockerfile -t "filter_trips_weather:latest" .
 
+	docker build -f ./query1/applier/Dockerfile -t "applier_1:latest" .
+	docker build -f ./query1/groupby/Dockerfile -t "groupby_1:latest" .
 	docker build -f ./query2/applier/Dockerfile -t "applier_2:latest" .
 	docker build -f ./query2/groupby/Dockerfile -t "groupby_2:latest" .
 	

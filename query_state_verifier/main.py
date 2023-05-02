@@ -21,8 +21,8 @@ def main():
 			conn.stop_receiving()
 			em_queue.send(WORKER_DONE_MSG)
 		else:
-			key, val_2016, val_2017 = msg.split(',')
-			print(f"[Query 2] {key}, {val_2016}, {val_2017}")
+			#key, val_2016, val_2017 = msg.split(',')
+			print(f"[Query] {msg}")
 
 	recv_queue.receive(callback)
 

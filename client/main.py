@@ -16,6 +16,15 @@ def main():
 			static_conn.send(city, msg)
 
 	static_conn.eof()
+
+	cities = [data.Montreal.weathers, data.Toronto.weathers, data.Washington.weathers]
+	for i, city in enumerate(["Montreal", "Toronto", "Washington"]):
+		weather = cities[i]
+		for msg in weather:
+			static_conn.send(city, msg)
+
+	static_conn.eof()
+
 	static_conn.close()
 
 	time.sleep(3)

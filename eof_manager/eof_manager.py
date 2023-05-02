@@ -55,8 +55,8 @@ class EOFManager:
 			self.next_em_queue.send(EOF_MSG)
 
 	def __close_worker(self):
-		print('Closing worker')
 		worker = self.__pick_worker()
+		print(f'Closing worker: {worker}')
 		queue, value = self.workers.pop(worker)
 		queue.send(EOF_MSG)
 
