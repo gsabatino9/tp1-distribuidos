@@ -141,6 +141,17 @@ services:
       - rabbitmq
       - em_groupby
 
+  groupby_3:
+    container_name: groupby_3
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: groupby_3:latest
+    depends_on:
+      - rabbitmq
+      - em_groupby
+
   em_groupby:
     container_name: em_groupby
     entrypoint: python3 /main.py
@@ -180,6 +191,17 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     image: applier_2:latest
+    depends_on:
+      - rabbitmq
+      - em_applier
+
+  applier_3_1:
+    container_name: applier_3_1
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_3:latest
     depends_on:
       - rabbitmq
       - em_applier

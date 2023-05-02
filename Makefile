@@ -23,6 +23,8 @@ server-image:
 	docker build -f ./query1/groupby/Dockerfile -t "groupby_1:latest" .
 	docker build -f ./query2/applier/Dockerfile -t "applier_2:latest" .
 	docker build -f ./query2/groupby/Dockerfile -t "groupby_2:latest" .
+	docker build -f ./query3/applier/Dockerfile -t "applier_3:latest" .
+	docker build -f ./query3/groupby/Dockerfile -t "groupby_3:latest" .
 	
 	docker build -f ./query_state_verifier/Dockerfile -t "query_state_verifier:latest" .
 

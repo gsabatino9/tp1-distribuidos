@@ -6,12 +6,12 @@ from common.utils import *
 def main():
 	EM_QUEUE = "eof_query_result_queue"
 	RECEIVE_QUEUE = "query_result_queue"
-	types_messages = ["query1", "query2"]
+	queries = ["query1", "query2", "query3"]
 
 	conn = Connection()
 
 	em_queue = conn.pubsub_queue(EM_QUEUE)
-	recv_queue = conn.routing_queue(RECEIVE_QUEUE, types_messages)
+	recv_queue = conn.routing_queue(RECEIVE_QUEUE, queries)
 	queries_done = set()
 
 	def recv_query(ch, method, properties, body):
@@ -21,14 +21,14 @@ def main():
 			print(f"Query terminada: {method.routing_key}")
 			queries_done.add(method.routing_key)
 
-			if len(queries_done) == len(types_messages):
+			if len(queries_done) == len(queries):
 				conn.stop_receiving()
 		else:
 			print(f"[{method.routing_key}] {msg}")
 
 	def recv_eof(ch, method, properties, body):
 		print('Recibido: EOF')
-		for query in types_messages:
+		for query in queries:
 			recv_queue.send(EOF_MSG, routing_key=query)
 
 	recv_queue.receive(recv_query)
