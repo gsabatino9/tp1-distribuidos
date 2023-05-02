@@ -203,14 +203,3 @@ services:
     image: query_state_verifier:latest
     depends_on:
       - rabbitmq
-      - em_query_state_verifier
-
-  em_query_state_verifier:
-    container_name: em_query_state_verifier
-    entrypoint: python3 /main.py
-    restart: on-failure
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: em_query_state_verifier:latest
-    depends_on:
-      - rabbitmq

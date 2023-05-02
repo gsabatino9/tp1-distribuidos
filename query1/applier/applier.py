@@ -10,7 +10,7 @@ class ApplierController:
 
 		self.conn = Connection()
 		self.recv_queue = self.conn.basic_queue(recv_queue)
-		self.send_queue = self.conn.basic_queue(send_queue)
+		self.send_queue = self.conn.routing_queue(send_queue)
 
 		self.em_queue = self.conn.pubsub_queue(em_queue)
 		self.em_queue.send(recv_queue)
@@ -27,6 +27,7 @@ class ApplierController:
 
 	def __eof_arrived(self):
 		self.conn.stop_receiving()
+		self.send_queue.send(EOF_MSG, routing_key="query1")
 		self.em_queue.send(WORKER_DONE_MSG)
 		
 	def __apply(self, msg):
@@ -35,7 +36,7 @@ class ApplierController:
 		value = [float(i) for i in msg_splitted[1:]]
 
 		result = self.applier.apply(key, value)
-		self.send_queue.send(','.join(result))
+		self.send_queue.send(','.join(result), routing_key="query1")
 
 def main():
 	RECEIVE_QUEUE = "applier_1"

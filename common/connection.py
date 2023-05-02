@@ -1,5 +1,5 @@
 import pika, sys, os
-from common.queue import BasicQueue, PubsubQueue, TopicsQueue
+from common.queue import BasicQueue, PubsubQueue, RoutingQueue
 
 class Connection:
     def __init__(self):
@@ -12,8 +12,8 @@ class Connection:
     def pubsub_queue(self, name_exchange):
         return PubsubQueue(self.channel, name_exchange)
 
-    def topic_queue(self, name_exchange, routing_key=None):
-        return TopicsQueue(self.channel, name_exchange, routing_key)
+    def routing_queue(self, exchange_name, routing_keys=[]):
+        return RoutingQueue(self.channel, exchange_name, routing_keys)
 
     def start_receiving(self):
         self.channel.start_consuming()

@@ -56,8 +56,8 @@ class EOFManager:
 
 	def __close_worker(self):
 		worker = self.__pick_worker()
-		print(f'Closing worker: {worker}')
 		queue, value = self.workers.pop(worker)
+		print(f'Closing worker: {worker}, {value}')
 		queue.send(EOF_MSG)
 
 		if value > 1:

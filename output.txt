@@ -14,56 +14,63 @@ docker build -f ./eof_manager/joiner/Dockerfile -t "em_joiners:latest" .
 docker build -f ./eof_manager/filter/Dockerfile -t "em_filters:latest" .
 docker build -f ./eof_manager/groupby/Dockerfile -t "em_groupby:latest" .
 docker build -f ./eof_manager/applier/Dockerfile -t "em_applier:latest" .
-docker build -f ./eof_manager/query_state_verifier/Dockerfile -t "em_query_state_verifier:latest" .
 docker compose -f docker-compose-dev.yaml up -d --build
 docker compose -f docker-compose-dev.yaml logs -f
-filter_trips_stations_2  | [trips_transformer] listo para recibir
-em_filters               | New worker: trips_stations_queue
-filter_trips_1           | [trips_transformer] listo para recibir
-em_filters               | New worker: trips_queue
-filter_trips_weather_1   | [trips_transformer] listo para recibir
-em_filters               | New worker: trips_weather_queue
-filter_trips_stations_1  | [trips_transformer] listo para recibir
-em_filters               | New worker: trips_stations_queue
-em_applier               | New worker: applier_2
-em_groupby               | New worker: group_by_1
-em_query_state_verifier  | New worker: query_result_queue
-em_groupby               | New worker: group_by_2
 em_applier               | New worker: applier_2
 em_applier               | New worker: applier_1
-stations_handler         | [stations_handler] listo para recibir
-em_joiners               | New worker: join_trip_station_queue
-em_joiners               | New worker: join_trip_weather_queue
+em_applier               | New worker: applier_2
+filter_trips_stations_1  | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_stations_queue
 weather_handler          | [weather_handler] listo para recibir
+em_joiners               | New worker: join_trip_weather_queue
+filter_trips_stations_2  | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_stations_queue
+em_joiners               | New worker: join_trip_station_queue
+stations_handler         | [stations_handler] listo para recibir
+filter_trips_weather_1   | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_weather_queue
+filter_trips_1           | [trips_transformer] listo para recibir
+em_filters               | New worker: trips_queue
+em_groupby               | New worker: group_by_2
+em_groupby               | New worker: group_by_1
 filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
 filter_trips_weather_1   | 2014-06-01,45,35
+filter_trips_stations_2  | 2016,Côte St-Antoine / Clarke
 filter_trips_weather_1   | 2014-06-01,28,35
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_stations_1  | 2016,Milton / Clark
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2016
+em_joiners               | eof arrived
+em_joiners               | Closing worker: join_trip_station_queue, 1
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2016
+filter_trips_1           | 2014-06-01,0,2017
+filter_trips_1           | 2014-06-01,0,2017
 filter_trips_weather_1   | 2014-06-01,35,35
 filter_trips_weather_1   | 2014-06-01,64,35
 filter_trips_weather_1   | 2014-06-01,64,35
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2017
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2017
-filter_trips_1           | 2014-06-01,0,2017
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2017
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2017
-filter_trips_1           | 2014-06-01,0,2017
 filter_trips_weather_1   | 2014-06-01,64,35
 filter_trips_weather_1   | 2014-06-01,64,35
-filter_trips_stations_2  | 2016,Milton / Clark
-filter_trips_stations_2  | 2016,Square St-Louis
-filter_trips_stations_2  | 2016,6e avenue / Rosemont
-filter_trips_stations_2  | 2017,6e avenue / Rosemont
-filter_trips_stations_2  | 2016,Côte St-Antoine / Clarke
 filter_trips_stations_2  | 2017,6e avenue / Rosemont
 filter_trips_stations_2  | 2017,6e avenue / Rosemont
 filter_trips_stations_2  | 2016,Milton / Clark
+filter_trips_stations_1  | 2016,Square St-Louis
+filter_trips_stations_1  | 2016,6e avenue / Rosemont
+filter_trips_stations_1  | 2017,6e avenue / Rosemont
 filter_trips_stations_1  | 2016,Côte St-Antoine / Clarke
 filter_trips_stations_1  | 2017,6e avenue / Rosemont
 filter_trips_stations_1  | 2017,6e avenue / Rosemont
@@ -71,75 +78,60 @@ filter_trips_stations_1  | 2016,Milton / Clark
 filter_trips_stations_1  | 2016,Square St-Louis
 filter_trips_stations_1  | 2016,6e avenue / Rosemont
 filter_trips_stations_1  | 2017,6e avenue / Rosemont
-filter_trips_stations_1  | 2016,Côte St-Antoine / Clarke
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2017
-filter_trips_1           | 2014-06-01,0,2016
-filter_trips_1           | 2014-06-01,0,2017
-em_joiners               | eof arrived
-em_joiners               | Closing worker: join_trip_weather_queue
-filter_trips_1           | 2014-06-01,0,2017
 filter_trips_stations_2  | 2016,Square St-Louis
-filter_trips_stations_1  | 2017,6e avenue / Rosemont
 filter_trips_stations_2  | 2016,6e avenue / Rosemont
-filter_trips_stations_1  | 2017,6e avenue / Rosemont
 filter_trips_stations_2  | 2017,6e avenue / Rosemont
+filter_trips_stations_2  | 2016,Côte St-Antoine / Clarke
+filter_trips_stations_2  | 2017,6e avenue / Rosemont
+filter_trips_stations_2  | 2017,6e avenue / Rosemont
+stations_handler         | [stations_handler] close: success
+em_joiners               | Worker done
+em_joiners               | Closing worker: join_trip_weather_queue, 1
 weather_handler          | [weather_handler] close: success
 em_joiners               | Worker done
-em_joiners               | Closing worker: join_trip_station_queue
-em_joiners               | Worker done
 em_joiners               | Mandando eof next stage
-stations_handler         | [stations_handler] close: success
 em_filters               | eof arrived
-em_filters               | Closing worker: trips_queue
+em_filters               | Closing worker: trips_queue, 1
 em_filters               | Worker done
-em_filters               | Closing worker: trips_weather_queue
+em_filters               | Closing worker: trips_weather_queue, 1
 em_filters               | Worker done
-em_filters               | Closing worker: trips_stations_queue
+em_filters               | Closing worker: trips_stations_queue, 2
 em_filters               | Worker done
-em_filters               | Closing worker: trips_stations_queue
+em_filters               | Closing worker: trips_stations_queue, 1
 em_filters               | Worker done
 em_filters               | Mandando eof next stage
-em_groupby               | eof arrived
-em_groupby               | Closing worker: group_by_2
-groupby_2                | EOF arrived
-em_groupby               | Worker done
-em_groupby               | Closing worker: group_by_1
-query_state_verifier     | [Query] 6e avenue / Rosemont,3,9
 groupby_1                | EOF arrived
+em_groupby               | eof arrived
+em_groupby               | Closing worker: group_by_1, 1
+em_groupby               | Worker done
+em_groupby               | Closing worker: group_by_2, 1
+query_state_verifier     | [query1] 2014-06-01,0.019230769230769232
+groupby_2                | EOF arrived
+query_state_verifier     | [query2] 6e avenue / Rosemont,3,9
 em_groupby               | Worker done
 em_groupby               | Mandando eof next stage
-query_state_verifier     | [Query] 2014-06-01,0.019230769230769232
 em_applier               | eof arrived
-em_applier               | Closing worker: applier_1
+em_applier               | Closing worker: applier_2, 2
 em_applier               | Worker done
-em_applier               | Closing worker: applier_2
+em_applier               | Closing worker: applier_1, 1
+query_state_verifier     | Query terminada: query2
+query_state_verifier     | Query terminada: query1
 em_applier               | Worker done
-em_applier               | Closing worker: applier_2
-em_applier               | Worker done
-em_applier               | Mandando eof next stage
-em_query_state_verifier  | eof arrived
-em_query_state_verifier  | Closing worker: query_result_queue
-query_state_verifier     | Todas las queries terminadas.
-em_query_state_verifier  | Worker done
+em_applier               | Closing worker: applier_2, 1
 client exited with code 0
-receiver exited with code 0
 filter_trips_1 exited with code 0
-filter_trips_stations_2 exited with code 0
-stations_handler exited with code 0
-weather_handler exited with code 0
-em_joiners exited with code 0
 filter_trips_weather_1 exited with code 0
-groupby_2 exited with code 0
+stations_handler exited with code 0
+em_joiners exited with code 0
+receiver exited with code 0
+weather_handler exited with code 0
+filter_trips_stations_2 exited with code 0
 em_filters exited with code 0
-filter_trips_stations_1 exited with code 0
-groupby_1 exited with code 0
-em_applier exited with code 0
-em_query_state_verifier exited with code 0
-applier_2_2 exited with code 0
-em_groupby exited with code 0
-query_state_verifier exited with code 0
-applier_2_1 exited with code 0
 applier_1_1 exited with code 0
+groupby_1 exited with code 0
+em_groupby exited with code 0
+applier_2_1 exited with code 0
+applier_2_2 exited with code 0
+filter_trips_stations_1 exited with code 0
+query_state_verifier exited with code 0
+groupby_2 exited with code 0
