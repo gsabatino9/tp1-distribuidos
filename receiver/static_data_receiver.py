@@ -30,8 +30,6 @@ class StaticDataReceiver:
 			if not data: break
 			msg = data.decode('utf-8')
 
-			print(f"len: {len_msg} - msg: {msg}")
-
 			if msg == "EOF":
 				self.eof = True
 				self.stations_queue.send("last")

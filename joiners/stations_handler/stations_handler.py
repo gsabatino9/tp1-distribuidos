@@ -36,12 +36,17 @@ class StaticDataHandler:
 
 class StationsHandler:
     def __init__(self, recv_static_data_queue, recv_trips_queue, em_queue, send_joined_trip_queue, len_msg):
-        self.static_data = StaticDataHandler(0, 4, len_msg)
+        self.__create_static_data(len_msg)
         self.__connect(recv_static_data_queue, recv_trips_queue, em_queue, send_joined_trip_queue)
         self.recv_queue.receive(self.proccess_message)
         
         print("[stations_handler] listo para recibir")
         self.connection.start_receiving()
+
+    def __create_static_data(self, len_msg):
+        self.montreal = StaticDataHandler(0, 4, len_msg)
+        self.toronto = StaticDataHandler(0, 4, len_msg)
+        self.washington = StaticDataHandler(0, 4, len_msg)
 
     def __connect(self, recv_static_data_queue, recv_trips_queue, em_queue, send_joined_trip_queue):
         self.connection = Connection()
@@ -65,8 +70,16 @@ class StationsHandler:
             self.__station_arrived(msg)
 
     def __station_arrived(self, msg):
-        station = msg.split(',')
-        self.static_data.add_station(station)
+        city, station = split_city(msg)
+        self.__add_station(city, station)
+
+    def __add_station(self, city, station):
+        if city == "Montreal":
+            self.montreal.add_station(station)
+        elif city == "Toronto":
+            self.toronto.add_station(station)
+        else:
+            self.washington.add_station(station)
 
     def __last_station_arrived(self):
         self.recv_trips_queue.receive(self.proccess_trip_arrived)
@@ -82,10 +95,25 @@ class StationsHandler:
         if msg == EOF_MSG:
             self.__eof_arrived()
         else:
-            trip = msg.split(',')
-            station_joined = self.static_data.join_trip(trip[1], trip[3], trip[-1])
+            self.__trip_arrived(msg)
 
-            self.send_joined_trip_queue.send(msg+','+station_joined)
+    def __trip_arrived(self, msg):
+        station_joined = self.__join_trip(msg)
+        self.send_joined_trip_queue.send(msg+','+station_joined)
+
+    def __join_trip(self, data):
+        city, trip = split_city(data)
+        return self.__join_trip_by_city(city, trip)
+
+    def __join_trip_by_city(self, city, trip):
+        start_code, end_code, yearid = trip[1], trip[3], trip[-1]
+
+        if city == "Montreal":
+            return self.montreal.join_trip(start_code, end_code, yearid)
+        elif city == "Toronto":
+            return self.toronto.join_trip(start_code, end_code, yearid)
+        else:
+            return self.washington.join_trip(start_code, end_code, yearid)
 
     def close(self):
         print('[stations_handler] close: success')

@@ -31,8 +31,6 @@ class TripsReceiver:
 			if not data: break
 			msg = data.decode('utf-8')
 
-			print(f"len: {len_msg} - msg: {msg}")
-
 			if msg == "EOF":
 				self.eof = True
 				self.em_queue.send(msg)

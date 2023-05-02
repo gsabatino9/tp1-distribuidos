@@ -3,7 +3,7 @@ from common.trips_transformer import TripTransformer, TripsTransformer
 RECV_QUEUE = "trips_stations_queue"
 EM_QUEUE = "eof_filter_queue"
 
-COLUMS_NAMES = """start_date,start_station_code,end_date,end_station_code,duration_sec,is_member,yearid,name_start_station,lat_start_station,long_start_station,name_end_station,lat_end_station,long_end_station"""
+COLUMS_NAMES = """city,start_date,start_station_code,end_date,end_station_code,duration_sec,is_member,yearid,name_start_station,lat_start_station,long_start_station,name_end_station,lat_end_station,long_end_station"""
 REDUCED_1 = "yearid,name_start_station"
 SEND_1 = "group_by_2"
 
