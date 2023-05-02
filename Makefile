@@ -7,11 +7,9 @@ default: build
 
 all:
 
-client-image:
-	docker build -f ./client/Dockerfile -t "client:latest" .
-.PHONY: client-image
-
 server-image:
+	docker build -f ./client/Dockerfile -t "client:latest" .
+
 	docker build -f ./receiver/Dockerfile -t "receiver:latest" .
 
 	docker build -f ./joiners/stations_handler/Dockerfile -t "stations_handler:latest" .
@@ -35,20 +33,10 @@ server-up: server-image
 	docker compose -f docker-compose-dev.yaml up -d --build
 .PHONY: server-up
 
-client-run: client-image
-	docker compose -f docker-compose-client.yaml up -d --build
-	docker compose -f docker-compose-client.yaml logs -f
-.PHONY: client-run
-
 server-down:
 	docker compose -f docker-compose-dev.yaml stop -t 1
 	docker compose -f docker-compose-dev.yaml down
 .PHONY: server-down
-
-client-down:
-	docker compose -f docker-compose-client.yaml stop -t 1
-	docker compose -f docker-compose-client.yaml down
-.PHONY: client-down
 
 server-logs:
 	docker compose -f docker-compose-dev.yaml logs -f

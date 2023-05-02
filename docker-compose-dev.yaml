@@ -7,6 +7,8 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    logging:
+      driver: none
 
   receiver:
     container_name: receiver
@@ -15,8 +17,21 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     image: receiver:latest
+    ports:
+      - 12345:12345
+      - 12346:12346
     depends_on:
       - rabbitmq
+
+  client:
+    container_name: client
+    entrypoint: python3 /main.py
+    restart: on-failure
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: client:latest
+    depends_on:
+      - receiver
 
   stations_handler:
     container_name: stations_handler

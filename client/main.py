@@ -1,23 +1,43 @@
-import csv, socket, struct
+import socket, struct
+from data.data import stations, weathers, trips
+import time
 
-HOST = 'server'
-PORT = 12345
+HOST = 'receiver'
+PORT_STATIC = 12345
+PORT_TRIPS = 12346
 
-with open('stations.csv', 'r') as csv_file:
-	csv_reader = csv.reader(csv_file)
-	
-	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-		sock.connect((HOST, PORT))
-		print("Conexión establecida")
-		
-		for row in csv_reader:
-			if row[0] == "code": continue
-			message = ','.join(row).encode('utf-8')
-			message_size = struct.pack('I', len(message))
+def main():
+	static_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	static_socket.connect((HOST, PORT_STATIC))
 
-			sock.sendall(message_size)
-			sock.sendall(message)
+	for msg in stations:
+		bytes_msg = bytes(msg, 'utf-8')
+		len_msg = len(bytes_msg)
 
-		sock.close()
+		static_socket.sendall(struct.pack('!i', len_msg))
+		static_socket.sendall(bytes_msg)
 
-	print("Todo mandado")
+	static_socket.sendall(struct.pack('!i', len(b'EOF')))
+	static_socket.sendall(b'EOF')
+
+	static_socket.close()
+
+	time.sleep(3)
+
+	trips_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	trips_socket.connect((HOST, PORT_TRIPS))
+
+	for msg in trips:
+		bytes_msg = bytes(msg, 'utf-8')
+		len_msg = len(bytes_msg)
+
+		trips_socket.sendall(struct.pack('!i', len_msg))
+		trips_socket.send(bytes_msg)
+	trips_socket.sendall(struct.pack('!i', len(b'EOF')))
+	trips_socket.sendall(b'EOF')
+
+	trips_socket.close()
+
+if __name__ == "__main__":
+	time.sleep(11)
+	main()
