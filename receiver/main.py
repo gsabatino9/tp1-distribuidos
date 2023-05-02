@@ -1,22 +1,26 @@
 from static_data_receiver import StaticDataReceiver
 from trips_receiver import TripsReceiver
-import time
+from common.utils import initialize_log, initialize_config
+import time, os, logging
 
-HOST = 'receiver'
-PORT_STATIC = 12345
-STATIONS_QUEUE = "stations_queue"
-WEATHER_QUEUE = "weather_queue"
+HOST = os.environ['HOST']
+PORT_STATIC = int(os.environ['PORT_STATIC'])
+STATIONS_QUEUE = os.environ['STATIONS_QUEUE']
+WEATHER_QUEUE = os.environ['WEATHER_QUEUE']
 
-PORT_TRIPS = 12346
-TRIPS_QUEUE = "trips_queue"
-JOIN_TRIPS_STATIONS_QUEUE = "join_trip_station_queue"
-JOIN_TRIPS_WEATHER_QUEUE = "join_trip_weather_queue"
-EM_QUEUE = "eof_handler_queue"
+PORT_TRIPS = int(os.environ['PORT_TRIPS'])
+TRIPS_QUEUE = os.environ['TRIPS_QUEUE']
+JOIN_TRIPS_STATIONS_QUEUE = os.environ['JOIN_TRIPS_STATIONS_QUEUE']
+JOIN_TRIPS_WEATHER_QUEUE = os.environ['JOIN_TRIPS_WEATHER_QUEUE']
+EM_QUEUE = os.environ['EM_QUEUE']
 
 def main():
-    StaticDataReceiver(HOST, PORT_STATIC, STATIONS_QUEUE, WEATHER_QUEUE)
-    TripsReceiver(HOST, PORT_TRIPS, [TRIPS_QUEUE, JOIN_TRIPS_STATIONS_QUEUE, JOIN_TRIPS_WEATHER_QUEUE], EM_QUEUE)
+	initialize_log()
+	logging.info(f"action: server up | Host: {HOST} | Ports: {PORT_STATIC},{PORT_TRIPS}")
+
+	StaticDataReceiver(HOST, PORT_STATIC, STATIONS_QUEUE, WEATHER_QUEUE)
+	TripsReceiver(HOST, PORT_TRIPS, [TRIPS_QUEUE, JOIN_TRIPS_STATIONS_QUEUE, JOIN_TRIPS_WEATHER_QUEUE], EM_QUEUE)
 
 if __name__ == "__main__":
-    time.sleep(10)
-    main()
+	time.sleep(10)
+	main()

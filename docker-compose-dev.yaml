@@ -16,6 +16,15 @@ services:
     restart: on-failure
     environment:
       - PYTHONUNBUFFERED=1
+      - HOST=receiver
+      - PORT_STATIC=12345
+      - STATIONS_QUEUE=stations_queue
+      - WEATHER_QUEUE=weather_queue
+      - PORT_TRIPS=12346
+      - TRIPS_QUEUE=trips_queue
+      - JOIN_TRIPS_STATIONS_QUEUE=join_trip_station_queue
+      - JOIN_TRIPS_WEATHER_QUEUE=join_trip_weather_queue
+      - EM_QUEUE=eof_handler_queue
     image: receiver:latest
     ports:
       - 12345:12345
@@ -29,6 +38,10 @@ services:
     restart: on-failure
     environment:
       - PYTHONUNBUFFERED=1
+      - HOST=receiver
+      - PORT_STATIC=12345
+      - PORT_TRIPS=12346
+      - STATIONS_QUEUE=stations_queue
     image: client:latest
     depends_on:
       - receiver

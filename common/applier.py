@@ -34,8 +34,9 @@ class ApplierController:
       self.__apply(msg, ch, method.delivery_tag)
 
   def __eof_arrived(self, ch, delivery_tag):
-    self.em_queue.send(WORKER_DONE_MSG)
     self.conn.stop_receiving()
+    print('Enviando eof_ok')
+    self.em_queue.send(WORKER_DONE_MSG)
     ch.basic_ack(delivery_tag = delivery_tag)
     
   def __apply(self, msg, ch, delivery_tag):
