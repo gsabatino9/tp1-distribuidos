@@ -19,12 +19,12 @@ server-image:
 	docker build -f ./filters/filter_trips_stations/Dockerfile -t "filter_trips_stations:latest" .
 	docker build -f ./filters/filter_trips_weather/Dockerfile -t "filter_trips_weather:latest" .
 
-	docker build -f ./query1/applier/Dockerfile -t "applier_1:latest" .
-	docker build -f ./query1/groupby/Dockerfile -t "groupby_1:latest" .
-	docker build -f ./query2/applier/Dockerfile -t "applier_2:latest" .
-	docker build -f ./query2/groupby/Dockerfile -t "groupby_2:latest" .
-	docker build -f ./query3/applier/Dockerfile -t "applier_3:latest" .
-	docker build -f ./query3/groupby/Dockerfile -t "groupby_3:latest" .
+	docker build -f ./queries/query1/applier/Dockerfile -t "applier_1:latest" .
+	docker build -f ./queries/query1/groupby/Dockerfile -t "groupby_1:latest" .
+	docker build -f ./queries/query2/applier/Dockerfile -t "applier_2:latest" .
+	docker build -f ./queries/query2/groupby/Dockerfile -t "groupby_2:latest" .
+	docker build -f ./queries/query3/applier/Dockerfile -t "applier_3:latest" .
+	docker build -f ./queries/query3/groupby/Dockerfile -t "groupby_3:latest" .
 	
 	docker build -f ./query_state_verifier/Dockerfile -t "query_state_verifier:latest" .
 

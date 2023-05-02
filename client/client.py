@@ -1,5 +1,4 @@
-import socket, struct, time, os
-import data.Montreal, data.Washington, data.Toronto
+import socket, struct, time, os, csv
 from protocol.client_protocol import ClientConnection
 
 class Client:
@@ -7,6 +6,7 @@ class Client:
 		self.host = host
 		self.port_static = port_static
 		self.port_trips = port_trips
+		self.cities = ["Montreal", "Toronto", "Washington"]
 
 	def run(self):
 		self.__send_static_data()
@@ -20,33 +20,31 @@ class Client:
 		self.static_conn.close()
 
 	def __send_stations(self):
-		cities = [data.Montreal.stations, data.Toronto.stations, data.Washington.stations]
-
-		for i, city in enumerate(["Montreal", "Toronto", "Washington"]):
-			stations = cities[i]
-			for msg in stations:
-				self.static_conn.send(city, msg)
+		for i, city in enumerate(self.cities):
+			with open(f'/data/{city}/stations.csv', newline='') as csvfile:
+				reader = csv.reader(csvfile, delimiter=',')
+				for msg in reader:
+					self.static_conn.send(city, ','.join(msg))
 
 		self.static_conn.eof()
 
-	def __send_weather(self):
-		cities = [data.Montreal.weathers, data.Toronto.weathers, data.Washington.weathers]
-		
-		for i, city in enumerate(["Montreal", "Toronto", "Washington"]):
-			weather = cities[i]
-			for msg in weather:
-				self.static_conn.send(city, msg)
+	def __send_weather(self):		
+		for i, city in enumerate(self.cities):
+			with open(f'/data/{city}/weather.csv', newline='') as csvfile:
+				reader = csv.reader(csvfile, delimiter=',')
+				for msg in reader:
+					self.static_conn.send(city, ','.join(msg))
 
 		self.static_conn.eof()
 
 	def __send_trips(self):
 		self.trips_conn = ClientConnection(self.host, self.port_trips)
-		cities = [data.Montreal.trips, data.Toronto.trips, data.Washington.trips]
 
-		for i, city in enumerate(["Montreal", "Toronto", "Washington"]):
-			trips = cities[i]
-			for msg in trips:
-				self.trips_conn.send(city, msg)
+		for i, city in enumerate(self.cities):
+			with open(f'/data/{city}/trips.csv', newline='') as csvfile:
+				reader = csv.reader(csvfile, delimiter=',')
+				for msg in reader:
+					self.trips_conn.send(city, ','.join(msg))
 		
 		self.trips_conn.eof()
 		self.trips_conn.close()
