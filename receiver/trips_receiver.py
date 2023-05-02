@@ -1,5 +1,6 @@
 import socket, struct
 from common.connection import Connection
+from protocol.server_protocol import ServerProtocol
 
 class TripsReceiver:
 	def __init__(self, host, port, trips_queues, em_queue):
@@ -13,21 +14,13 @@ class TripsReceiver:
 		self.em_queue = self.connection.pubsub_queue(em_queue)
 
 	def __connect_client(self, host, port):
-		self._server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self._server_socket.bind((host, port))
-		self._server_socket.listen()
-		
-		client_socket, addr = self._server_socket.accept()
-		self.client_socket = client_socket
+		self.client_conn = ServerProtocol(host, port)
+		self.client_conn.connect_client()
 
 	def __start_receiving(self):
 		self.eof = False
 		while not self.eof:
-			data = self.client_socket.recv(4)
-			if not data: break
-			len_msg = struct.unpack('!i', data)[0]
-
-			data = self.client_socket.recv(len_msg)
+			data = self.client_conn.recv()
 			if not data: break
 			msg = data.decode('utf-8')
 
@@ -36,13 +29,12 @@ class TripsReceiver:
 				self.em_queue.send(msg)
 			else:
 				for queue in self.send_queues:
-					queue.send(bytes(msg, 'utf-8'))
+					queue.send(data)
 		
 		self.close()
 
 	def close(self):
-		self.client_socket.close()
-		self._server_socket.close()
+		self.client_conn.close()
 		self.connection.close()
 
 HOST = 'server'
