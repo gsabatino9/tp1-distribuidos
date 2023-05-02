@@ -1,4 +1,4 @@
-from common.trips_transformer import TripTransformer, TripsTransformer
+from common.filter import Filter, FilterController
 
 RECV_QUEUE = "trips_weather_queue"
 EM_QUEUE = "eof_filter_queue"
@@ -8,8 +8,5 @@ REDUCED_1 = "start_date,duration_sec,start_prectot"
 SEND_1 = "group_by_1"
 
 def main():
-	t1 = TripTransformer(COLUMS_NAMES, REDUCED_1, {"start_prectot": lambda x: float(x) > 30})
-	wanted_queues = [SEND_1]
-
-	transformers = [t1]
-	tf = TripsTransformer(RECV_QUEUE, EM_QUEUE, transformers, wanted_queues)
+	f1 = Filter(COLUMS_NAMES, REDUCED_1, {"start_prectot": lambda x: float(x) > 30})
+	FilterController(RECV_QUEUE, EM_QUEUE, [f1], [SEND_1])

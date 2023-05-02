@@ -1,4 +1,4 @@
-from common.trips_transformer import TripTransformer, TripsTransformer
+from common.filter import Filter, FilterController
 
 RECV_QUEUE = "trips_queue"
 EM_QUEUE = "eof_filter_queue"
@@ -8,10 +8,6 @@ REDUCED_2 = "start_date,is_member,yearid"
 SEND_2 = "group_by_4"
 
 def main():
-	#t1 = TripTransformer(COLUMS_NAMES, REDUCED_1, {"is_member": lambda x: int(x) == 0})
-	t2 = TripTransformer(COLUMS_NAMES, REDUCED_2, {"yearid": lambda x: int(x) in [2016, 2017]})
-	wanted_queues = [SEND_2]
-
-	transformers = [t2]
-	tf = TripsTransformer(RECV_QUEUE, EM_QUEUE, transformers, wanted_queues)
+	f = Filter(COLUMS_NAMES, REDUCED_2, {"yearid": lambda x: int(x) in [2016, 2017]})
+	FilterController(RECV_QUEUE, EM_QUEUE, [f], [SEND_2])
 	

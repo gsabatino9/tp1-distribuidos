@@ -1,20 +1,6 @@
-class Transformer:
-  def __init__(self, columns, conditions):
-    keys = columns.split(",")
-    new_dict = {}
-    for i, key in enumerate(keys):
-      if key in conditions:
-        new_dict[i] = conditions[key]
-
-    self.conditions = new_dict
-
-  def transform(self, row):
-    elems = row.split(',')
-    for i, elem in enumerate(elems):
-      if i in self.conditions:
-        elems[i] = self.conditions[i](elem)
-
-    return elems
+from common.connection import Connection
+from common.eof_manager import EOF_MSG, WORKER_DONE_MSG
+from common.utils import *
 
 class FilterColumns:
 	def __init__(self, columns, wanted_columns):
@@ -70,14 +56,64 @@ class FilterRows:
 					return None
 		return row
 
-"""
-columns = 'date,year,code'
-dict_cond = {'date': lambda x: x.split(' ')[0]}
-f = Transformer(columns, dict_cond)
-f.transform('2014-00-00 00:00:00,5454,3')
+class Filter:
+	def __init__(self, columns_names, wanted_columns, filter_conditions):
+		self.filter_columns = FilterColumns(columns_names, wanted_columns)
+		self.filter_rows = FilterRows(wanted_columns, filter_conditions)
 
-columns = 'name,year,code'
-dict_cond = {'name': lambda x: int(x) != 1, 'year': lambda x: int(x) > 1}
-f = FilterRows(columns, dict_cond)
-f.filter('1,5454,3')
-"""
+	def apply(self, trip):
+		transf_trip = self.filter_columns.filter(trip)
+		
+		if self.filter_rows.filter(transf_trip):
+			return transf_trip
+		else: return None
+
+class FilterController:
+	def __init__(self, recv_queue, em_queue, transformers, send_queues):
+		self.transformers = transformers
+		self.__connect(recv_queue, em_queue, send_queues)
+
+		print("[trips_transformer] listo para recibir")
+		self.connection.start_receiving()
+
+	def __connect(self, recv_queue, em_queue, send_queues):
+		self.connection = Connection()
+		self.recv_queue = self.connection.basic_queue(recv_queue)
+		self.recv_queue.receive(self.recv_trip, auto_ack=False)
+		self.queues = []
+
+		for send_queue in send_queues:
+			queue = self.connection.basic_queue(send_queue)
+			self.queues.append(queue)
+
+		self.__connect_to_eof_manager(em_queue, recv_queue)
+
+	def __connect_to_eof_manager(self, em_queue, recv_queue):
+		self.em_queue = self.connection.pubsub_queue(em_queue)
+		self.em_queue.send(recv_queue) # le digo de dónde espero el eof
+
+	def __check_eof(self, msg, ch, delivery_tag):
+		if msg == EOF_MSG:
+			self.connection.stop_receiving()
+			self.em_queue.send(WORKER_DONE_MSG)
+			ch.basic_ack(delivery_tag=delivery_tag)
+			return True
+		
+		return False
+
+	def recv_trip(self, ch, method, properties, body):
+		trip = decode(body)
+
+		if self.__check_eof(trip, ch, method.delivery_tag): return
+		
+		for i, transformer in enumerate(self.transformers):
+			transf_trip = transformer.apply(trip)
+			if transf_trip:
+				self.queues[i].send(transf_trip)
+				print(transf_trip)
+		ch.basic_ack(delivery_tag=method.delivery_tag)
+
+	def close(self):
+		print('close: success')
+		self.connection.close()
+

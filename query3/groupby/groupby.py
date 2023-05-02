@@ -10,8 +10,9 @@ def main():
 	base_data = [0,0]
 
 	def gen_key_value(msg):
-		city,name_end_station,lat_start_station,long_start_station,lat_end_station,long_end_station = msg.split(',')
-		distance = haversine(float(lat_start_station), float(long_start_station), float(lat_end_station), float(long_end_station))
+		print(msg)
+		city,lat_start_station,long_start_station,name_end_station,lat_end_station,long_end_station = msg.split(',')
+		distance = haversine((float(lat_start_station), float(long_start_station)), (float(lat_end_station), float(long_end_station)))
 
 		return name_end_station, distance
 
