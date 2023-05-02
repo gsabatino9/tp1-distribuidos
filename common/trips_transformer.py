@@ -28,7 +28,7 @@ class TripsTransformer:
 	def __connect(self, recv_queue, em_queue, send_queues):
 		self.connection = Connection()
 		self.recv_queue = self.connection.basic_queue(recv_queue)
-		self.recv_queue.receive(self.recv_trip)
+		self.recv_queue.receive(self.recv_trip, auto_ack=False)
 		self.queues = []
 
 		for send_queue in send_queues:
@@ -41,23 +41,26 @@ class TripsTransformer:
 		self.em_queue = self.connection.pubsub_queue(em_queue)
 		self.em_queue.send(recv_queue) # le digo de dónde espero el eof
 
-	def __check_eof(self, msg):
+	def __check_eof(self, msg, ch, delivery_tag):
 		if msg == EOF_MSG:
 			self.connection.stop_receiving()
 			self.em_queue.send(WORKER_DONE_MSG)
+			ch.basic_ack(delivery_tag=delivery_tag)
 			return True
+		
 		return False
 
 	def recv_trip(self, ch, method, properties, body):
 		trip = decode(body)
 
-		if self.__check_eof(trip): return
+		if self.__check_eof(trip, ch, method.delivery_tag): return
 		
 		for i, transformer in enumerate(self.transformers):
 			transf_trip = transformer.apply(trip)
 			if transf_trip:
 				self.queues[i].send(transf_trip)
 				print(transf_trip)
+		ch.basic_ack(delivery_tag=method.delivery_tag)
 
 	def close(self):
 		print('close: success')
