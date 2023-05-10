@@ -1,14 +1,20 @@
-import time, os
 from client import Client
 
-HOST = os.environ['HOST']
-PORT_STATIC = int(os.environ['PORT_STATIC'])
-PORT_TRIPS = int(os.environ['PORT_TRIPS'])
+#HOST = os.environ['HOST']
+#PORT = int(os.environ['PORT'])
+
+HOST = 'receiver'
+PORT = 12345
+CHUNK_SIZE = 100
 
 def main():
-	client = Client(HOST, PORT_STATIC, PORT_TRIPS)	
-	client.run()
+	client = Client(HOST, PORT, CHUNK_SIZE)
+
+	filepaths = ["data/montreal/", "data/toronto/", "data/washington/"]
+	types_files = ["stations", "weather", "trips"]
+	cities = ["montreal", "toronto", "washington"]
+	client.run(filepaths, types_files, cities)
+	client.stop()
 
 if __name__ == "__main__":
-	time.sleep(11)
 	main()

@@ -1,0 +1,105 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:      
+      - testing_net
+    healthcheck:        
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 10s        
+      timeout: 5s        
+      retries: 10
+    logging:
+      driver: none
+
+  receiver:
+    container_name: receiver
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SIZE_WORKERS=2
+    image: receiver:latest
+    ports:
+      - 12345:12345
+      - 12346:12346
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  
+  data_router_1:
+    container_name: data_router_1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ID=1
+    image: data_router:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  data_router_2:
+    container_name: data_router_2
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ID=2
+    image: data_router:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+
+  
+  joiner_stations:
+    container_name: joiner_stations
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: joiner_stations:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  
+  joiner_weather:
+    container_name: joiner_weather
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: joiner_weather:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+
+  eof_manager:
+    container_name: eof_manager
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SIZE_WORKERS=2
+    image: eof_manager:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+networks:
+  testing_net:
+    driver: bridge

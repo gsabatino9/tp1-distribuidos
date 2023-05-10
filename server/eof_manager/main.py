@@ -1,0 +1,17 @@
+from eof_manager import EOFManager
+import os
+
+NAME_RECV_QUEUE = 'eof_manager_q'
+NAME_SEND_QUEUE = 'data_router_q'
+SIZE_WORKERS = int(os.environ.get('SIZE_WORKERS'))
+NAME_STATIONS_QUEUE = 'joiner_stations_q'
+NAME_WEATHER_QUEUE = 'joiner_weather_q'
+NAME_JOIN_STATIONS_QUEUE = 'join_trip_stations_q'
+NAME_JOIN_WEATHER_QUEUE = 'join_trip_weather_q'
+
+def main():
+	e = EOFManager(NAME_RECV_QUEUE, NAME_SEND_QUEUE, NAME_STATIONS_QUEUE, NAME_WEATHER_QUEUE, NAME_JOIN_STATIONS_QUEUE, NAME_JOIN_WEATHER_QUEUE, SIZE_WORKERS)
+	e.stop()
+
+if __name__ == "__main__":
+	main()

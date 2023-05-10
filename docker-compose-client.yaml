@@ -1,0 +1,15 @@
+# Cliente
+version: '3'
+services:
+  client:
+    container_name: client
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: client:latest
+    networks:      
+      - testing_net
+networks:
+    testing_net:
+      external:
+        name: tp1_testing_net
