@@ -46,7 +46,6 @@ class EOFManager:
 			elif header.data_type == MessageEOF.WEATHER:
 				self.weather_queue.send(body)
 			else:
-				#print(f"EOF: trips, city={city}")
 				self.join_stations_queue.send(body)
 				self.join_weather_queue.send(body)
 
