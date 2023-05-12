@@ -1,30 +1,7 @@
-from protocol.message_client import MessageClient
 from server.eof_manager.common.message_eof import MessageEOF
-
-def decode(body):
-	header, trips_array = MessageClient.decode(body)
-	return header, trips_array[0]
-
-def is_eof(body):
-	try:
-		decode(body)
-		return False
-	except:
-		return True
-
-def obtain_city(header):
-	if header.city == MessageClient.MONTREAL:
-		return "montreal"
-	elif header.city == MessageClient.TORONTO:
-		return "toronto"
-	else:
-		return "washington"
 
 def ack_msg():
 	return MessageEOF.ack(MessageEOF.TRIP)
-
-def construct_msg(header, joined_trips):
-	return MessageClient(header.data_type, header.msg_type, header.city, joined_trips).encode()
 
 class StationsData:
 	def __init__(self, idx_code=0, idx_yearid=4, len_msg=5):

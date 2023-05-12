@@ -2,6 +2,7 @@ from protocol.communication_server import CommunicationServer
 from protocol.message_client import MessageClient
 from server.queue.connection import Connection
 from utils import *
+from server.common.utils_messages_client import is_station, is_weather, encode_header
 import socket
 
 class Receiver:

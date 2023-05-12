@@ -5,5 +5,6 @@ COPY server/joiners/joiner_weather /
 COPY server/queue /server/queue
 COPY protocol /protocol
 COPY server/eof_manager /server/eof_manager
+COPY server/common /server/common
 
 ENTRYPOINT ["/bin/sh"]

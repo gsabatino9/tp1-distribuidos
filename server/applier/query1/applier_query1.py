@@ -1,6 +1,7 @@
 from server.queue.connection import Connection
 from server.applier.common.applier import Applier
-from server.applier.common.utils import decode, is_eof, ack_msg
+from server.applier.common.utils import ack_msg
+from server.common.utils_messages_client import decode, is_eof
 
 class ApplierQuery1:
 	def __init__(self, name_recv_queue, name_em_queue, name_send_queue):

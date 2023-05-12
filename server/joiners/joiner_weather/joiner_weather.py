@@ -1,5 +1,6 @@
 from server.queue.connection import Connection
 from utils import *
+from server.common.utils_messages_client import *
 
 class JoinerWeather:
 	def __init__(self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue):

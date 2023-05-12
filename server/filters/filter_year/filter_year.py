@@ -1,5 +1,6 @@
 from server.queue.connection import Connection
-from server.filters.common.utils import decode, is_eof, ack_msg
+from server.filters.common.utils import ack_msg
+from server.common.utils_messages_client import decode, is_eof
 from server.filters.common.filter import Filter
 
 class FilterYear:

@@ -1,6 +1,7 @@
 from server.queue.connection import Connection
 from server.groupby.common.groupby import Groupby
-from server.groupby.common.utils import decode, is_eof, ack_msg, construct_msg
+from server.groupby.common.utils import ack_msg, construct_msg
+from server.common.utils_messages_client import decode, is_eof
 
 class GroupbyQuery1:
 	def __init__(self, name_recv_queue, name_em_queue, name_send_queue):

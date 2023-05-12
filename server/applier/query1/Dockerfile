@@ -6,5 +6,6 @@ COPY server/queue /server/queue
 COPY protocol /protocol
 COPY server/eof_manager /server/eof_manager
 COPY server/applier/common /server/applier/common
+COPY server/common /server/common
 
 ENTRYPOINT ["/bin/sh"]
