@@ -4,7 +4,6 @@ RUN pip install --upgrade pip && pip3 install pika
 COPY server/filters/filter_pretoc /
 COPY server/queue /server/queue
 COPY server/filters/common /server/filters/common
-COPY server/eof_manager/common /server/eof_manager/common
 COPY protocol /protocol
 COPY server/common /server/common
 
