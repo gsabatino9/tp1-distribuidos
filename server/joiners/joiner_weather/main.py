@@ -3,7 +3,7 @@ import os
 
 NAME_RECV_QUEUE = 'joiner_weather_q'
 NAME_TRIPS_QUEUE = 'join_trip_weather_q'
-NAME_EM_QUEUE = 'eof_manager_q'
+NAME_EM_QUEUE = 'eof_manager_joiners_q'
 NAME_NEXT_STAGE_QUEUE = 'filter_joined_weather_q'
 
 def main():

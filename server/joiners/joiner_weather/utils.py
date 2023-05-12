@@ -1,5 +1,5 @@
 from protocol.message_client import MessageClient
-from server.eof_manager.message_eof import MessageEOF
+from server.eof_manager.common.message_eof import MessageEOF
 
 def decode(body):
 	header, trips_array = MessageClient.decode(body)

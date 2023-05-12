@@ -1,8 +1,8 @@
 from eof_manager import EOFManager
 import os
 
-NAME_RECV_QUEUE = 'eof_manager_q'
-NAME_SEND_QUEUE = 'data_router_q'
+NAME_RECV_QUEUE = 'eof_manager_joiners_q'
+NAME_SEND_QUEUE = 'eof_manager_filters_q'
 NAME_STATIONS_QUEUE = 'joiner_stations_q'
 NAME_WEATHER_QUEUE = 'joiner_weather_q'
 NAME_JOIN_STATIONS_QUEUE = 'join_trip_stations_q'

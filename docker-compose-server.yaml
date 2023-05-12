@@ -84,17 +84,32 @@ services:
         condition: service_healthy
 
 
-  eof_manager:
-    container_name: eof_manager
+  eof_manager_joiners:
+    container_name: eof_manager_joiners
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-    image: eof_manager:latest
+    image: eof_manager_joiners:latest
     networks:      
       - testing_net
     depends_on:
       rabbitmq:
         condition: service_healthy
+
+  
+  eof_manager_filters:
+    container_name: eof_manager_filters
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SIZE_WORKERS=2
+    image: eof_manager_filters:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
 
 networks:
   testing_net:

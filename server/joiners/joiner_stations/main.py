@@ -3,7 +3,7 @@ import os
 
 NAME_RECV_QUEUE = 'joiner_stations_q'
 NAME_TRIPS_QUEUE = 'join_trip_stations_q'
-NAME_EM_QUEUE = 'eof_manager_q'
+NAME_EM_QUEUE = 'eof_manager_joiners_q'
 
 def main():
 	j = JoinerStations(NAME_RECV_QUEUE, NAME_TRIPS_QUEUE, NAME_EM_QUEUE)

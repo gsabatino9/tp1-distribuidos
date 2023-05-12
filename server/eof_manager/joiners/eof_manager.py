@@ -1,6 +1,6 @@
 from server.queue.connection import Connection
-from message_eof import MessageEOF
-from utils import *
+from server.eof_manager.common.message_eof import MessageEOF
+from server.eof_manager.common.utils import *
 
 class EOFManager:
 	def __init__(self, name_recv_queue, name_send_queue, name_stations_queue, name_weather_queue, name_join_stations_queue, name_join_weather_queue):
@@ -11,7 +11,7 @@ class EOFManager:
 		# try-except
 		self.queue_connection = Connection()
 		
-		self.send_queue = self.queue_connection.routing_queue(name_send_queue)
+		self.send_queue = self.queue_connection.pubsub_queue(name_send_queue)
 
 		self.recv_queue = self.queue_connection.pubsub_queue(name_recv_queue)
 		self.recv_queue.receive(self.receive_msg)
@@ -46,6 +46,7 @@ class EOFManager:
 
 		if self.acks == 2:
 			print("EOF trips ackeados.")
+			self.send_queue.send(eof_msg(header))
 
 	def stop(self):
 		self.queue_connection.close()

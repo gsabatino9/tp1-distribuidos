@@ -1,5 +1,5 @@
 from server.queue.connection import Connection
-from server.filters.common.utils import decode
+from server.filters.common.utils import decode, is_eof
 from server.filters.common.filter import Filter
 
 class FilterPretoc:
@@ -20,6 +20,13 @@ class FilterPretoc:
 		self.recv_queue = self.queue_connection.pubsub_worker_queue(name_recv_exchange, name_recv_queue)
 
 	def proccess_message(self, ch, method, properties, body):
+		if is_eof(body):
+			# acá tengo que cerrar escucha
+			print("EOF llegó a filtro.")
+		else:
+			self.__filter(body)
+
+	def __filter(self, body):
 		header, joined_trips = decode(body)
 		trips_to_next_stage = []
 
@@ -28,7 +35,7 @@ class FilterPretoc:
 			if new_trip:
 				trips_to_next_stage.append(trip)
 
-		print("Trips next stage:", len(trips_to_next_stage))
+		#print("Trips next stage:", len(trips_to_next_stage))
 
 	def stop(self):
 		self.queue_connection.close()

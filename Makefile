@@ -15,8 +15,11 @@ server-image:
 	docker build -f ./server/receiver/Dockerfile -t "receiver:latest" .
 	docker build -f ./server/joiners/joiner_stations/Dockerfile -t "joiner_stations:latest" .
 	docker build -f ./server/joiners/joiner_weather/Dockerfile -t "joiner_weather:latest" .
-	docker build -f ./server/eof_manager/Dockerfile -t "eof_manager:latest" .
+	
 	docker build -f ./server/filters/filter_pretoc/Dockerfile -t "filter_pretoc:latest" .
+	
+	docker build -f ./server/eof_manager/joiners/Dockerfile -t "eof_manager_joiners:latest" .
+	docker build -f ./server/eof_manager/filters/Dockerfile -t "eof_manager_filters:latest" .
 .PHONY: server-image
 
 server-up: server-image
