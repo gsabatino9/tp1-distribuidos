@@ -2,7 +2,7 @@ from eof_manager import EOFManager
 import os
 
 NAME_RECV_QUEUE = 'eof_manager_groupby_q'
-NAME_GROUPBY_QUEUE = ['groupby_query1_q']
+NAME_GROUPBY_QUEUE = ['groupby_query1_q', 'groupby_query2_q']
 NAME_SEND_QUEUE = 'eof_manager_applier_q'
 
 def main():

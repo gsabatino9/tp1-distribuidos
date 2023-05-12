@@ -38,11 +38,15 @@ class GroupbyController:
 		self.em_queue.send(ack_msg())
 
 	def __send_to_apply(self):
+		grouped_data = []
+
 		for key in self.groupby.grouped_data:
 			value = self.groupby.grouped_data[key]
-
-			msg = construct_msg([self.__str_from_key_value(key, value)])
-			self.send_queue.send(msg)
+			grouped_data.append(self.__str_from_key_value(key, value))
+			#msg = construct_msg([self.__str_from_key_value(key, value)])
+			#self.send_queue.send(msg)
+		msg = construct_msg(grouped_data)
+		self.send_queue.send(msg)
 
 	def __str_from_key_value(self, key, value):
 		to_ret = f"{key},"

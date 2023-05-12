@@ -2,7 +2,7 @@ from eof_manager import EOFManager
 import os, ast
 
 NAME_RECV_QUEUE = 'eof_manager_applier_q'
-NAME_APPLIERS_QUEUES = ['applier_query1_q']
+NAME_APPLIERS_QUEUES = ['applier_query1_q', 'applier_query2_q']
 NAME_SEND_QUEUE = 'eof_manager_query_result_q'
 SIZE_WORKERS = os.environ.get('SIZE_WORKERS')
 

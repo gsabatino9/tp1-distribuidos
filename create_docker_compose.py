@@ -27,8 +27,10 @@ services:
   <FILTER_YEAR>
 
   <GROUPBY_QUERY1>
+  <GROUPBY_QUERY2>
 
   <APPLIER_QUERY1>
+  <APPLIER_QUERY2>
 
   eof_manager_joiners:
     container_name: eof_manager_joiners
@@ -167,6 +169,20 @@ GROUPBY_QUERY1 = """
         condition: service_healthy
 """
 
+GROUPBY_QUERY2 = """
+  groupby_query2:
+    container_name: groupby_query2
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: groupby_query2:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 APPLIER_QUERY1 = """
   applier_query1_{}:
     container_name: applier_query1_{}
@@ -174,6 +190,20 @@ APPLIER_QUERY1 = """
     environment:
       - PYTHONUNBUFFERED=1
     image: applier_query1:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
+APPLIER_QUERY2 = """
+  applier_query2_{}:
+    container_name: applier_query2_{}
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_query2:latest
     networks:      
       - testing_net
     depends_on:
@@ -221,6 +251,7 @@ def main():
     num_filters_pretoc = int(sys.argv[1])
     num_filters_year = int(sys.argv[2])
     num_appliers_query1 = int(sys.argv[3])
+    num_appliers_query2 = int(sys.argv[4])
 
     receiver = RECEIVER.format(NAME_STATIONS_QUEUE, NAME_WEATHER_QUEUE, NAME_TRIPS_QUEUES, NAME_EM_JOINERS_QUEUE)
     joiner_stations = JOINER_STATIONS.format(NAME_STATIONS_QUEUE, NAME_TRIPS_QUEUES[1], NAME_EM_JOINERS_QUEUE, NAME_FILTER_STATIONS_QUEUE)
@@ -240,7 +271,11 @@ def main():
     for i in range(1,num_appliers_query1+1):
         appliers_query1 += APPLIER_QUERY1.format(i, i)
 
-    em_appliers = EM_APPLIERS.format([num_appliers_query1])
+    appliers_query2 = ""
+    for i in range(1,num_appliers_query2+1):
+        appliers_query2 += APPLIER_QUERY2.format(i, i)
+
+    em_appliers = EM_APPLIERS.format([num_appliers_query1, num_appliers_query2])
 
     compose = INIT_DOCKER.format() \
                   .replace("<RECEIVER>", receiver) \
@@ -251,7 +286,9 @@ def main():
                   .replace("<EM_FILTERS>", em_filters) \
                   .replace("<EM_GROUPBY>", EM_GROUPBY) \
                   .replace("<GROUPBY_QUERY1>", GROUPBY_QUERY1) \
+                  .replace("<GROUPBY_QUERY2>", GROUPBY_QUERY2) \
                   .replace("<APPLIER_QUERY1>", appliers_query1) \
+                  .replace("<APPLIER_QUERY2>", appliers_query2) \
                   .replace("<EM_APPLIERS>", em_appliers)
     
     with open("docker-compose-server.yaml", "w") as compose_file:

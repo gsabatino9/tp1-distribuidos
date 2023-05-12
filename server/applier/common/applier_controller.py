@@ -34,7 +34,7 @@ class ApplierController:
 			if result:
 				result_trips.append(msg_to_send)
 
-		#print(result_trips)
+		print(result_trips)
 
 	def __eof_arrived(self):
 		self.em_queue.send(ack_msg())
