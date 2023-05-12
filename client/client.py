@@ -21,13 +21,13 @@ class Client:
 		threads = []
 
 		for file in types_files:
-			#self.__send_type_file(filepaths, file, cities)
-			t = threading.Thread(target=self.__send_type_file, args=(filepaths, file, cities))
+			self.__send_type_file(filepaths, file, cities)
+			"""t = threading.Thread(target=self.__send_type_file, args=(filepaths, file, cities))
 			threads.append(t)
 			t.start()
 
 		for t in threads:
-			t.join()
+			t.join()"""
 
 		print("Esperando confirmación archivos.")
 		self.conn.recv_files_received()
