@@ -1,9 +1,5 @@
-from server.eof_manager.common.message_eof import MessageEOF
 from collections import namedtuple
 from struct import pack, unpack, calcsize
-		
-def ack_msg():
-	return MessageEOF.ack(MessageEOF.TRIP)
 
 class Message:
 	# Struct format for message header

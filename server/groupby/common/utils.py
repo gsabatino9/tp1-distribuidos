@@ -1,10 +1,6 @@
-from server.eof_manager.common.message_eof import MessageEOF
 from collections import namedtuple
 from struct import pack, unpack, calcsize
 		
-def ack_msg():
-	return MessageEOF.ack(MessageEOF.TRIP)
-
 def construct_msg(grouped_trips):
 	return Message(1, grouped_trips).encode()
 
