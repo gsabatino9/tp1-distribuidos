@@ -4,11 +4,6 @@ from server.queue.connection import Connection
 from utils import *
 import socket
 
-STATION = MessageClient.STATION_DATA
-WEATHER = MessageClient.WEATHER_DATA
-TRIP = MessageClient.TRIP_DATA
-LAST_CHUNK = MessageClient.SEND_LAST
-
 class Receiver:
 	def __init__(self, host, port, name_stations_queue, name_weather_queue, name_trips_queues, name_em_queue):
 		# try-except a todo
@@ -40,7 +35,7 @@ class Receiver:
 		while len(types_ended) < 3:
 			header, payload_bytes = self.client_connection.recv_data(decode_payload=False)
 			
-			if header.msg_type == LAST_CHUNK:
+			if is_eof(header):
 				types_ended.add(header.data_type)
 				self.em_queue.send(eof_msg(header))
 			else:
