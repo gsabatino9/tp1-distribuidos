@@ -11,3 +11,6 @@ def is_eof(body):
 		return False
 	except:
 		return True
+
+def ack_msg():
+	return MessageEOF.ack(MessageEOF.TRIP)

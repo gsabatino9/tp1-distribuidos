@@ -1,11 +1,11 @@
 from server.queue.connection import Connection
-from server.filters.common.utils import decode, is_eof
+from server.filters.common.utils import decode, is_eof, ack_msg
 from server.filters.common.filter import Filter
 
 class FilterPretoc:
-	def __init__(self, name_recv_exchange, name_recv_queue):
+	def __init__(self, name_recv_exchange, name_recv_queue, name_em_queue):
 		self.__init_filter()
-		self.__connect(name_recv_exchange, name_recv_queue)
+		self.__connect(name_recv_exchange, name_recv_queue, name_em_queue)
 		self.recv_queue.receive(self.proccess_message)
 		self.queue_connection.start_receiving()
 
@@ -15,14 +15,14 @@ class FilterPretoc:
 
 		self.filter = Filter(columns_names, reduced_columns, {"start_prectot": lambda x: float(x) > 30})
 
-	def __connect(self, name_recv_exchange, name_recv_queue):
+	def __connect(self, name_recv_exchange, name_recv_queue, name_em_queue):
 		self.queue_connection = Connection()
 		self.recv_queue = self.queue_connection.pubsub_worker_queue(name_recv_exchange, name_recv_queue)
+		self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
 
 	def proccess_message(self, ch, method, properties, body):
 		if is_eof(body):
-			# acá tengo que cerrar escucha
-			print("EOF llegó a filtro.")
+			self.__eof_arrived(ch)
 		else:
 			self.__filter(body)
 
@@ -35,7 +35,10 @@ class FilterPretoc:
 			if new_trip:
 				trips_to_next_stage.append(trip)
 
-		#print("Trips next stage:", len(trips_to_next_stage))
+	def __eof_arrived(self, ch):
+		ch.stop_consuming()
+		print("EOF llegó a filtro.")
+		self.em_queue.send(ack_msg())
 
 	def stop(self):
 		self.queue_connection.close()
