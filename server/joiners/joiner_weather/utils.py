@@ -23,6 +23,9 @@ def obtain_city(header):
 def ack_msg():
 	return MessageEOF.ack(MessageEOF.TRIP)
 
+def construct_msg(header, joined_trips):
+	return MessageClient(header.data_type, header.msg_type, header.city, joined_trips).encode()
+
 class WeatherData:
 	def __init__(self, idx_date=0, len_msg=10):
 		self.weathers = {}

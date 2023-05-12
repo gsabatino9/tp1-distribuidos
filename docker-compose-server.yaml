@@ -21,7 +21,6 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS=2
     image: receiver:latest
     ports:
       - 12345:12345
@@ -31,34 +30,6 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-
-  
-  data_router_1:
-    container_name: data_router_1
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-      - ID=1
-    image: data_router:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-
-  data_router_2:
-    container_name: data_router_2
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-      - ID=2
-    image: data_router:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-
 
   
   joiner_stations:
@@ -87,12 +58,37 @@ services:
         condition: service_healthy
 
 
+  
+  filter_pretoc_1:
+    container_name: filter_pretoc_1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: filter_pretoc:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  filter_pretoc_2:
+    container_name: filter_pretoc_2
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: filter_pretoc:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+
   eof_manager:
     container_name: eof_manager
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS=2
     image: eof_manager:latest
     networks:      
       - testing_net

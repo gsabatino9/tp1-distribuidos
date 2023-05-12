@@ -36,6 +36,8 @@ services:
   <JOINER_STATIONS>
   <JOINER_WEATHER>
 
+  <FILTER_PRETOC>
+
   eof_manager:
     container_name: eof_manager
     entrypoint: python3 /main.py
@@ -81,13 +83,36 @@ JOINER_WEATHER = """
         condition: service_healthy
 """
 
+FILTER_PRETOC = """
+  filter_pretoc_{}:
+    container_name: filter_pretoc_{}
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: filter_pretoc:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
+
 def main():
+    num_filters_pretoc = int(sys.argv[1])
+
+
     joiner_stations = JOINER_STATIONS
     joiner_weather = JOINER_WEATHER
 
+    filters_pretoc = ""
+    for i in range(1,num_filters_pretoc+1):
+        filters_pretoc += FILTER_PRETOC.format(i, i)
+
     compose = INIT_DOCKER.format() \
                   .replace("<JOINER_STATIONS>", joiner_stations) \
-                  .replace("<JOINER_WEATHER>", joiner_weather)
+                  .replace("<JOINER_WEATHER>", joiner_weather) \
+                  .replace("<FILTER_PRETOC>", filters_pretoc)
     
     with open("docker-compose-server.yaml", "w") as compose_file:
         compose_file.write(compose)
