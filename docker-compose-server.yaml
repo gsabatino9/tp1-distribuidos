@@ -110,6 +110,20 @@ services:
         condition: service_healthy
 
   
+  groupby_query1:
+    container_name: groupby_query1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: groupby_query1:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  
+  
   eof_manager_filters:
     container_name: eof_manager_filters
     entrypoint: python3 /main.py
@@ -123,14 +137,13 @@ services:
       rabbitmq:
         condition: service_healthy
 
-
   
-  groupby_query1:
-    container_name: groupby_query1
+  eof_manager_groupby:
+    container_name: eof_manager_groupby
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-    image: groupby_query1:latest
+    image: eof_manager_groupby:latest
     networks:      
       - testing_net
     depends_on:

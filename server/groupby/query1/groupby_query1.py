@@ -20,7 +20,7 @@ class GroupbyQuery1:
 
 	def process_messages(self, ch, method, properties, body):
 		if is_eof(body):
-			self.__eof_arrived(ch)
+			self.__eof_arrived()
 		else:
 			self.__data_arrived(body)
 
@@ -35,5 +35,6 @@ class GroupbyQuery1:
 	def __gen_key_value(self, trip):
 		return trip[0], float(trip[1])
 
-	def __eof_arrived(self, ch):
-		print(f"EOF llegó - {self.groupby.grouped_data}")
+	def __eof_arrived(self):
+		print(f"EOF llegó")
+		self.em_queue.send(ack_msg())

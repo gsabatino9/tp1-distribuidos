@@ -3,21 +3,18 @@ from server.eof_manager.common.message_eof import MessageEOF
 from server.eof_manager.common.utils import *
 
 class EOFManager:
-	def __init__(self, name_recv_queue, name_filters_queue, name_send_queue, size_workers):
-		self.size_workers = size_workers
-		self.sum_workers = sum(size_workers)
+	def __init__(self, name_recv_queue, name_groupby_queues):
 		self.acks = 0
-		self.__connect(name_recv_queue, name_filters_queue, name_send_queue)
+		self.__connect(name_recv_queue, name_groupby_queues)
 
-	def __connect(self, name_recv_queue, name_filters_queue, name_send_queue):
+	def __connect(self, name_recv_queue, name_groupby_queues):
 		# try-except
 		self.queue_connection = Connection()
 		
 		self.recv_queue = self.queue_connection.pubsub_queue(name_recv_queue)
 		self.recv_queue.receive(self.receive_msg)
 
-		self.filters_queues = [self.queue_connection.basic_queue(q) for q in name_filters_queue]
-		self.send_queue = self.queue_connection.pubsub_queue(name_send_queue)
+		self.groupby_queues = [self.queue_connection.basic_queue(q) for q in name_groupby_queues]
 
 		self.queue_connection.start_receiving()
 
@@ -30,16 +27,14 @@ class EOFManager:
 			self.__recv_ack_trips(header, body)
 
 	def __send_eofs(self, header, msg):
-		for i, size_w in enumerate(self.size_workers):
-			for _ in range(size_w):
-				self.filters_queues[i].send(msg)
+		for q in self.groupby_queues:
+			q.send(msg)
 
 	def __recv_ack_trips(self, header, body):
 		self.acks += 1
 
-		if self.acks == self.sum_workers:
+		if self.acks == len(self.groupby_queues):
 			print("EOF trips ackeados.")
-			self.send_queue.send(eof_msg(header))
 
 	def stop(self):
 		self.queue_connection.close()

@@ -23,6 +23,7 @@ server-image:
 	
 	docker build -f ./server/eof_manager/joiners/Dockerfile -t "eof_manager_joiners:latest" .
 	docker build -f ./server/eof_manager/filters/Dockerfile -t "eof_manager_filters:latest" .
+	docker build -f ./server/eof_manager/groupby/Dockerfile -t "eof_manager_groupby:latest" .
 .PHONY: server-image
 
 server-up: server-image

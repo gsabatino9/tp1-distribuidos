@@ -39,6 +39,8 @@ services:
   <FILTER_PRETOC>
   <FILTER_YEAR>
 
+  <GROUPBY_QUERY1>
+
   eof_manager_joiners:
     container_name: eof_manager_joiners
     entrypoint: python3 /main.py
@@ -50,10 +52,9 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-
+    
   <EM_FILTERS>
-
-  <GROUPBY_QUERY1>
+  <EM_GROUPBY>
 
 networks:
   testing_net:
@@ -145,6 +146,20 @@ GROUPBY_QUERY1 = """
         condition: service_healthy
 """
 
+EM_GROUPBY = """
+  eof_manager_groupby:
+    container_name: eof_manager_groupby
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: eof_manager_groupby:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 
 def main():
     num_filters_pretoc = int(sys.argv[1])
@@ -166,6 +181,7 @@ def main():
                   .replace("<FILTER_PRETOC>", filters_pretoc) \
                   .replace("<FILTER_YEAR>", filters_year) \
                   .replace("<EM_FILTERS>", em_filters) \
+                  .replace("<EM_GROUPBY>", EM_GROUPBY) \
                   .replace("<GROUPBY_QUERY1>", GROUPBY_QUERY1)
     
     with open("docker-compose-server.yaml", "w") as compose_file:
