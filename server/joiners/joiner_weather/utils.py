@@ -8,7 +8,7 @@ class WeatherData:
 			if i != idx_date:
 				self.idxs_joined_data.append(i)
 
-	def add_weather(self, city, weather):
+	def add_data(self, city, weather):
 		idx_date = weather[self.idx_date]
 		self.weathers[city, idx_date] = [elem for i,elem in enumerate(weather) if i in self.idxs_joined_data]
 

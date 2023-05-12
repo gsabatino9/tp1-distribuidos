@@ -34,8 +34,6 @@ class ApplierQuery1:
 			if result:
 				result_trips.append(msg_to_send)
 
-		print(result_trips)
-
 	def __gen_result_msg(self, trip):
 		key = trip[0]
 		value = [float(i) for i in trip[1:]]

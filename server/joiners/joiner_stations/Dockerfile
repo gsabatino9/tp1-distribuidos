@@ -4,5 +4,6 @@ RUN pip install --upgrade pip && pip3 install pika
 COPY server/joiners/joiner_stations /
 COPY protocol /protocol
 COPY server/common /server/common
+COPY server/joiners/common /server/joiners/common
 
 ENTRYPOINT ["/bin/sh"]

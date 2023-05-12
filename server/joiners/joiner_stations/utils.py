@@ -9,7 +9,7 @@ class StationsData:
 			if i != idx_code and i != idx_yearid:
 				self.idxs_joined_data.append(i)
 
-	def add_station(self, city, station):
+	def add_data(self, city, station):
 		code, yearid = station[self.idx_code], station[self.idx_yearid]
 		self.stations[city, code, yearid] = [elem for i,elem in enumerate(station) if i in self.idxs_joined_data]
 
