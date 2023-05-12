@@ -21,6 +21,8 @@ server-image:
 	
 	docker build -f ./server/groupby/query1/Dockerfile -t "groupby_query1:latest" .
 	
+	docker build -f ./server/applier/query1/Dockerfile -t "applier_query1:latest" .
+	
 	docker build -f ./server/eof_manager/joiners/Dockerfile -t "eof_manager_joiners:latest" .
 	docker build -f ./server/eof_manager/filters/Dockerfile -t "eof_manager_filters:latest" .
 	docker build -f ./server/eof_manager/groupby/Dockerfile -t "eof_manager_groupby:latest" .
