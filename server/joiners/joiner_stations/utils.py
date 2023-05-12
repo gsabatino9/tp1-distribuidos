@@ -1,8 +1,3 @@
-from server.eof_manager.common.message_eof import MessageEOF
-
-def ack_msg():
-	return MessageEOF.ack(MessageEOF.TRIP)
-
 class StationsData:
 	def __init__(self, idx_code=0, idx_yearid=4, len_msg=5):
 		self.stations = {}
