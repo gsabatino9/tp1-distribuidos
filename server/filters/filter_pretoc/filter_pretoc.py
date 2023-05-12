@@ -4,6 +4,7 @@ from server.filters.common.filter import Filter
 
 class FilterPretoc:
 	def __init__(self, name_recv_exchange, name_recv_queue, name_em_queue):
+		self.not_filtered = 0
 		self.__init_filter()
 		self.__connect(name_recv_exchange, name_recv_queue, name_em_queue)
 		self.recv_queue.receive(self.proccess_message)
@@ -33,11 +34,12 @@ class FilterPretoc:
 		for trip in joined_trips:
 			new_trip = self.filter.apply(trip)
 			if new_trip:
+				self.not_filtered += 1
 				trips_to_next_stage.append(trip)
 
 	def __eof_arrived(self, ch):
 		ch.stop_consuming()
-		print("EOF llegó a filtro.")
+		print("EOF llegó a filtro - not_filtered", self.not_filtered)
 		self.em_queue.send(ack_msg())
 
 	def stop(self):
