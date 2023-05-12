@@ -17,6 +17,7 @@ server-image:
 	docker build -f ./server/joiners/joiner_weather/Dockerfile -t "joiner_weather:latest" .
 	
 	docker build -f ./server/filters/filter_pretoc/Dockerfile -t "filter_pretoc:latest" .
+	docker build -f ./server/filters/filter_year/Dockerfile -t "filter_year:latest" .
 	
 	docker build -f ./server/eof_manager/joiners/Dockerfile -t "eof_manager_joiners:latest" .
 	docker build -f ./server/eof_manager/filters/Dockerfile -t "eof_manager_filters:latest" .

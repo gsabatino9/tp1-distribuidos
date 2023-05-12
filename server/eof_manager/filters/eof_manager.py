@@ -5,6 +5,7 @@ from server.eof_manager.common.utils import *
 class EOFManager:
 	def __init__(self, name_recv_queue, name_filters_queue, size_workers):
 		self.size_workers = size_workers
+		self.sum_workers = sum(size_workers)
 		self.acks = 0
 		self.__connect(name_recv_queue, name_filters_queue)
 
@@ -29,13 +30,14 @@ class EOFManager:
 			self.__recv_ack_trips(header, body)
 
 	def __send_eofs(self, header, msg):
-		for _ in range(self.size_workers):
-			self.filters_queue.send(msg)
+		for size_w in self.size_workers:
+			for _ in range(size_w):
+				self.filters_queue.send(msg)
 
 	def __recv_ack_trips(self, header, body):
 		self.acks += 1
 
-		if self.acks == self.size_workers:
+		if self.acks == self.sum_workers:
 			print("EOF trips ackeados.")
 
 	def stop(self):

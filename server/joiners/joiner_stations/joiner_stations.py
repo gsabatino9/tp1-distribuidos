@@ -2,20 +2,16 @@ from server.queue.connection import Connection
 from utils import *
 
 class JoinerStations:
-	"""
-	Guarda toda la información de Stations, para
-	una ciudad dada.
-	"""
-
-	def __init__(self, name_recv_queue, name_trips_queue, name_em_queue):
+	def __init__(self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue):
 		self.joiner = StationsData()
-		self.__connect(name_recv_queue, name_trips_queue, name_em_queue)
+		self.__connect(name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue)
 		
-	def __connect(self, name_recv_queue, name_trips_queue, name_em_queue):
+	def __connect(self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue):
 		self.queue_connection = Connection()
 		self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
 		self.trips_queue = self.queue_connection.basic_queue(name_trips_queue)
 		self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+		self.next_stage_queue = self.queue_connection.pubsub_queue(name_next_stage_queue)
 
 		self.recv_queue.receive(self.process_stations_messages)
 		self.queue_connection.start_receiving()
@@ -48,17 +44,20 @@ class JoinerStations:
 	def __request_join_arrived(self, body):
 		header, trips = decode(body)
 		city = obtain_city(header)
-		filtered = 0
+		joined_trips = []
 
 		for trip in trips:
 			trip = trip.split(',')
 			ret = self.joiner.join_trip(city, trip)
 			if ret: 
 				self.amount_joined += 1
-			else:
-				filtered += 1
+				joined_trips.append(ret)
 
-		#if filtered > 0: print("Filtered: ", filtered)
+		self.__send_next_stage(header, joined_trips)
+
+	def __send_next_stage(self, header, joined_trips):
+		msg = construct_msg(header, joined_trips)
+		self.next_stage_queue.send(msg)
 
 	def __last_trip_arrived(self):
 		self.em_queue.send(ack_msg())

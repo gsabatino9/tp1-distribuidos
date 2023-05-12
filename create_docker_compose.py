@@ -37,6 +37,7 @@ services:
   <JOINER_WEATHER>
 
   <FILTER_PRETOC>
+  <FILTER_YEAR>
 
   eof_manager_joiners:
     container_name: eof_manager_joiners
@@ -99,6 +100,20 @@ FILTER_PRETOC = """
         condition: service_healthy
 """
 
+FILTER_YEAR = """
+  filter_year_{}:
+    container_name: filter_year_{}
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: filter_year:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 EM_FILTERS = """
   eof_manager_filters:
     container_name: eof_manager_filters
@@ -117,6 +132,7 @@ EM_FILTERS = """
 
 def main():
     num_filters_pretoc = int(sys.argv[1])
+    num_filters_year = int(sys.argv[2])
 
     joiner_stations = JOINER_STATIONS
     joiner_weather = JOINER_WEATHER
@@ -125,12 +141,17 @@ def main():
     for i in range(1,num_filters_pretoc+1):
         filters_pretoc += FILTER_PRETOC.format(i, i)
 
-    em_filters = EM_FILTERS.format(num_filters_pretoc)
+    filters_year = ""
+    for i in range(1,num_filters_year+1):
+        filters_year += FILTER_YEAR.format(i, i)
+
+    em_filters = EM_FILTERS.format([num_filters_pretoc, num_filters_year])
 
     compose = INIT_DOCKER.format() \
                   .replace("<JOINER_STATIONS>", joiner_stations) \
                   .replace("<JOINER_WEATHER>", joiner_weather) \
                   .replace("<FILTER_PRETOC>", filters_pretoc) \
+                  .replace("<FILTER_YEAR>", filters_year) \
                   .replace("<EM_FILTERS>", em_filters)
     
     with open("docker-compose-server.yaml", "w") as compose_file:

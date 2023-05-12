@@ -2,11 +2,6 @@ from server.queue.connection import Connection
 from utils import *
 
 class JoinerWeather:
-	"""
-	Guarda toda la información de Weather, para
-	una ciudad dada.
-	"""
-
 	def __init__(self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue):
 		self.joiner = WeatherData()
 		self.__connect(name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue)
