@@ -1,6 +1,5 @@
 from server.queue.connection import Connection
-from server.eof_manager.common.message_eof import MessageEOF
-from server.eof_manager.common.utils import *
+from server.common.utils_messages_eof import *
 
 class EOFManager:
 	def __init__(self, name_recv_queue, name_filters_queue, name_send_queue, size_workers):
