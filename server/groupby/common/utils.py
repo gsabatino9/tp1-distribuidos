@@ -11,9 +11,6 @@ def is_eof(body):
 		return False
 	except:
 		return True
-
+		
 def ack_msg():
 	return MessageEOF.ack(MessageEOF.TRIP)
-
-def construct_msg(header, filtered_trips):
-	return MessageClient(header.data_type, header.msg_type, header.city, filtered_trips).encode()

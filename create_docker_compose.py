@@ -53,6 +53,8 @@ services:
 
   <EM_FILTERS>
 
+  <GROUPBY_QUERY1>
+
 networks:
   testing_net:
     driver: bridge
@@ -129,13 +131,24 @@ EM_FILTERS = """
         condition: service_healthy
 """
 
+GROUPBY_QUERY1 = """
+  groupby_query1:
+    container_name: groupby_query1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: groupby_query1:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 
 def main():
     num_filters_pretoc = int(sys.argv[1])
     num_filters_year = int(sys.argv[2])
-
-    joiner_stations = JOINER_STATIONS
-    joiner_weather = JOINER_WEATHER
 
     filters_pretoc = ""
     for i in range(1,num_filters_pretoc+1):
@@ -148,11 +161,12 @@ def main():
     em_filters = EM_FILTERS.format([num_filters_pretoc, num_filters_year])
 
     compose = INIT_DOCKER.format() \
-                  .replace("<JOINER_STATIONS>", joiner_stations) \
-                  .replace("<JOINER_WEATHER>", joiner_weather) \
+                  .replace("<JOINER_STATIONS>", JOINER_STATIONS) \
+                  .replace("<JOINER_WEATHER>", JOINER_WEATHER) \
                   .replace("<FILTER_PRETOC>", filters_pretoc) \
                   .replace("<FILTER_YEAR>", filters_year) \
-                  .replace("<EM_FILTERS>", em_filters)
+                  .replace("<EM_FILTERS>", em_filters) \
+                  .replace("<GROUPBY_QUERY1>", GROUPBY_QUERY1)
     
     with open("docker-compose-server.yaml", "w") as compose_file:
         compose_file.write(compose)

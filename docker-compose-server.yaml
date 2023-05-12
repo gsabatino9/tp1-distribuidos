@@ -124,6 +124,20 @@ services:
         condition: service_healthy
 
 
+  
+  groupby_query1:
+    container_name: groupby_query1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: groupby_query1:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+
 networks:
   testing_net:
     driver: bridge
