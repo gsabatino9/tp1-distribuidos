@@ -23,7 +23,6 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS={}
     image: receiver:latest
     ports:
       - 12345:12345
@@ -34,8 +33,6 @@ services:
       rabbitmq:
         condition: service_healthy
 
-  <DATA_ROUTERS>
-
   <JOINER_STATIONS>
   <JOINER_WEATHER>
 
@@ -44,7 +41,6 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS={}
     image: eof_manager:latest
     networks:      
       - testing_net
@@ -55,21 +51,6 @@ services:
 networks:
   testing_net:
     driver: bridge
-"""
-
-DATA_ROUTER = """
-  data_router_{}:
-    container_name: data_router_{}
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-      - ID={}
-    image: data_router:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
 """
 
 JOINER_STATIONS = """
@@ -101,17 +82,10 @@ JOINER_WEATHER = """
 """
 
 def main():
-    num_routers = int(sys.argv[1])
-
-    routers = ""
-    for i in range(1,num_routers+1):
-        routers += DATA_ROUTER.format(i, i, i)
-
     joiner_stations = JOINER_STATIONS
     joiner_weather = JOINER_WEATHER
 
-    compose = INIT_DOCKER.format(num_routers, num_routers) \
-                  .replace("<DATA_ROUTERS>", routers) \
+    compose = INIT_DOCKER.format() \
                   .replace("<JOINER_STATIONS>", joiner_stations) \
                   .replace("<JOINER_WEATHER>", joiner_weather)
     

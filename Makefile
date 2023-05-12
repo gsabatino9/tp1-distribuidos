@@ -13,7 +13,6 @@ client-image:
 
 server-image:
 	docker build -f ./server/receiver/Dockerfile -t "receiver:latest" .
-	docker build -f ./server/data_router/Dockerfile -t "data_router:latest" .
 	docker build -f ./server/joiners/joiner_stations/Dockerfile -t "joiner_stations:latest" .
 	docker build -f ./server/joiners/joiner_weather/Dockerfile -t "joiner_weather:latest" .
 	docker build -f ./server/eof_manager/Dockerfile -t "eof_manager:latest" .

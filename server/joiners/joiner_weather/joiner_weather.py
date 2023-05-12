@@ -47,12 +47,17 @@ class JoinerWeather:
 	def __request_join_arrived(self, body):
 		header, trips = decode(body)
 		city = obtain_city(header)
+		filtered = 0
 
 		for trip in trips:
 			trip = trip.split(',')
 			ret = self.joiner.join_trip(city, trip)
-			#if not ret: print(f"Error: {trip}")
-			if ret: self.amount_joined += 1
+			if ret: 
+				self.amount_joined += 1
+			else:
+				filtered += 1
+
+		print("Filtered: ", filtered)
 
 	def __last_trip_arrived(self):
 		print(f"EOF trips - enviando eof a siguiente etapa. Joined: {self.amount_joined}")

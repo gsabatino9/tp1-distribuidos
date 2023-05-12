@@ -3,12 +3,13 @@ import os
 
 HOST = 'receiver'
 PORT = 12345
-NEXT_QUEUE = 'data_router_q'
+NAME_STATIONS_QUEUE = 'joiner_stations_q'
+NAME_WEATHER_QUEUE = 'joiner_weather_q'
+NAME_TRIPS_QUEUES = ['join_trip_weather_q', 'join_trip_stations_q']
 NAME_EM_QUEUE = 'eof_manager_q'
-SIZE_WORKERS = int(os.environ.get('SIZE_WORKERS'))
 
 def main():
-	receiver = Receiver(HOST, PORT, NEXT_QUEUE, NAME_EM_QUEUE, SIZE_WORKERS)
+	receiver = Receiver(HOST, PORT, NAME_STATIONS_QUEUE, NAME_WEATHER_QUEUE, NAME_TRIPS_QUEUES, NAME_EM_QUEUE)
 	receiver.run()
 	receiver.stop()
 
