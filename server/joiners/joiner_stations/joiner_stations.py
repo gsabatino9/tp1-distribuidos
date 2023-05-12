@@ -57,7 +57,7 @@ class JoinerStations:
 			else:
 				filtered += 1
 
-		print("Filtered: ", filtered)
+		if filtered > 0: print("Filtered: ", filtered)
 
 	def __last_trip_arrived(self):
 		print(f"EOF trips - enviando eof a siguiente etapa. Joined: {self.amount_joined}")

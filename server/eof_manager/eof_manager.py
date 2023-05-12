@@ -38,7 +38,8 @@ class EOFManager:
 		elif is_weather(header):
 			self.weather_queue.send(msg)
 		else:
-			print("EOF trips")
+			self.join_stations_queue.send(msg)
+			self.join_weather_queue.send(msg)
 
 	def __recv_ack(self, header, body):
 		if header.data_type == MessageEOF.STATION:
@@ -46,9 +47,8 @@ class EOFManager:
 		elif header.data_type == MessageEOF.WEATHER:
 			self.weather_queue.send(body)
 		else:
-			print("EOF trips")
-			#self.join_stations_queue.send(body)
-			#self.join_weather_queue.send(body)
+			self.join_stations_queue.send(body)
+			self.join_weather_queue.send(body)
 
 	def stop(self):
 		self.queue_connection.close()
