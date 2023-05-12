@@ -1,7 +1,7 @@
 from server.common.queue.connection import Connection
 from server.applier.common.applier import Applier
-from server.common.utils_messages_client import decode, is_eof
 from server.common.utils_messages_eof import ack_msg
+from server.common.utils_messages_group import decode, is_eof
 
 class ApplierQuery1:
 	def __init__(self, name_recv_queue, name_em_queue, name_send_queue):
@@ -33,6 +33,8 @@ class ApplierQuery1:
 			result, msg_to_send = self.__gen_result_msg(trip)
 			if result:
 				result_trips.append(msg_to_send)
+
+		#print(result_trips)
 
 	def __gen_result_msg(self, trip):
 		key = trip[0]

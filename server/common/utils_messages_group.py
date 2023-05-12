@@ -4,6 +4,17 @@ from struct import pack, unpack, calcsize
 def construct_msg(grouped_trips):
 	return MessageGroup(1, grouped_trips).encode()
 
+def decode(body):
+	header, trips_group_array = MessageGroup.decode(body)
+	return header, trips_group_array[0]
+
+def is_eof(body):
+	try:
+		decode(body)
+		return False
+	except:
+		return True
+
 class MessageGroup:
 	# Struct format for message header
 	HEADER_CODE = '!BI'
