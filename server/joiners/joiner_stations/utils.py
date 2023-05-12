@@ -23,6 +23,9 @@ def obtain_city(header):
 def ack_msg():
 	return MessageEOF.ack(MessageEOF.TRIP)
 
+def construct_msg(header, joined_trips):
+	return MessageClient(header.data_type, header.msg_type, header.city, joined_trips).encode()
+
 class StationsData:
 	def __init__(self, idx_code=0, idx_yearid=4, len_msg=5):
 		self.stations = {}
@@ -49,7 +52,7 @@ class StationsData:
 			start_station = self.__join_trip(city, start_code, yearid)
 			end_station = self.__join_trip(city, end_code, yearid)
 
-			return ','.join(start_station+end_station)
+			return ','.join(trip+start_station+end_station)
 		# poner una excepción propia para catchearla
 		except:
 			return None

@@ -16,7 +16,7 @@ class EOFManager:
 		self.recv_queue = self.queue_connection.pubsub_queue(name_recv_queue)
 		self.recv_queue.receive(self.receive_msg)
 
-		self.filters_queue = self.queue_connection.basic_queue(name_filters_queue)
+		self.filters_queues = [self.queue_connection.basic_queue(q) for q in name_filters_queue]
 
 		self.queue_connection.start_receiving()
 
@@ -24,15 +24,14 @@ class EOFManager:
 		header = decode(body)
 
 		if is_eof(header):
-			print("EOF recv")
 			self.__send_eofs(header, body)
 		else:
 			self.__recv_ack_trips(header, body)
 
 	def __send_eofs(self, header, msg):
-		for size_w in self.size_workers:
+		for i, size_w in enumerate(self.size_workers):
 			for _ in range(size_w):
-				self.filters_queue.send(msg)
+				self.filters_queues[i].send(msg)
 
 	def __recv_ack_trips(self, header, body):
 		self.acks += 1

@@ -56,8 +56,9 @@ class JoinerStations:
 		self.__send_next_stage(header, joined_trips)
 
 	def __send_next_stage(self, header, joined_trips):
-		msg = construct_msg(header, joined_trips)
-		self.next_stage_queue.send(msg)
+		if len(joined_trips) > 0:
+			msg = construct_msg(header, joined_trips)
+			self.next_stage_queue.send(msg)
 
 	def __last_trip_arrived(self):
 		self.em_queue.send(ack_msg())
