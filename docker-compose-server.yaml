@@ -180,6 +180,20 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  
+  eof_manager_applier:
+    container_name: eof_manager_applier
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SIZE_WORKERS=[1]
+    image: eof_manager_applier:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
 
 networks:
   testing_net:

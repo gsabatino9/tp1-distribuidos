@@ -37,4 +37,4 @@ class ApplierController:
 		#print(result_trips)
 
 	def __eof_arrived(self):
-		print("Eof llegó")
+		self.em_queue.send(ack_msg())

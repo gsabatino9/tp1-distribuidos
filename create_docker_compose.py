@@ -44,6 +44,7 @@ services:
     
   <EM_FILTERS>
   <EM_GROUPBY>
+  <EM_APPLIERS>
 
 networks:
   testing_net:
@@ -194,6 +195,21 @@ EM_GROUPBY = """
         condition: service_healthy
 """
 
+EM_APPLIERS = """
+  eof_manager_applier:
+    container_name: eof_manager_applier
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SIZE_WORKERS={}
+    image: eof_manager_applier:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 NAME_STATIONS_QUEUE = 'joiner_stations_q'
 NAME_WEATHER_QUEUE = 'joiner_weather_q'
 NAME_TRIPS_QUEUES = ['join_trip_weather_q', 'join_trip_stations_q']
@@ -219,10 +235,12 @@ def main():
         filters_year += FILTER_YEAR.format(i, i)
 
     em_filters = EM_FILTERS.format([num_filters_pretoc, num_filters_year])
-
+    
     appliers_query1 = ""
     for i in range(1,num_appliers_query1+1):
         appliers_query1 += APPLIER_QUERY1.format(i, i)
+
+    em_appliers = EM_APPLIERS.format([num_appliers_query1])
 
     compose = INIT_DOCKER.format() \
                   .replace("<RECEIVER>", receiver) \
@@ -233,7 +251,8 @@ def main():
                   .replace("<EM_FILTERS>", em_filters) \
                   .replace("<EM_GROUPBY>", EM_GROUPBY) \
                   .replace("<GROUPBY_QUERY1>", GROUPBY_QUERY1) \
-                  .replace("<APPLIER_QUERY1>", appliers_query1)
+                  .replace("<APPLIER_QUERY1>", appliers_query1) \
+                  .replace("<EM_APPLIERS>", em_appliers)
     
     with open("docker-compose-server.yaml", "w") as compose_file:
         compose_file.write(compose)
