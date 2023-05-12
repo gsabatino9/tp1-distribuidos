@@ -1,4 +1,4 @@
-from server.queue.connection import Connection
+from server.common.queue.connection import Connection
 from utils import WeatherData
 from server.common.utils_messages_client import *
 from server.common.utils_messages_eof import ack_msg

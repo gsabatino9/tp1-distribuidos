@@ -1,4 +1,4 @@
-from server.queue.connection import Connection
+from server.common.queue.connection import Connection
 from server.applier.common.applier import Applier
 from server.common.utils_messages_client import decode, is_eof
 from server.common.utils_messages_eof import ack_msg

@@ -1,4 +1,4 @@
-from server.queue.connection import Connection
+from server.common.queue.connection import Connection
 from server.groupby.common.groupby import Groupby
 from server.groupby.common.utils import construct_msg
 from server.common.utils_messages_client import decode, is_eof
