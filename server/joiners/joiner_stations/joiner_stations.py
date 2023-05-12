@@ -7,14 +7,15 @@ class JoinerStations:
 	una ciudad dada.
 	"""
 
-	def __init__(self, name_recv_queue, name_trips_queue):
+	def __init__(self, name_recv_queue, name_trips_queue, name_em_queue):
 		self.joiner = StationsData()
-		self.__connect(name_recv_queue, name_trips_queue)
+		self.__connect(name_recv_queue, name_trips_queue, name_em_queue)
 		
-	def __connect(self, name_recv_queue, name_trips_queue):
+	def __connect(self, name_recv_queue, name_trips_queue, name_em_queue):
 		self.queue_connection = Connection()
 		self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
 		self.trips_queue = self.queue_connection.basic_queue(name_trips_queue)
+		self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
 
 		self.recv_queue.receive(self.process_stations_messages)
 		self.queue_connection.start_receiving()
@@ -57,11 +58,11 @@ class JoinerStations:
 			else:
 				filtered += 1
 
-		if filtered > 0: print("Filtered: ", filtered)
+		#if filtered > 0: print("Filtered: ", filtered)
 
 	def __last_trip_arrived(self):
-		print(f"EOF trips - enviando eof a siguiente etapa. Joined: {self.amount_joined}")
-
+		self.em_queue.send(ack_msg())
+		print(f"EOF trips - Joined: {self.amount_joined}")
 
 	def stop(self):
 		self.queue_connection.close()

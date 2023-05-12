@@ -20,6 +20,9 @@ def obtain_city(header):
 	else:
 		return "washington"
 
+def ack_msg():
+	return MessageEOF.ack(MessageEOF.TRIP)
+
 class WeatherData:
 	def __init__(self, idx_date=0, len_msg=10):
 		self.weathers = {}

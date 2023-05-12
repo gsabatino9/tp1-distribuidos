@@ -20,6 +20,9 @@ def obtain_city(header):
 	else:
 		return "washington"
 
+def ack_msg():
+	return MessageEOF.ack(MessageEOF.TRIP)
+
 class StationsData:
 	def __init__(self, idx_code=0, idx_yearid=4, len_msg=5):
 		self.stations = {}
