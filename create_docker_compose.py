@@ -18,20 +18,7 @@ services:
     logging:
       driver: none
 
-  receiver:
-    container_name: receiver
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: receiver:latest
-    ports:
-      - 12345:12345
-      - 12346:12346
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
+  <RECEIVER>
 
   <JOINER_STATIONS>
   <JOINER_WEATHER>
@@ -63,12 +50,39 @@ networks:
     driver: bridge
 """
 
+RECEIVER = """
+  receiver:
+    container_name: receiver
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HOST=receiver
+      - PORT=12345
+      - NAME_STATIONS_QUEUE={}
+      - NAME_WEATHER_QUEUE={}
+      - NAME_TRIPS_QUEUES={}
+      - NAME_EM_QUEUE={}
+    image: receiver:latest
+    ports:
+      - 12345:12345
+      - 12346:12346
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 JOINER_STATIONS = """
   joiner_stations:
     container_name: joiner_stations
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_TRIPS_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_NEXT_STAGE_QUEUE={}
     image: joiner_stations:latest
     networks:      
       - testing_net
@@ -83,6 +97,10 @@ JOINER_WEATHER = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_TRIPS_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_NEXT_STAGE_QUEUE={}
     image: joiner_weather:latest
     networks:      
       - testing_net
@@ -176,11 +194,21 @@ EM_GROUPBY = """
         condition: service_healthy
 """
 
+NAME_STATIONS_QUEUE = 'joiner_stations_q'
+NAME_WEATHER_QUEUE = 'joiner_weather_q'
+NAME_TRIPS_QUEUES = ['join_trip_weather_q', 'join_trip_stations_q']
+NAME_EM_JOINERS_QUEUE = 'eof_manager_joiners_q'
+NAME_FILTER_STATIONS_QUEUE = 'filter_joined_stations_q'
+NAME_FILTER_WEATHER_QUEUE = 'filter_joined_weather_q'
 
 def main():
     num_filters_pretoc = int(sys.argv[1])
     num_filters_year = int(sys.argv[2])
     num_appliers_query1 = int(sys.argv[3])
+
+    receiver = RECEIVER.format(NAME_STATIONS_QUEUE, NAME_WEATHER_QUEUE, NAME_TRIPS_QUEUES, NAME_EM_JOINERS_QUEUE)
+    joiner_stations = JOINER_STATIONS.format(NAME_STATIONS_QUEUE, NAME_TRIPS_QUEUES[1], NAME_EM_JOINERS_QUEUE, NAME_FILTER_STATIONS_QUEUE)
+    joiner_weather = JOINER_WEATHER.format(NAME_WEATHER_QUEUE, NAME_TRIPS_QUEUES[0], NAME_EM_JOINERS_QUEUE, NAME_FILTER_WEATHER_QUEUE)
 
     filters_pretoc = ""
     for i in range(1,num_filters_pretoc+1):
@@ -197,8 +225,9 @@ def main():
         appliers_query1 += APPLIER_QUERY1.format(i, i)
 
     compose = INIT_DOCKER.format() \
-                  .replace("<JOINER_STATIONS>", JOINER_STATIONS) \
-                  .replace("<JOINER_WEATHER>", JOINER_WEATHER) \
+                  .replace("<RECEIVER>", receiver) \
+                  .replace("<JOINER_STATIONS>", joiner_stations) \
+                  .replace("<JOINER_WEATHER>", joiner_weather) \
                   .replace("<FILTER_PRETOC>", filters_pretoc) \
                   .replace("<FILTER_YEAR>", filters_year) \
                   .replace("<EM_FILTERS>", em_filters) \
