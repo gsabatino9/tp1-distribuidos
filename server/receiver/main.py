@@ -1,15 +1,16 @@
 from receiver import Receiver
-import os
+import os, ast
 
-HOST = 'receiver'
-PORT = 12345
-NAME_STATIONS_QUEUE = 'joiner_stations_q'
-NAME_WEATHER_QUEUE = 'joiner_weather_q'
-NAME_TRIPS_QUEUES = ['join_trip_weather_q', 'join_trip_stations_q']
-NAME_EM_QUEUE = 'eof_manager_joiners_q'
+HOST = os.environ.get('HOST')
+PORT = int(os.environ.get('PORT'))
+NAME_STATIONS_QUEUE = os.environ.get('NAME_STATIONS_QUEUE')
+NAME_WEATHER_QUEUE = os.environ.get('NAME_WEATHER_QUEUE')
+NAME_TRIPS_QUEUES = os.environ.get('NAME_TRIPS_QUEUES')
+NAME_EM_QUEUE = os.environ.get('NAME_EM_QUEUE')
 
 def main():
-	receiver = Receiver(HOST, PORT, NAME_STATIONS_QUEUE, NAME_WEATHER_QUEUE, NAME_TRIPS_QUEUES, NAME_EM_QUEUE)
+	name_trips_queues = ast.literal_eval(NAME_TRIPS_QUEUES)
+	receiver = Receiver(HOST, PORT, NAME_STATIONS_QUEUE, NAME_WEATHER_QUEUE, name_trips_queues, NAME_EM_QUEUE)
 	receiver.run()
 	receiver.stop()
 

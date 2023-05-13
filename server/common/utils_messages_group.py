@@ -1,11 +1,12 @@
-from protocol.message_client import MessageClient
-from server.eof_manager.common.message_eof import MessageEOF
 from collections import namedtuple
 from struct import pack, unpack, calcsize
+		
+def construct_msg(grouped_trips):
+	return MessageGroup(1, grouped_trips).encode()
 
 def decode(body):
-	header, trips_array = MessageClient.decode(body)
-	return header, trips_array[0]
+	header, trips_group_array = MessageGroup.decode(body)
+	return header, trips_group_array[0]
 
 def is_eof(body):
 	try:
@@ -13,14 +14,8 @@ def is_eof(body):
 		return False
 	except:
 		return True
-		
-def ack_msg():
-	return MessageEOF.ack(MessageEOF.TRIP)
 
-def construct_msg(grouped_trips):
-	return Message(1, grouped_trips).encode()
-
-class Message:
+class MessageGroup:
 	# Struct format for message header
 	HEADER_CODE = '!BI'
 	# Size of header in bytes
@@ -46,7 +41,7 @@ class Message:
 
 	@staticmethod
 	def encode_header(header):
-		return pack(Message.HEADER_CODE, header.num_query, header.len)
+		return pack(MessageGroup.HEADER_CODE, header.num_query, header.len)
 
 	@staticmethod
 	def encode_payload(len_payload, payload):
@@ -54,18 +49,18 @@ class Message:
 
 	@staticmethod
 	def decode(msg):
-		header = Message.decode_header(msg[:Message.SIZE_HEADER])
-		payload = Message.decode_payload(msg[Message.SIZE_HEADER:])
+		header = MessageGroup.decode_header(msg[:MessageGroup.SIZE_HEADER])
+		payload = MessageGroup.decode_payload(msg[MessageGroup.SIZE_HEADER:])
 
 		return header, payload
 
 	@staticmethod
 	def decode_header(header):
-		return Message.Header._make(unpack(Message.HEADER_CODE, header))
+		return MessageGroup.Header._make(unpack(MessageGroup.HEADER_CODE, header))
 
 	@staticmethod
 	def decode_payload(payload_bytes):
-		return Message._unpack_payload(payload_bytes)
+		return MessageGroup._unpack_payload(payload_bytes)
 
 	@staticmethod
 	def _pack_payload(payload):
@@ -75,4 +70,4 @@ class Message:
 	@staticmethod
 	def _unpack_payload(payload_bytes):
 		payload = payload_bytes.decode('utf-8').split('\0')
-		return Message.Payload(payload)
+		return MessageGroup.Payload(payload)

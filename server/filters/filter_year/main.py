@@ -3,9 +3,10 @@ from filter_year import FilterYear
 NAME_RECV_EXCHANGE = 'filter_joined_stations_q'
 NAME_RECV_QUEUE = 'filter_year_q'
 NAME_EM_QUEUE = 'eof_manager_filters_q'
+NAME_SEND_QUEUE = 'groupby_query2_q'
 
 def main():
-	f = FilterYear(NAME_RECV_EXCHANGE, NAME_RECV_QUEUE, NAME_EM_QUEUE)
+	f = FilterYear(NAME_RECV_EXCHANGE, NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE)
 	f.stop()
 
 if __name__ == "__main__":

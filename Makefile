@@ -18,14 +18,23 @@ server-image:
 	
 	docker build -f ./server/filters/filter_pretoc/Dockerfile -t "filter_pretoc:latest" .
 	docker build -f ./server/filters/filter_year/Dockerfile -t "filter_year:latest" .
+	docker build -f ./server/filters/filter_distance/Dockerfile -t "filter_distance:latest" .
 	
 	docker build -f ./server/groupby/query1/Dockerfile -t "groupby_query1:latest" .
+	docker build -f ./server/groupby/query2/Dockerfile -t "groupby_query2:latest" .
+	docker build -f ./server/groupby/query3/Dockerfile -t "groupby_query3:latest" .
 	
 	docker build -f ./server/applier/query1/Dockerfile -t "applier_query1:latest" .
+	docker build -f ./server/applier/query2/Dockerfile -t "applier_query2:latest" .
+	docker build -f ./server/applier/query3/Dockerfile -t "applier_query3:latest" .
+	
+	docker build -f ./server/results_verifier/Dockerfile -t "results_verifier:latest" .
 	
 	docker build -f ./server/eof_manager/joiners/Dockerfile -t "eof_manager_joiners:latest" .
 	docker build -f ./server/eof_manager/filters/Dockerfile -t "eof_manager_filters:latest" .
 	docker build -f ./server/eof_manager/groupby/Dockerfile -t "eof_manager_groupby:latest" .
+	docker build -f ./server/eof_manager/applier/Dockerfile -t "eof_manager_applier:latest" .
+	docker build -f ./server/eof_manager/results_verifier/Dockerfile -t "eof_manager_query_results:latest" .
 .PHONY: server-image
 
 server-up: server-image

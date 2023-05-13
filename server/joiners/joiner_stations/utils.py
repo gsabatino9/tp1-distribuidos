@@ -1,31 +1,3 @@
-from protocol.message_client import MessageClient
-from server.eof_manager.common.message_eof import MessageEOF
-
-def decode(body):
-	header, trips_array = MessageClient.decode(body)
-	return header, trips_array[0]
-
-def is_eof(body):
-	try:
-		decode(body)
-		return False
-	except:
-		return True
-
-def obtain_city(header):
-	if header.city == MessageClient.MONTREAL:
-		return "montreal"
-	elif header.city == MessageClient.TORONTO:
-		return "toronto"
-	else:
-		return "washington"
-
-def ack_msg():
-	return MessageEOF.ack(MessageEOF.TRIP)
-
-def construct_msg(header, joined_trips):
-	return MessageClient(header.data_type, header.msg_type, header.city, joined_trips).encode()
-
 class StationsData:
 	def __init__(self, idx_code=0, idx_yearid=4, len_msg=5):
 		self.stations = {}
@@ -37,7 +9,7 @@ class StationsData:
 			if i != idx_code and i != idx_yearid:
 				self.idxs_joined_data.append(i)
 
-	def add_station(self, city, station):
+	def add_data(self, city, station):
 		code, yearid = station[self.idx_code], station[self.idx_yearid]
 		self.stations[city, code, yearid] = [elem for i,elem in enumerate(station) if i in self.idxs_joined_data]
 
@@ -52,7 +24,7 @@ class StationsData:
 			start_station = self.__join_trip(city, start_code, yearid)
 			end_station = self.__join_trip(city, end_code, yearid)
 
-			return ','.join(trip+start_station+end_station)
+			return ','.join([city]+trip+start_station+end_station)
 		# poner una excepción propia para catchearla
 		except:
 			return None

@@ -1,5 +1,5 @@
 import pika, sys, os
-from server.queue.queue import BasicQueue, PubsubQueue, RoutingQueue, PubsubWorkerQueue
+from server.common.queue.queue import BasicQueue, PubsubQueue, RoutingQueue, PubsubWorkerQueue
 
 class Connection:
 	def __init__(self):

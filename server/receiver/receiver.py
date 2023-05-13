@@ -1,8 +1,9 @@
-from protocol.communication_server import CommunicationServer
-from protocol.message_client import MessageClient
-from server.queue.connection import Connection
-from utils import *
 import socket
+from protocol.communication_server import CommunicationServer
+from server.common.queue.connection import Connection
+from utils import is_eof
+from server.common.utils_messages_eof import eof_msg
+from server.common.utils_messages_client import is_station, is_weather, encode_header
 
 class Receiver:
 	def __init__(self, host, port, name_stations_queue, name_weather_queue, name_trips_queues, name_em_queue):
