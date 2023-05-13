@@ -28,12 +28,16 @@ class ApplierController:
 	def __apply(self, body):
 		header, agrouped_trips = decode(body)
 		result_trips = []
+		print(agrouped_trips)
 
 		for trip in agrouped_trips:
 			trip = trip.split(',')
-			result, msg_to_send = self.gen_result_msg(trip, self.applier)
-			if result:
-				result_trips.append(msg_to_send)
+			try:
+				result, msg_to_send = self.gen_result_msg(trip, self.applier)
+				if result:
+					result_trips.append(msg_to_send)
+			except:
+				print("trip vacío")
 
 		#print(result_trips)
 		self.__send_result(result_trips)

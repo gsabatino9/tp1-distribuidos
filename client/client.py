@@ -18,6 +18,10 @@ class Client:
 		return client_socket
 
 	def run(self, filepaths, types_files, cities):
+		self.__send_files(filepaths, types_files, cities)
+		# self.__get_results()
+
+	def __send_files(self, filepaths, types_files, cities):
 		threads = []
 
 		for file in types_files:
