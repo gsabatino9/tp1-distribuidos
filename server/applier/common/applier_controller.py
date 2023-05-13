@@ -1,10 +1,11 @@
 from server.common.queue.connection import Connection
 from server.applier.common.applier import Applier
 from server.common.utils_messages_eof import ack_msg
-from server.common.utils_messages_group import decode, is_eof
+from server.common.utils_messages_group import decode, is_eof, construct_msg
 
 class ApplierController:
-	def __init__(self, name_recv_queue, name_em_queue, name_send_queue, operation, gen_result_msg):
+	def __init__(self, name_recv_queue, name_em_queue, name_send_queue, id_query, operation, gen_result_msg):
+		self.id_query = str(id_query)
 		self.gen_result_msg = gen_result_msg
 		self.applier = Applier(operation)
 		self.__connect(name_recv_queue, name_em_queue, name_send_queue)
@@ -34,7 +35,13 @@ class ApplierController:
 			if result:
 				result_trips.append(msg_to_send)
 
-		print(result_trips)
+		#print(result_trips)
+		self.__send_result(result_trips)
+
+	def __send_result(self, trips_to_next_stage):
+		if len(trips_to_next_stage) > 0:
+			msg = construct_msg(trips_to_next_stage)
+			self.send_queue.send(msg, routing_key=self.id_query)
 
 	def __eof_arrived(self):
 		self.em_queue.send(ack_msg())

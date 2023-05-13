@@ -3,7 +3,7 @@ from server.applier.common.applier_controller import ApplierController
 class ApplierQuery1:
 	def __init__(self, name_recv_queue, name_em_queue, name_send_queue):
 		operation = lambda k,v: [k, str(v[0]/v[1])]
-		self.applier_controller = ApplierController(name_recv_queue, name_em_queue, name_send_queue, operation, self.gen_result_msg)
+		self.applier_controller = ApplierController(name_recv_queue, name_em_queue, name_send_queue, 1, operation, self.gen_result_msg)
 
 	def gen_result_msg(self, trip, applier):
 		key = trip[0]

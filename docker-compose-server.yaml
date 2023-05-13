@@ -206,6 +206,20 @@ services:
         condition: service_healthy
 
 
+  
+  results_verifier:
+    container_name: results_verifier
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: results_verifier:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+
   eof_manager_joiners:
     container_name: eof_manager_joiners
     entrypoint: python3 /main.py
@@ -251,8 +265,21 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS=[1, 1]
+      - SIZE_WORKERS=[1, 1, 1]
     image: eof_manager_applier:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  
+  eof_manager_query_results:
+    container_name: eof_manager_query_results
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: eof_manager_query_results:latest
     networks:      
       - testing_net
     depends_on:

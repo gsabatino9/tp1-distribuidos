@@ -28,10 +28,13 @@ server-image:
 	docker build -f ./server/applier/query2/Dockerfile -t "applier_query2:latest" .
 	docker build -f ./server/applier/query3/Dockerfile -t "applier_query3:latest" .
 	
+	docker build -f ./server/results_verifier/Dockerfile -t "results_verifier:latest" .
+	
 	docker build -f ./server/eof_manager/joiners/Dockerfile -t "eof_manager_joiners:latest" .
 	docker build -f ./server/eof_manager/filters/Dockerfile -t "eof_manager_filters:latest" .
 	docker build -f ./server/eof_manager/groupby/Dockerfile -t "eof_manager_groupby:latest" .
 	docker build -f ./server/eof_manager/applier/Dockerfile -t "eof_manager_applier:latest" .
+	docker build -f ./server/eof_manager/results_verifier/Dockerfile -t "eof_manager_query_results:latest" .
 .PHONY: server-image
 
 server-up: server-image

@@ -35,6 +35,8 @@ services:
   <APPLIER_QUERY2>
   <APPLIER_QUERY3>
 
+  <RESULTS_VERIFIER>
+
   eof_manager_joiners:
     container_name: eof_manager_joiners
     entrypoint: python3 /main.py
@@ -50,6 +52,7 @@ services:
   <EM_FILTERS>
   <EM_GROUPBY>
   <EM_APPLIERS>
+  <EM_RESULTS>
 
 networks:
   testing_net:
@@ -285,6 +288,34 @@ EM_APPLIERS = """
         condition: service_healthy
 """
 
+EM_RESULTS = """
+  eof_manager_query_results:
+    container_name: eof_manager_query_results
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: eof_manager_query_results:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
+RESULTS_VERIFIER = """
+  results_verifier:
+    container_name: results_verifier
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: results_verifier:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 NAME_STATIONS_QUEUE = 'joiner_stations_q'
 NAME_WEATHER_QUEUE = 'joiner_weather_q'
 NAME_TRIPS_QUEUES = ['join_trip_weather_q', 'join_trip_stations_q']
@@ -347,7 +378,9 @@ def main():
                   .replace("<APPLIER_QUERY1>", appliers_query1) \
                   .replace("<APPLIER_QUERY2>", appliers_query2) \
                   .replace("<APPLIER_QUERY3>", appliers_query3) \
-                  .replace("<EM_APPLIERS>", em_appliers)
+                  .replace("<EM_APPLIERS>", em_appliers) \
+                  .replace("<EM_RESULTS>", EM_RESULTS) \
+                  .replace("<RESULTS_VERIFIER>", RESULTS_VERIFIER)
     
     with open("docker-compose-server.yaml", "w") as compose_file:
         compose_file.write(compose)
