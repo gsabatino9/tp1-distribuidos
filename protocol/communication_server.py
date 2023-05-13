@@ -6,6 +6,7 @@ class CommunicationServer:
 	"""
 	A class that represents a server-side communication channel.
 	"""
+	CHUNK_SIZE = 100
 
 	def __init__(self, socket):
 		"""
@@ -22,6 +23,21 @@ class CommunicationServer:
 		msg = MessageServer.files_received_message()
 		self.comm.send_message(msg)
 
+	def send_results(self, id_query, results):
+		last = 0
+		for i,elem in enumerate(results):
+			if (i+1)%self.CHUNK_SIZE == 0 or i+1==len(results):
+				self.__results_msg(id_query, results[last:i+1])
+				last = i+1
+
+	def send_last(self):
+		msg = MessageServer.last_chunk_message()
+		self.comm.send_message(msg)
+
+	def __results_msg(self, id_query, partial_results):
+		msg = MessageServer.results_message(id_query, partial_results)
+		self.comm.send_message(msg)
+		
 	def recv_data(self, decode_payload=True):
 		"""
 		Receives a message from the client and decodes it.

@@ -5,6 +5,7 @@ from client import Client
 
 HOST = 'receiver'
 PORT = 12345
+ADDR_CONSULT = ('results_verifier', 12346)
 CHUNK_SIZE = 100
 
 def main():
@@ -13,7 +14,7 @@ def main():
 	filepaths = ["data/montreal/", "data/toronto/", "data/washington/"]
 	types_files = ["stations", "weather", "trips"]
 	cities = ["montreal", "toronto", "washington"]
-	client.run(filepaths, types_files, cities)
+	client.run(filepaths, types_files, cities, ADDR_CONSULT)
 	client.stop()
 
 if __name__ == "__main__":

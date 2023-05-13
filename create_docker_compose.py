@@ -74,7 +74,6 @@ RECEIVER = """
     image: receiver:latest
     ports:
       - 12345:12345
-      - 12346:12346
     networks:      
       - testing_net
     depends_on:
@@ -308,6 +307,8 @@ RESULTS_VERIFIER = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+    ports:
+      - 12346:12346
     image: results_verifier:latest
     networks:      
       - testing_net

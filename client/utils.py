@@ -1,4 +1,5 @@
 from protocol.message_client import MessageClient
+from protocol.message_server import MessageServer
 
 def construct_city(city):
 	if city == "montreal":
@@ -10,3 +11,6 @@ def construct_city(city):
 
 def construct_payload(rows):
 	return [','.join(e) for e in rows]
+
+def is_eof(header):
+	return header.msg_type == MessageServer.SEND_LAST

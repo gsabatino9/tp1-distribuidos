@@ -43,7 +43,14 @@ class CommunicationClient:
 		header = self.__recv_header()
 		payload = self.__recv_payload(header.len, decode_payload=False)
 
-		return header, payload        
+		return header, payload
+
+	def recv_results(self):
+		# hacer verificaciones de tipo
+		header = self.__recv_header()
+		payload = self.__recv_payload(header.len, decode_payload=True)
+
+		return header, payload
 
 	def __recv_header(self):
 		header = self.comm.recv_header(MessageServer.SIZE_HEADER)
@@ -55,6 +62,8 @@ class CommunicationClient:
 		payload = self.comm.recv_payload(len_payload)
 		if decode_payload:
 			payload = MessageServer.decode_payload(payload)
+
+		return payload
 
 	def stop(self):
 		"""

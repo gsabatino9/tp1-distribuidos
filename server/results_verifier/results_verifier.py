@@ -1,11 +1,15 @@
+import socket
+from protocol.communication_server import CommunicationServer
 from server.common.queue.connection import Connection
 from server.common.utils_messages_eof import ack_msg
 from server.common.utils_messages_group import decode, is_eof
 
 class ResultsVerifier:
-	def __init__(self, name_recv_queue, name_em_queue):
+	def __init__(self, name_recv_queue, name_em_queue, host, port):
 		self.queries_results = {i:[] for i in range(1,4)}
 		self.queries_ended = {i:False for i in range(1,4)}
+		self.addr = (host, port)
+		
 		self.__connect(name_recv_queue, name_em_queue)
 		self.recv_queue.receive(self.process_messages)
 		self.conn.start_receiving()
@@ -40,4 +44,31 @@ class ResultsVerifier:
 				ended = False
 
 		if ended:
-			print(f"Llegó un eof - {self.queries_results}")
+			print(f"Resultados listos - {self.queries_results}")
+			self.__inform_results()
+
+	def __inform_results(self):
+		self.__connect_with_client()
+		self.__send_results()
+
+	def __connect_with_client(self):
+		skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		skt.bind(self.addr)
+		skt.listen()
+
+		client_socket, _ = skt.accept()
+		self.client_connection = CommunicationServer(client_socket)
+		print("Conectado con cliente para enviarle resultados")
+
+	def __send_results(self):
+		for query in self.queries_results:
+			results = self.queries_results[query]
+			if len(results) > 0:
+				self.client_connection.send_results(query, results)
+
+		self.client_connection.send_last()
+		print("Todos los resultados enviados")
+
+	def stop(self):
+		self.client_connection.stop()
+		self.queue_connection.close()

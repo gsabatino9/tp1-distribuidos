@@ -4,24 +4,24 @@ from struct import pack, unpack, calcsize
 class MessageServer:
 	# Constants for message types
 	FILES_RECEIVED = 0
-	QUERIES_PROCESSING = 1
-	QUERIES_PROCESSED = 2
+	QUERIES_PROCESSED = 1
+	SEND_LAST = 2
 
 	# Struct format for message header
-	HEADER_CODE = '!BI'
+	HEADER_CODE = '!BBI'
 	# Size of header in bytes
 	SIZE_HEADER = calcsize(HEADER_CODE)
 
 	# Define the named tuples used in the protocol
-	Header = namedtuple('Header', 'msg_type len')
+	Header = namedtuple('Header', 'msg_type id_query len')
 	Payload = namedtuple('Payload', 'data')
 
-	def __init__(self, msg_type, payload):
+	def __init__(self, msg_type, id_query, payload):
 		if payload is None:
 			payload = list('')
 		payload_bytes = self._pack_payload(payload)
 
-		self.header = self.Header(msg_type, len(payload_bytes))
+		self.header = self.Header(msg_type, id_query, len(payload_bytes))
 		self.payload = self.Payload(payload_bytes)
 
 	def encode(self):
@@ -38,7 +38,7 @@ class MessageServer:
 
 	@staticmethod
 	def encode_header(header):
-		return pack(MessageServer.HEADER_CODE, header.msg_type, header.len)
+		return pack(MessageServer.HEADER_CODE, header.msg_type, header.id_query, header.len)
 
 	@staticmethod
 	def encode_payload(len_payload, payload):
@@ -107,5 +107,12 @@ class MessageServer:
 
 	@classmethod
 	def files_received_message(cls):
-		return cls(cls.FILES_RECEIVED, list('')).encode()
+		return cls(cls.FILES_RECEIVED, 0, list('')).encode()
 
+	@classmethod
+	def results_message(cls, id_query, results):
+		return cls(cls.QUERIES_PROCESSED, id_query, results).encode()
+
+	@classmethod
+	def last_chunk_message(cls):
+		return cls(cls.SEND_LAST, 0, list('')).encode()

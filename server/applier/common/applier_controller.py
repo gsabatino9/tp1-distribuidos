@@ -28,7 +28,6 @@ class ApplierController:
 	def __apply(self, body):
 		header, agrouped_trips = decode(body)
 		result_trips = []
-		print(agrouped_trips)
 
 		for trip in agrouped_trips:
 			trip = trip.split(',')

@@ -1,6 +1,6 @@
 from protocol.communication_client import CommunicationClient
-from utils import construct_payload, construct_city
-import csv, socket, threading
+from utils import construct_payload, construct_city, is_eof
+import csv, socket, threading, time
 from itertools import islice
 from datetime import datetime
 
@@ -17,9 +17,32 @@ class Client:
 		client_socket.connect((host, port))
 		return client_socket
 
-	def run(self, filepaths, types_files, cities):
+	def run(self, filepaths, types_files, cities, addr_consult):
 		self.__send_files(filepaths, types_files, cities)
-		# self.__get_results()
+		self.__get_results(addr_consult)
+
+	def __get_results(self, addr_consult):
+		self.__connect_with_consults_server(addr_consult[0], addr_consult[1])
+		ended = False
+		while not ended:
+			header, payload = self.conn.recv_results()
+			if is_eof(header):
+				ended = True
+				print("Todos los resultados obtenidos.")
+			else:
+				print(f"Query {header.id_query} - {payload}")
+
+	def __connect_with_consults_server(self, host, port):
+		connected = False
+		while not connected:
+			try:
+				skt = self.__connect(host, port)
+				self.conn = CommunicationClient(skt)
+				print("Conexión establecida - obteniendo resultados.")
+				connected = True
+			except:
+				print("Sin éxito en la conexión.")
+				time.sleep(1)
 
 	def __send_files(self, filepaths, types_files, cities):
 		threads = []
@@ -36,6 +59,7 @@ class Client:
 		print("Esperando confirmación archivos.")
 		self.conn.recv_files_received()
 		print("Todos los archivos enviados correctamente al servidor.")
+		self.conn.stop()
 
 	# manda todo de una stations, weather o trips
 	def __send_type_file(self, filepaths, type_file, cities):
