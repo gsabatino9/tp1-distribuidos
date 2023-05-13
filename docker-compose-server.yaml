@@ -112,6 +112,19 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  filter_distance_1:
+    container_name: filter_distance_1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: filter_distance:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  
 
   
   groupby_query1:
@@ -133,6 +146,19 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     image: groupby_query2:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  
+  groupby_query3:
+    container_name: groupby_query3
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: groupby_query3:latest
     networks:      
       - testing_net
     depends_on:
@@ -166,6 +192,19 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  
+  applier_query3_1:
+    container_name: applier_query3_1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_query3:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
 
   eof_manager_joiners:
     container_name: eof_manager_joiners
@@ -185,7 +224,7 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS=[2, 1]
+      - SIZE_WORKERS=[2, 1, 1]
     image: eof_manager_filters:latest
     networks:      
       - testing_net

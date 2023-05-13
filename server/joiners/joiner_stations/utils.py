@@ -24,7 +24,7 @@ class StationsData:
 			start_station = self.__join_trip(city, start_code, yearid)
 			end_station = self.__join_trip(city, end_code, yearid)
 
-			return ','.join(trip+start_station+end_station)
+			return ','.join([city]+trip+start_station+end_station)
 		# poner una excepción propia para catchearla
 		except:
 			return None

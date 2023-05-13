@@ -18,7 +18,7 @@ class WeatherData:
 			start_weather = self.__join_trip(city, start_date)
 			end_weather = self.__join_trip(city, end_date)
 
-			return ','.join(trip+start_weather+end_weather)
+			return ','.join([city]+trip+start_weather+end_weather)
 		# poner una excepción propia para catchearla
 		except:
 			return None

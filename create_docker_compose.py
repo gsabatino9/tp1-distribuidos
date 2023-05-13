@@ -25,12 +25,15 @@ services:
 
   <FILTER_PRETOC>
   <FILTER_YEAR>
+  <FILTER_DISTANCE>
 
   <GROUPBY_QUERY1>
   <GROUPBY_QUERY2>
+  <GROUPBY_QUERY3>
 
   <APPLIER_QUERY1>
   <APPLIER_QUERY2>
+  <APPLIER_QUERY3>
 
   eof_manager_joiners:
     container_name: eof_manager_joiners
@@ -140,6 +143,20 @@ FILTER_YEAR = """
         condition: service_healthy
 """
 
+FILTER_DISTANCE = """
+  filter_distance_{}:
+    container_name: filter_distance_{}
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: filter_distance:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 EM_FILTERS = """
   eof_manager_filters:
     container_name: eof_manager_filters
@@ -183,6 +200,20 @@ GROUPBY_QUERY2 = """
         condition: service_healthy
 """
 
+GROUPBY_QUERY3 = """
+  groupby_query3:
+    container_name: groupby_query3
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: groupby_query3:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 APPLIER_QUERY1 = """
   applier_query1_{}:
     container_name: applier_query1_{}
@@ -204,6 +235,20 @@ APPLIER_QUERY2 = """
     environment:
       - PYTHONUNBUFFERED=1
     image: applier_query2:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
+APPLIER_QUERY3 = """
+  applier_query3_{}:
+    container_name: applier_query3_{}
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_query3:latest
     networks:      
       - testing_net
     depends_on:
@@ -250,8 +295,10 @@ NAME_FILTER_WEATHER_QUEUE = 'filter_joined_weather_q'
 def main():
     num_filters_pretoc = int(sys.argv[1])
     num_filters_year = int(sys.argv[2])
-    num_appliers_query1 = int(sys.argv[3])
-    num_appliers_query2 = int(sys.argv[4])
+    num_filters_distance = int(sys.argv[3])
+    num_appliers_query1 = int(sys.argv[4])
+    num_appliers_query2 = int(sys.argv[5])
+    num_appliers_query3 = int(sys.argv[6])
 
     receiver = RECEIVER.format(NAME_STATIONS_QUEUE, NAME_WEATHER_QUEUE, NAME_TRIPS_QUEUES, NAME_EM_JOINERS_QUEUE)
     joiner_stations = JOINER_STATIONS.format(NAME_STATIONS_QUEUE, NAME_TRIPS_QUEUES[1], NAME_EM_JOINERS_QUEUE, NAME_FILTER_STATIONS_QUEUE)
@@ -265,7 +312,11 @@ def main():
     for i in range(1,num_filters_year+1):
         filters_year += FILTER_YEAR.format(i, i)
 
-    em_filters = EM_FILTERS.format([num_filters_pretoc, num_filters_year])
+    filters_distance = ""
+    for i in range(1,num_filters_distance+1):
+        filters_year += FILTER_DISTANCE.format(i, i)
+
+    em_filters = EM_FILTERS.format([num_filters_pretoc, num_filters_year, num_filters_distance])
     
     appliers_query1 = ""
     for i in range(1,num_appliers_query1+1):
@@ -275,7 +326,11 @@ def main():
     for i in range(1,num_appliers_query2+1):
         appliers_query2 += APPLIER_QUERY2.format(i, i)
 
-    em_appliers = EM_APPLIERS.format([num_appliers_query1, num_appliers_query2])
+    appliers_query3 = ""
+    for i in range(1,num_appliers_query3+1):
+        appliers_query3 += APPLIER_QUERY3.format(i, i)
+
+    em_appliers = EM_APPLIERS.format([num_appliers_query1, num_appliers_query2, num_appliers_query3])
 
     compose = INIT_DOCKER.format() \
                   .replace("<RECEIVER>", receiver) \
@@ -283,12 +338,15 @@ def main():
                   .replace("<JOINER_WEATHER>", joiner_weather) \
                   .replace("<FILTER_PRETOC>", filters_pretoc) \
                   .replace("<FILTER_YEAR>", filters_year) \
+                  .replace("<FILTER_DISTANCE>", filters_distance) \
                   .replace("<EM_FILTERS>", em_filters) \
                   .replace("<EM_GROUPBY>", EM_GROUPBY) \
                   .replace("<GROUPBY_QUERY1>", GROUPBY_QUERY1) \
                   .replace("<GROUPBY_QUERY2>", GROUPBY_QUERY2) \
+                  .replace("<GROUPBY_QUERY3>", GROUPBY_QUERY3) \
                   .replace("<APPLIER_QUERY1>", appliers_query1) \
                   .replace("<APPLIER_QUERY2>", appliers_query2) \
+                  .replace("<APPLIER_QUERY3>", appliers_query3) \
                   .replace("<EM_APPLIERS>", em_appliers)
     
     with open("docker-compose-server.yaml", "w") as compose_file:
