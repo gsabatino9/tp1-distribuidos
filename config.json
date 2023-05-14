@@ -26,7 +26,7 @@
   		"joiners": "eof_manager_joiners_q",
   		"filters": "eof_manager_filters_q",
   		"groupby": "eof_manager_groupby_q",
-  		"applier": "eof_manager_applier_q",
+  		"appliers": "eof_manager_applier_q",
   		"results_verifier": "eof_manager_query_result_q"
   	},
   	"amount_nodes": {

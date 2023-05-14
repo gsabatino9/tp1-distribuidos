@@ -40,6 +40,8 @@ def main():
         amount_nodes
     )
 
+    groupby1, groupby2, groupby3, em_groupby = init_groupby(queues, em_queues)
+
     compose = (
         INIT_DOCKER.format()
         .replace("<RECEIVER>", receiver)
@@ -49,10 +51,10 @@ def main():
         .replace("<FILTER_YEAR>", filters_year)
         .replace("<FILTER_DISTANCE>", filters_distance)
         .replace("<EM_FILTERS>", em_filters)
-        .replace("<EM_GROUPBY>", EM_GROUPBY)
-        .replace("<GROUPBY_QUERY1>", GROUPBY_QUERY1)
-        .replace("<GROUPBY_QUERY2>", GROUPBY_QUERY2)
-        .replace("<GROUPBY_QUERY3>", GROUPBY_QUERY3)
+        .replace("<EM_GROUPBY>", em_groupby)
+        .replace("<GROUPBY_QUERY1>", groupby1)
+        .replace("<GROUPBY_QUERY2>", groupby2)
+        .replace("<GROUPBY_QUERY3>", groupby3)
         .replace("<APPLIER_QUERY1>", appliers_query1)
         .replace("<APPLIER_QUERY2>", appliers_query2)
         .replace("<APPLIER_QUERY3>", appliers_query3)
@@ -104,6 +106,14 @@ def init_appliers(amount_nodes):
 
     return appliers_query1, appliers_query2, appliers_query3, em_appliers
 
+def init_groupby(queues, em_queues):
+    groupby1 = GROUPBY_QUERY1.format(queues["groupby_query1"], em_queues["groupby"], queues["applier_query1"])
+    groupby2 = GROUPBY_QUERY2.format(queues["groupby_query2"], em_queues["groupby"], queues["applier_query2"])
+    groupby3 = GROUPBY_QUERY3.format(queues["groupby_query3"], em_queues["groupby"], queues["applier_query3"])
+
+    em_groupby = EM_GROUPBY.format(em_queues["groupby"], [queues["groupby_query1"], queues["groupby_query2"], queues["groupby_query3"]], em_queues["appliers"])
+
+    return groupby1, groupby2, groupby3, em_groupby
 
 if __name__ == "__main__":
     main()

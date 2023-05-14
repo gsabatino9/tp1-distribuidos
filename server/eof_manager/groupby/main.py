@@ -1,13 +1,14 @@
 from eof_manager import EOFManager
-import os
+import os, ast
 
-NAME_RECV_QUEUE = "eof_manager_groupby_q"
-NAME_GROUPBY_QUEUE = ["groupby_query1_q", "groupby_query2_q", "groupby_query3_q"]
-NAME_SEND_QUEUE = "eof_manager_applier_q"
-
+NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
+NAME_GROUPBY_QUEUE = os.environ.get("NAME_GROUPBY_QUEUE")
+NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
 
 def main():
-    e = EOFManager(NAME_RECV_QUEUE, NAME_GROUPBY_QUEUE, NAME_SEND_QUEUE)
+    name_groupby_queue = ast.literal_eval(NAME_GROUPBY_QUEUE)
+
+    e = EOFManager(NAME_RECV_QUEUE, name_groupby_queue, NAME_SEND_QUEUE)
     e.stop()
 
 

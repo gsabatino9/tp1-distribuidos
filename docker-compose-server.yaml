@@ -119,6 +119,9 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE=groupby_query1_q
+      - NAME_EM_QUEUE=eof_manager_groupby_q
+      - NAME_SEND_QUEUE=applier_query1_q
     image: groupby_query1:latest
     networks:      
       - testing_net
@@ -132,6 +135,9 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE=groupby_query2_q
+      - NAME_EM_QUEUE=eof_manager_groupby_q
+      - NAME_SEND_QUEUE=applier_query2_q
     image: groupby_query2:latest
     networks:      
       - testing_net
@@ -145,6 +151,9 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE=groupby_query3_q
+      - NAME_EM_QUEUE=eof_manager_groupby_q
+      - NAME_SEND_QUEUE=applier_query3_q
     image: groupby_query3:latest
     networks:      
       - testing_net
@@ -241,6 +250,9 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE=eof_manager_groupby_q
+      - NAME_GROUPBY_QUEUE=['groupby_query1_q', 'groupby_query2_q', 'groupby_query3_q']
+      - NAME_SEND_QUEUE=eof_manager_applier_q
     image: eof_manager_groupby:latest
     networks:      
       - testing_net
