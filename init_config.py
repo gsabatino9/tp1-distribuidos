@@ -244,6 +244,9 @@ APPLIER_QUERY1 = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_SEND_QUEUE={}
     image: applier_query1:latest
     networks:      
       - testing_net
@@ -258,6 +261,9 @@ APPLIER_QUERY2 = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_SEND_QUEUE={}
     image: applier_query2:latest
     networks:      
       - testing_net
@@ -272,6 +278,9 @@ APPLIER_QUERY3 = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_SEND_QUEUE={}
     image: applier_query3:latest
     networks:      
       - testing_net
@@ -303,6 +312,9 @@ EM_APPLIERS = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_APPLIERS_QUEUES={}
+      - NAME_SEND_QUEUE={}
       - SIZE_WORKERS={}
     image: eof_manager_applier:latest
     networks:      

@@ -37,7 +37,7 @@ def main():
     )
 
     appliers_query1, appliers_query2, appliers_query3, em_appliers = init_appliers(
-        amount_nodes
+        queues, em_queues, amount_nodes
     )
 
     groupby1, groupby2, groupby3, em_groupby = init_groupby(queues, em_queues)
@@ -117,20 +117,42 @@ def init_filters(queues, em_queues, amount_nodes):
     return filters_pretoc, filters_year, filters_distance, em_filters
 
 
-def init_appliers(amount_nodes):
+def init_appliers(queues, em_queues, amount_nodes):
+
     appliers_query1 = ""
     for i in range(1, amount_nodes["applier_query1"] + 1):
-        appliers_query1 += APPLIER_QUERY1.format(i, i)
+        appliers_query1 += APPLIER_QUERY1.format(
+            i,
+            i,
+            queues["applier_query1"],
+            em_queues["appliers"],
+            queues["results_verifier"],
+        )
 
     appliers_query2 = ""
     for i in range(1, amount_nodes["applier_query2"] + 1):
-        appliers_query2 += APPLIER_QUERY2.format(i, i)
+        appliers_query2 += APPLIER_QUERY2.format(
+            i,
+            i,
+            queues["applier_query2"],
+            em_queues["appliers"],
+            queues["results_verifier"],
+        )
 
     appliers_query3 = ""
     for i in range(1, amount_nodes["applier_query3"] + 1):
-        appliers_query3 += APPLIER_QUERY3.format(i, i)
+        appliers_query3 += APPLIER_QUERY3.format(
+            i,
+            i,
+            queues["applier_query3"],
+            em_queues["appliers"],
+            queues["results_verifier"],
+        )
 
     em_appliers = EM_APPLIERS.format(
+        em_queues["appliers"],
+        [queues["applier_query1"], queues["applier_query2"], queues["applier_query3"]],
+        em_queues["results_verifier"],
         [amount_nodes[k] for k in amount_nodes if "applier" in k]
     )
 

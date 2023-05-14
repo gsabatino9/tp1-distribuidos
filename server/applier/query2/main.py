@@ -1,9 +1,9 @@
 from applier_query2 import ApplierQuery2
 import os
 
-NAME_RECV_QUEUE = "applier_query2_q"
-NAME_EM_QUEUE = "eof_manager_applier_q"
-NAME_SEND_QUEUE = "query_results_q"
+NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
+NAME_EM_QUEUE = os.environ.get("NAME_EM_QUEUE")
+NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
 
 
 def main():
