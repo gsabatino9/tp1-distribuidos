@@ -29,7 +29,7 @@ class ApplierController:
 
 	def process_messages(self, ch, method, properties, body):
 		if is_eof(body):
-			self.__eof_arrived()
+			self.__eof_arrived(ch)
 		else:
 			self.__apply(body)
 	
@@ -54,7 +54,8 @@ class ApplierController:
 			msg = construct_msg(trips_to_next_stage)
 			self.send_queue.send(msg, routing_key=self.id_query)
 
-	def __eof_arrived(self):
+	def __eof_arrived(self, ch):
+		ch.stop_consuming()
 		self.em_queue.send(ack_msg())
 
 	def stop(self, *args):

@@ -191,9 +191,33 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  applier_query2_2:
+    container_name: applier_query2_2
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_query2:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
   
   applier_query3_1:
     container_name: applier_query3_1
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    image: applier_query3:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  applier_query3_2:
+    container_name: applier_query3_2
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -266,7 +290,7 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS=[1, 1, 1]
+      - SIZE_WORKERS=[1, 2, 2]
     image: eof_manager_applier:latest
     networks:      
       - testing_net
