@@ -1,4 +1,4 @@
-import socket, signal
+import socket, signal, sys
 from protocol.communication_server import CommunicationServer
 from server.common.queue.connection import Connection
 from utils import is_eof
@@ -61,7 +61,11 @@ class Receiver:
 
 	def stop(self, *args):
 		if self.running:
-			self.client_connection.stop()
 			self.queue_connection.close()
+			if hasattr(self, "client_connection"):
+				self.client_connection.stop()
+
 			self.running = False
 			print("Receiver cerrado correctamente.")
+
+		sys.exit(0)
