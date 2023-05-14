@@ -5,67 +5,82 @@ from utils import is_eof
 from server.common.utils_messages_eof import eof_msg
 from server.common.utils_messages_client import is_station, is_weather, encode_header
 
+
 class Receiver:
-	def __init__(self, host, port, name_stations_queue, name_weather_queue, name_trips_queues, name_em_queue):
-		self.__init_receiver()
-		# try-except a todo
-		self.__connect_queue(name_stations_queue, name_weather_queue, name_trips_queues)
-		self.__connect_eof_manager_queue(name_em_queue)
-		self.__connect_client(host, port)
+    def __init__(
+        self,
+        host,
+        port,
+        name_stations_queue,
+        name_weather_queue,
+        name_trips_queues,
+        name_em_queue,
+    ):
+        self.__init_receiver()
+        # try-except a todo
+        self.__connect_queue(name_stations_queue, name_weather_queue, name_trips_queues)
+        self.__connect_eof_manager_queue(name_em_queue)
+        self.__connect_client(host, port)
 
-	def __init_receiver(self):
-		self.running = True
-		signal.signal(signal.SIGTERM, self.stop)
+    def __init_receiver(self):
+        self.running = True
+        signal.signal(signal.SIGTERM, self.stop)
 
-	def __connect_queue(self, name_stations_queue, name_weather_queue, name_trips_queues):
-		self.queue_connection = Connection()
-		self.stations_queue = self.queue_connection.basic_queue(name_stations_queue)
-		self.weather_queue = self.queue_connection.basic_queue(name_weather_queue)
-		self.trips_queues = [self.queue_connection.basic_queue(q) for q in name_trips_queues]
+    def __connect_queue(
+        self, name_stations_queue, name_weather_queue, name_trips_queues
+    ):
+        self.queue_connection = Connection()
+        self.stations_queue = self.queue_connection.basic_queue(name_stations_queue)
+        self.weather_queue = self.queue_connection.basic_queue(name_weather_queue)
+        self.trips_queues = [
+            self.queue_connection.basic_queue(q) for q in name_trips_queues
+        ]
 
-	def __connect_eof_manager_queue(self, name_em_queue):
-		self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+    def __connect_eof_manager_queue(self, name_em_queue):
+        self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
 
-	def __connect_client(self, host, port):
-		skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		skt.bind((host, port))
-		skt.listen()
+    def __connect_client(self, host, port):
+        skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        skt.bind((host, port))
+        skt.listen()
 
-		client_socket, _ = skt.accept()
-		self.client_connection = CommunicationServer(client_socket)
+        client_socket, _ = skt.accept()
+        self.client_connection = CommunicationServer(client_socket)
 
-	def run(self):
-		types_ended = set()
+    def run(self):
+        types_ended = set()
 
-		while len(types_ended) < 3:
-			header, payload_bytes = self.client_connection.recv_data(decode_payload=False)
-			
-			if is_eof(header):
-				types_ended.add(header.data_type)
-				self.em_queue.send(eof_msg(header))
-			else:
-				self.__route_message(header, payload_bytes)
+        while len(types_ended) < 3:
+            header, payload_bytes = self.client_connection.recv_data(
+                decode_payload=False
+            )
 
-		print("Todos los archivos llegaron.")
-		self.client_connection.send_files_received()
+            if is_eof(header):
+                types_ended.add(header.data_type)
+                self.em_queue.send(eof_msg(header))
+            else:
+                self.__route_message(header, payload_bytes)
 
-	def __route_message(self, header, payload_bytes):
-		msg = encode_header(header) + payload_bytes
-		
-		if is_station(header):
-			self.stations_queue.send(msg)
-		elif is_weather(header):
-			self.weather_queue.send(msg)
-		else:
-			[trips_queue.send(msg) for trips_queue in self.trips_queues]
+        print("Todos los archivos llegaron.")
+        self.client_connection.send_files_received()
 
-	def stop(self, *args):
-		if self.running:
-			self.queue_connection.close()
-			if hasattr(self, "client_connection"):
-				self.client_connection.stop()
+    def __route_message(self, header, payload_bytes):
+        msg = encode_header(header) + payload_bytes
 
-			self.running = False
-			print("Receiver cerrado correctamente.")
+        if is_station(header):
+            self.stations_queue.send(msg)
+        elif is_weather(header):
+            self.weather_queue.send(msg)
+        else:
+            [trips_queue.send(msg) for trips_queue in self.trips_queues]
 
-		sys.exit(0)
+    def stop(self, *args):
+        if self.running:
+            self.queue_connection.close()
+            if hasattr(self, "client_connection"):
+                self.client_connection.stop()
+
+            self.running = False
+            print("Receiver cerrado correctamente.")
+
+        sys.exit(0)
