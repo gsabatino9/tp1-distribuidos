@@ -1,9 +1,9 @@
 from eof_manager import EOFManager
 import os
 
-NAME_RECV_QUEUE = "eof_manager_query_result_q"
-NAME_VERIFIER_QUEUE = "query_results_q"
-SIZE_QUERIES = 3
+NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
+NAME_VERIFIER_QUEUE = os.environ.get("NAME_VERIFIER_QUEUE")
+SIZE_QUERIES = int(os.environ.get("SIZE_QUERIES"))
 
 
 def main():

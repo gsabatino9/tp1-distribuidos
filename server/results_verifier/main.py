@@ -1,9 +1,10 @@
 from results_verifier import ResultsVerifier
+import os
 
-HOST = "results_verifier"
-PORT = 12346
-NAME_RECV_QUEUE = "query_results_q"
-NAME_EM_QUEUE = "eof_manager_query_result_q"
+HOST = os.environ.get("HOST")
+PORT = int(os.environ.get("PORT"))
+NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
+NAME_EM_QUEUE = os.environ.get("NAME_EM_QUEUE")
 
 
 def main():

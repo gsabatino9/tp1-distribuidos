@@ -330,6 +330,9 @@ EM_RESULTS = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_VERIFIER_QUEUE={}
+      - SIZE_QUERIES=3
     image: eof_manager_query_results:latest
     networks:      
       - testing_net
@@ -344,6 +347,10 @@ RESULTS_VERIFIER = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - HOST=results_verifier
+      - PORT=12346
+      - NAME_RECV_QUEUE={}
+      - NAME_EM_QUEUE={}
     ports:
       - 12346:12346
     image: results_verifier:latest

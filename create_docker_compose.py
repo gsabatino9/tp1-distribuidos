@@ -42,6 +42,8 @@ def main():
 
     groupby1, groupby2, groupby3, em_groupby = init_groupby(queues, em_queues)
 
+    results_verifier, em_results = init_results_verifier(queues, em_queues)
+
     compose = (
         INIT_DOCKER.format()
         .replace("<RECEIVER>", receiver)
@@ -59,8 +61,8 @@ def main():
         .replace("<APPLIER_QUERY2>", appliers_query2)
         .replace("<APPLIER_QUERY3>", appliers_query3)
         .replace("<EM_APPLIERS>", em_appliers)
-        .replace("<EM_RESULTS>", EM_RESULTS)
-        .replace("<RESULTS_VERIFIER>", RESULTS_VERIFIER)
+        .replace("<RESULTS_VERIFIER>", results_verifier)
+        .replace("<EM_RESULTS>", em_results)
     )
 
     with open("docker-compose-server.yaml", "w") as compose_file:
@@ -118,7 +120,6 @@ def init_filters(queues, em_queues, amount_nodes):
 
 
 def init_appliers(queues, em_queues, amount_nodes):
-
     appliers_query1 = ""
     for i in range(1, amount_nodes["applier_query1"] + 1):
         appliers_query1 += APPLIER_QUERY1.format(
@@ -153,7 +154,7 @@ def init_appliers(queues, em_queues, amount_nodes):
         em_queues["appliers"],
         [queues["applier_query1"], queues["applier_query2"], queues["applier_query3"]],
         em_queues["results_verifier"],
-        [amount_nodes[k] for k in amount_nodes if "applier" in k]
+        [amount_nodes[k] for k in amount_nodes if "applier" in k],
     )
 
     return appliers_query1, appliers_query2, appliers_query3, em_appliers
@@ -177,6 +178,18 @@ def init_groupby(queues, em_queues):
     )
 
     return groupby1, groupby2, groupby3, em_groupby
+
+
+def init_results_verifier(queues, em_queues):
+    results_verifier = RESULTS_VERIFIER.format(
+        queues["results_verifier"], em_queues["results_verifier"]
+    )
+
+    em_results = EM_RESULTS.format(
+        em_queues["results_verifier"], queues["results_verifier"]
+    )
+
+    return results_verifier, em_results
 
 
 if __name__ == "__main__":
