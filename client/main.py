@@ -1,12 +1,10 @@
 from client import Client
+import os
 
-# HOST = os.environ['HOST']
-# PORT = int(os.environ['PORT'])
-
-HOST = "receiver"
-PORT = 12345
-ADDR_CONSULT = ("results_verifier", 12346)
-CHUNK_SIZE = 100
+HOST = os.environ.get("HOST")
+PORT = int(os.environ.get("PORT"))
+ADDR_CONSULT = (os.environ.get("HOST_CONSULT"), int(os.environ.get("PORT_CONSULT")))
+CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE"))
 
 
 def main():

@@ -6,6 +6,11 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - HOST=receiver
+      - PORT=12345
+      - HOST_CONSULT=results_verifier
+      - PORT_CONSULT=12346
+      - CHUNK_SIZE=100
     image: client:latest
     networks:      
       - testing_net
