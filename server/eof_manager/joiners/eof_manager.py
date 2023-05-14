@@ -1,10 +1,18 @@
+import signal, sys
 from server.common.queue.connection import Connection
 from server.common.utils_messages_eof import *
 
 class EOFManager:
 	def __init__(self, name_recv_queue, name_send_queue, name_stations_queue, name_weather_queue, name_join_stations_queue, name_join_weather_queue):
-		self.acks = 0
+		self.__init_eof_manager()
+
 		self.__connect(name_recv_queue, name_send_queue, name_stations_queue, name_weather_queue, name_join_stations_queue, name_join_weather_queue)
+
+	def __init_eof_manager(self):
+		self.running = True
+		signal.signal(signal.SIGTERM, self.stop)
+
+		self.acks = 0
 
 	def __connect(self, name_recv_queue, name_send_queue, name_stations_queue, name_weather_queue, name_join_stations_queue, name_join_weather_queue):
 		# try-except
@@ -47,5 +55,12 @@ class EOFManager:
 			print("EOF trips ackeados.")
 			self.send_queue.send(eof_msg(header))
 
-	def stop(self):
-		self.queue_connection.close()
+	def stop(self, *args):
+		if self.running:
+			self.queue_connection.stop_receiving()
+			self.queue_connection.close()
+			
+			self.running = False
+			print("EOFManagerJoiners cerrado correctamente.")
+
+		sys.exit(0)

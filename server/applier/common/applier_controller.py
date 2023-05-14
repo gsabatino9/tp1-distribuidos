@@ -1,3 +1,4 @@
+import signal, sys
 from server.common.queue.connection import Connection
 from server.applier.common.applier import Applier
 from server.common.utils_messages_eof import ack_msg
@@ -5,19 +6,26 @@ from server.common.utils_messages_group import decode, is_eof, construct_msg
 
 class ApplierController:
 	def __init__(self, name_recv_queue, name_em_queue, name_send_queue, id_query, operation, gen_result_msg):
-		self.id_query = str(id_query)
-		self.gen_result_msg = gen_result_msg
-		self.applier = Applier(operation)
+		self.__init_applier(str(id_query), gen_result_msg, operation)
+
 		self.__connect(name_recv_queue, name_em_queue, name_send_queue)
 		self.recv_queue.receive(self.process_messages)
-		self.conn.start_receiving()
+		self.queue_connection.start_receiving()
+
+	def __init_applier(self, id_query, gen_result_msg, operation):
+		self.running = True
+		signal.signal(signal.SIGTERM, self.stop)
+
+		self.id_query = id_query
+		self.gen_result_msg = gen_result_msg
+		self.applier = Applier(operation)
 
 	def __connect(self, name_recv_queue, name_em_queue, name_send_queue):
-		self.conn = Connection()
-		self.recv_queue = self.conn.basic_queue(name_recv_queue)
-		self.send_queue = self.conn.routing_queue(name_send_queue)
+		self.queue_connection = Connection()
+		self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
+		self.send_queue = self.queue_connection.routing_queue(name_send_queue)
 
-		self.em_queue = self.conn.pubsub_queue(name_em_queue)
+		self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
 
 	def process_messages(self, ch, method, properties, body):
 		if is_eof(body):
@@ -48,3 +56,13 @@ class ApplierController:
 
 	def __eof_arrived(self):
 		self.em_queue.send(ack_msg())
+
+	def stop(self, *args):
+		if self.running:
+			self.queue_connection.stop_receiving()
+			self.queue_connection.close()
+			
+			self.running = False
+			print("ApplierController cerrado correctamente.")
+
+		sys.exit(0)

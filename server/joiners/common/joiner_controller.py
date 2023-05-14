@@ -1,12 +1,20 @@
+import signal, sys
 from server.common.queue.connection import Connection
 from server.common.utils_messages_client import *
 from server.common.utils_messages_eof import ack_msg
 
 class JoinerController:
 	def __init__(self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue, joiner):
-		self.joiner = joiner
+		self.__init_joiner(joiner)
+		
 		self.__connect(name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue)
 		
+	def __init_joiner(self, joiner):
+		self.running = True
+		signal.signal(signal.SIGTERM, self.stop)
+
+		self.joiner = joiner
+
 	def __connect(self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue):
 		self.queue_connection = Connection()
 		self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
@@ -65,5 +73,12 @@ class JoinerController:
 		self.em_queue.send(ack_msg())
 		print(f"EOF trips - Joined: {self.amount_joined}")
 
-	def stop(self):
-		self.queue_connection.close()
+	def stop(self, *args):
+		if self.running:
+			self.queue_connection.stop_receiving()
+			self.queue_connection.close()
+			
+			self.running = False
+			print("Joiner cerrado correctamente.")
+
+		sys.exit(0)
