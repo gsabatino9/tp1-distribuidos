@@ -1,4 +1,4 @@
-import socket
+import socket, signal
 from protocol.communication_server import CommunicationServer
 from server.common.queue.connection import Connection
 from utils import is_eof
@@ -7,10 +7,15 @@ from server.common.utils_messages_client import is_station, is_weather, encode_h
 
 class Receiver:
 	def __init__(self, host, port, name_stations_queue, name_weather_queue, name_trips_queues, name_em_queue):
+		self.__init_receiver()
 		# try-except a todo
 		self.__connect_queue(name_stations_queue, name_weather_queue, name_trips_queues)
 		self.__connect_eof_manager_queue(name_em_queue)
-		client_socket = self.__connect_client(host, port)
+		self.__connect_client(host, port)
+
+	def __init_receiver(self):
+		self.running = True
+		signal.signal(signal.SIGTERM, self.stop)
 
 	def __connect_queue(self, name_stations_queue, name_weather_queue, name_trips_queues):
 		self.queue_connection = Connection()
@@ -28,7 +33,6 @@ class Receiver:
 
 		client_socket, _ = skt.accept()
 		self.client_connection = CommunicationServer(client_socket)
-		return client_socket
 
 	def run(self):
 		types_ended = set()
@@ -55,6 +59,9 @@ class Receiver:
 		else:
 			[trips_queue.send(msg) for trips_queue in self.trips_queues]
 
-	def stop(self):
-		self.client_connection.stop()
-		self.queue_connection.close()
+	def stop(self, *args):
+		if self.running:
+			self.client_connection.stop()
+			self.queue_connection.close()
+			self.running = False
+			print("Receiver cerrado correctamente.")
