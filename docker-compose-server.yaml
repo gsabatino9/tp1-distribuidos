@@ -79,6 +79,10 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_EXCHANGE=filter_joined_weather_q
+      - NAME_RECV_QUEUE=filter_pretoc_q
+      - NAME_EM_QUEUE=eof_manager_filters_q
+      - NAME_SEND_QUEUE=groupby_query1_q
     image: filter_pretoc:latest
     networks:      
       - testing_net
@@ -92,6 +96,10 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_EXCHANGE=filter_joined_stations_q
+      - NAME_RECV_QUEUE=filter_year_q
+      - NAME_EM_QUEUE=eof_manager_filters_q
+      - NAME_SEND_QUEUE=groupby_query2_q
     image: filter_year:latest
     networks:      
       - testing_net
@@ -104,6 +112,10 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_EXCHANGE=filter_joined_stations_q
+      - NAME_RECV_QUEUE=filter_distance_q
+      - NAME_EM_QUEUE=eof_manager_filters_q
+      - NAME_SEND_QUEUE=groupby_query3_q
     image: filter_distance:latest
     networks:      
       - testing_net
@@ -236,6 +248,9 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE=eof_manager_filters_q
+      - NAME_FILTERS_QUEUE=['filter_year_q', 'filter_pretoc_q', 'filter_distance_q']
+      - NAME_SEND_QUEUE=eof_manager_groupby_q
       - SIZE_WORKERS=[1, 1, 1]
     image: eof_manager_filters:latest
     networks:      

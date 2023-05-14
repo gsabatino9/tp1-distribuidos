@@ -121,6 +121,10 @@ FILTER_PRETOC = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_EXCHANGE={}
+      - NAME_RECV_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_SEND_QUEUE={}
     image: filter_pretoc:latest
     networks:      
       - testing_net
@@ -135,6 +139,10 @@ FILTER_YEAR = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_EXCHANGE={}
+      - NAME_RECV_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_SEND_QUEUE={}
     image: filter_year:latest
     networks:      
       - testing_net
@@ -149,6 +157,10 @@ FILTER_DISTANCE = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_EXCHANGE={}
+      - NAME_RECV_QUEUE={}
+      - NAME_EM_QUEUE={}
+      - NAME_SEND_QUEUE={}
     image: filter_distance:latest
     networks:      
       - testing_net
@@ -163,6 +175,9 @@ EM_FILTERS = """
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_FILTERS_QUEUE={}
+      - NAME_SEND_QUEUE={}
       - SIZE_WORKERS={}
     image: eof_manager_filters:latest
     networks:      

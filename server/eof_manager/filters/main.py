@@ -1,15 +1,16 @@
 from eof_manager import EOFManager
 import os, ast
 
-NAME_RECV_QUEUE = "eof_manager_filters_q"
-NAME_FILTERS_QUEUE = ["filter_pretoc_q", "filter_year_q", "filter_distance_q"]
-NAME_SEND_QUEUE = "eof_manager_groupby_q"
+NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
+NAME_FILTERS_QUEUE = os.environ.get("NAME_FILTERS_QUEUE")
+NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
 SIZE_WORKERS = os.environ.get("SIZE_WORKERS")
 
 
 def main():
+    name_filters_queue = ast.literal_eval(NAME_FILTERS_QUEUE)
     size_workers = ast.literal_eval(SIZE_WORKERS)
-    e = EOFManager(NAME_RECV_QUEUE, NAME_FILTERS_QUEUE, NAME_SEND_QUEUE, size_workers)
+    e = EOFManager(NAME_RECV_QUEUE, name_filters_queue, NAME_SEND_QUEUE, size_workers)
     e.stop()
 
 

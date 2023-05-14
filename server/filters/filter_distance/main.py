@@ -1,9 +1,10 @@
 from filter_distance import FilterDistance
+import os
 
-NAME_RECV_EXCHANGE = "filter_joined_stations_q"
-NAME_RECV_QUEUE = "filter_distance_q"
-NAME_EM_QUEUE = "eof_manager_filters_q"
-NAME_SEND_QUEUE = "groupby_query3_q"
+NAME_RECV_EXCHANGE = os.environ.get("NAME_RECV_EXCHANGE")
+NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
+NAME_EM_QUEUE = os.environ.get("NAME_EM_QUEUE")
+NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
 
 
 def main():

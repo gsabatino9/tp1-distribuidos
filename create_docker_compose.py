@@ -33,7 +33,7 @@ def main():
     )
 
     filters_pretoc, filters_year, filters_distance, em_filters = init_filters(
-        amount_nodes
+        queues, em_queues, amount_nodes
     )
 
     appliers_query1, appliers_query2, appliers_query3, em_appliers = init_appliers(
@@ -67,21 +67,51 @@ def main():
         compose_file.write(compose)
 
 
-def init_filters(amount_nodes):
+def init_filters(queues, em_queues, amount_nodes):
+    filters_q = queues["filters"]
+
     filters_pretoc = ""
     for i in range(1, amount_nodes["filter_pretoc"] + 1):
-        filters_pretoc += FILTER_PRETOC.format(i, i)
+        filters_pretoc += FILTER_PRETOC.format(
+            i,
+            i,
+            filters_q["filter_trip_weather"],
+            filters_q["filter_pretoc"],
+            em_queues["filters"],
+            queues["groupby_query1"],
+        )
 
     filters_year = ""
     for i in range(1, amount_nodes["filter_year"] + 1):
-        filters_year += FILTER_YEAR.format(i, i)
+        filters_year += FILTER_YEAR.format(
+            i,
+            i,
+            filters_q["filter_trip_stations"],
+            filters_q["filter_year"],
+            em_queues["filters"],
+            queues["groupby_query2"],
+        )
 
     filters_distance = ""
     for i in range(1, amount_nodes["filter_distance"] + 1):
-        filters_year += FILTER_DISTANCE.format(i, i)
+        filters_year += FILTER_DISTANCE.format(
+            i,
+            i,
+            filters_q["filter_trip_stations"],
+            filters_q["filter_distance"],
+            em_queues["filters"],
+            queues["groupby_query3"],
+        )
 
     em_filters = EM_FILTERS.format(
-        [amount_nodes[k] for k in amount_nodes if "filter" in k]
+        em_queues["filters"],
+        [
+            filters_q["filter_year"],
+            filters_q["filter_pretoc"],
+            filters_q["filter_distance"],
+        ],
+        em_queues["groupby"],
+        [amount_nodes[k] for k in amount_nodes if "filter" in k],
     )
 
     return filters_pretoc, filters_year, filters_distance, em_filters
@@ -106,14 +136,26 @@ def init_appliers(amount_nodes):
 
     return appliers_query1, appliers_query2, appliers_query3, em_appliers
 
-def init_groupby(queues, em_queues):
-    groupby1 = GROUPBY_QUERY1.format(queues["groupby_query1"], em_queues["groupby"], queues["applier_query1"])
-    groupby2 = GROUPBY_QUERY2.format(queues["groupby_query2"], em_queues["groupby"], queues["applier_query2"])
-    groupby3 = GROUPBY_QUERY3.format(queues["groupby_query3"], em_queues["groupby"], queues["applier_query3"])
 
-    em_groupby = EM_GROUPBY.format(em_queues["groupby"], [queues["groupby_query1"], queues["groupby_query2"], queues["groupby_query3"]], em_queues["appliers"])
+def init_groupby(queues, em_queues):
+    groupby1 = GROUPBY_QUERY1.format(
+        queues["groupby_query1"], em_queues["groupby"], queues["applier_query1"]
+    )
+    groupby2 = GROUPBY_QUERY2.format(
+        queues["groupby_query2"], em_queues["groupby"], queues["applier_query2"]
+    )
+    groupby3 = GROUPBY_QUERY3.format(
+        queues["groupby_query3"], em_queues["groupby"], queues["applier_query3"]
+    )
+
+    em_groupby = EM_GROUPBY.format(
+        em_queues["groupby"],
+        [queues["groupby_query1"], queues["groupby_query2"], queues["groupby_query3"]],
+        em_queues["appliers"],
+    )
 
     return groupby1, groupby2, groupby3, em_groupby
+
 
 if __name__ == "__main__":
     main()
