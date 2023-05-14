@@ -26,7 +26,7 @@ services:
       - PORT=12345
       - NAME_STATIONS_QUEUE=joiner_stations_q
       - NAME_WEATHER_QUEUE=joiner_weather_q
-      - NAME_TRIPS_QUEUES=['join_trip_weather_q', 'join_trip_stations_q']
+      - NAME_TRIPS_QUEUES=['join_trip_stations_q', 'join_trip_weather_q']
       - NAME_EM_QUEUE=eof_manager_joiners_q
     image: receiver:latest
     ports:
@@ -76,18 +76,6 @@ services:
   
   filter_pretoc_1:
     container_name: filter_pretoc_1
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: filter_pretoc:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-
-  filter_pretoc_2:
-    container_name: filter_pretoc_2
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -191,33 +179,9 @@ services:
       rabbitmq:
         condition: service_healthy
 
-  applier_query2_2:
-    container_name: applier_query2_2
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: applier_query2:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-
   
   applier_query3_1:
     container_name: applier_query3_1
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: applier_query3:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-
-  applier_query3_2:
-    container_name: applier_query3_2
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -263,7 +227,7 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS=[2, 1, 1]
+      - SIZE_WORKERS=[1, 1, 1]
     image: eof_manager_filters:latest
     networks:      
       - testing_net
@@ -290,7 +254,7 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - SIZE_WORKERS=[1, 2, 2]
+      - SIZE_WORKERS=[1, 1, 1]
     image: eof_manager_applier:latest
     networks:      
       - testing_net
