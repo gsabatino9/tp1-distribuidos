@@ -98,6 +98,15 @@ class Client:
                 results[header.id_query].append(payload.data)
 
         print(results)
+        self.__save_results(results)
+
+    def __save_results(self, results):
+        with open('output.csv', 'w', newline='') as f:
+            writer = csv.writer(f)
+            for key, values in results.items():
+                for row in values:
+                    for value in row:
+                        writer.writerow([key]+[value])
 
     def __connect_with_consults_server(self, host, port):
         connected = False
