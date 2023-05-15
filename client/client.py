@@ -2,7 +2,7 @@ from protocol.communication_client import CommunicationClient
 from utils import construct_payload, construct_city, is_eof
 import csv, socket, threading, time, signal, sys
 from itertools import islice
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Client:
@@ -34,12 +34,6 @@ class Client:
 
         for file in types_files:
             self.__send_type_file(filepaths, file, cities)
-            """t = threading.Thread(target=self.__send_type_file, args=(filepaths, file, cities))
-			threads.append(t)
-			t.start()
-
-		for t in threads:
-			t.join()"""
 
         print("Esperando confirmación archivos.")
         self.conn.recv_files_received()
@@ -73,13 +67,17 @@ class Client:
         self.conn.send(data_type, payload, city, last_chunk)
 
     def __preprocess_chunk(self, type_file, chunk):
-        if type_file != "trips":
-            return chunk
-        for row in chunk:
-            start_date = datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S")
-            end_date = datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S")
-            row[0] = start_date.strftime("%Y-%m-%d")
-            row[2] = end_date.strftime("%Y-%m-%d")
+        if type_file == "trips":
+            for row in chunk:
+                start_date = datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S")
+                end_date = datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S")
+                row[0] = start_date.strftime("%Y-%m-%d")
+                row[2] = end_date.strftime("%Y-%m-%d")
+        elif type_file == "weather":
+            for row in chunk:
+                fecha_dt = datetime.strptime(row[0], '%Y-%m-%d')
+                nueva_fecha = fecha_dt - timedelta(days=1)
+                row[0] = nueva_fecha.strftime('%Y-%m-%d')
 
         return chunk
 
