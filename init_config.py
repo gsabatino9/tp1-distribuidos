@@ -34,19 +34,8 @@ services:
   <APPLIER_QUERY3>
 
   <RESULTS_VERIFIER>
-
-  eof_manager_joiners:
-    container_name: eof_manager_joiners
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: eof_manager_joiners:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
     
+  <EM_JOINERS>
   <EM_FILTERS>
   <EM_GROUPBY>
   <EM_APPLIERS>
@@ -286,6 +275,26 @@ APPLIER_QUERY3 = """
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
     image: mean_distance_applier:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
+EM_JOINERS = """
+  eof_manager_joiners:
+    container_name: eof_manager_joiners
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_SEND_QUEUE={}
+      - NAME_STATIONS_QUEUE={}
+      - NAME_WEATHER_QUEUE={}
+      - NAME_JOIN_STATIONS_QUEUE={}
+      - NAME_JOIN_WEATHER_QUEUE={}
+    image: eof_manager_joiners:latest
     networks:      
       - testing_net
     depends_on:

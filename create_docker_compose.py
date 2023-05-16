@@ -32,6 +32,15 @@ def main():
         queues["filters"]["filter_trip_weather"],
     )
 
+    em_joiners = EM_JOINERS.format(
+        em_queues["joiners"],
+        em_queues["filters"],
+        queues["joiners"]["stations"],
+        queues["joiners"]["weather"],
+        queues["joiners"]["join_trip_stations"],
+        queues["joiners"]["join_trip_weather"]
+    )
+
     filters_pretoc, filters_year, filters_distance, em_filters = init_filters(
         queues, em_queues, amount_nodes
     )
@@ -49,6 +58,7 @@ def main():
         .replace("<RECEIVER>", receiver)
         .replace("<JOINER_STATIONS>", joiner_stations)
         .replace("<JOINER_WEATHER>", joiner_weather)
+        .replace("<EM_JOINERS>", em_joiners)
         .replace("<FILTER_PRETOC>", filters_pretoc)
         .replace("<FILTER_YEAR>", filters_year)
         .replace("<FILTER_DISTANCE>", filters_distance)

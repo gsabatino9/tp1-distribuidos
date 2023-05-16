@@ -1,4 +1,4 @@
-from client import Client
+from common.client import Client
 import os
 
 HOST = os.environ.get("HOST")

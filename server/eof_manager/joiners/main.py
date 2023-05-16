@@ -1,12 +1,12 @@
 from common.eof_manager import EOFManager
 import os
 
-NAME_RECV_QUEUE = "eof_manager_joiners_q"
-NAME_SEND_QUEUE = "eof_manager_filters_q"
-NAME_STATIONS_QUEUE = "joiner_stations_q"
-NAME_WEATHER_QUEUE = "joiner_weather_q"
-NAME_JOIN_STATIONS_QUEUE = "join_trip_stations_q"
-NAME_JOIN_WEATHER_QUEUE = "join_trip_weather_q"
+NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
+NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
+NAME_STATIONS_QUEUE = os.environ.get("NAME_STATIONS_QUEUE")
+NAME_WEATHER_QUEUE = os.environ.get("NAME_WEATHER_QUEUE")
+NAME_JOIN_STATIONS_QUEUE = os.environ.get("NAME_JOIN_STATIONS_QUEUE")
+NAME_JOIN_WEATHER_QUEUE = os.environ.get("NAME_JOIN_WEATHER_QUEUE")
 
 
 def main():

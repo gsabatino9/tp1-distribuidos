@@ -1,5 +1,5 @@
 from protocol.communication_client import CommunicationClient
-from utils import construct_payload, construct_city, is_eof
+from common.utils import construct_payload, construct_city, is_eof
 import csv, socket, time, signal, sys
 from itertools import islice
 from datetime import datetime, timedelta

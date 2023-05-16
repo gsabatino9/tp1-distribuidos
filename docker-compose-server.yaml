@@ -247,19 +247,26 @@ services:
       rabbitmq:
         condition: service_healthy
 
-
+    
+  
   eof_manager_joiners:
     container_name: eof_manager_joiners
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE=eof_manager_joiners_q
+      - NAME_SEND_QUEUE=eof_manager_filters_q
+      - NAME_STATIONS_QUEUE=joiner_stations_q
+      - NAME_WEATHER_QUEUE=joiner_weather_q
+      - NAME_JOIN_STATIONS_QUEUE=join_trip_stations_q
+      - NAME_JOIN_WEATHER_QUEUE=join_trip_weather_q
     image: eof_manager_joiners:latest
     networks:      
       - testing_net
     depends_on:
       rabbitmq:
         condition: service_healthy
-    
+
   
   eof_manager_filters:
     container_name: eof_manager_filters
