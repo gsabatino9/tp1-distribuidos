@@ -102,7 +102,7 @@ class Client:
         self.__save_results(results)
 
     def __save_results(self, results):
-        with open("output.csv", "w", newline="") as f:
+        with open("results/output.csv", "w", newline="") as f:
             writer = csv.writer(f)
             for key, values in results.items():
                 for row in values:
