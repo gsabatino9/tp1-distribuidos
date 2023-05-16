@@ -11,7 +11,7 @@ class ResultsVerifier:
         self.__connect(name_recv_queue, name_em_queue, amount_queries)
         self.__run()
 
-    def __init_results_verifier(self, host, port):
+    def __init_results_verifier(self, host, port, amount_queries):
         self.running = True
         signal.signal(signal.SIGTERM, self.stop)
 

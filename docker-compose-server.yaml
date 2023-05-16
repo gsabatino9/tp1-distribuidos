@@ -237,6 +237,7 @@ services:
       - PORT=12346
       - NAME_RECV_QUEUE=query_results_q
       - NAME_EM_QUEUE=eof_manager_query_result_q
+      - AMOUNT_QUERIES=3
     ports:
       - 12346:12346
     image: results_verifier:latest
