@@ -60,7 +60,7 @@ class EOFManager:
 
         if self.acks == len(self.groupby_queues):
             print(
-                f"action: close_stage | result: success | msg: all sent eofs have ack"
+                f"action: close_stage | result: success | msg: all the sent EOFs have received ACK"
             )
             self.send_queue.send(eof_msg(header))
 

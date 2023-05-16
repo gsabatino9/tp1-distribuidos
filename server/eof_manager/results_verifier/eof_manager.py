@@ -58,7 +58,7 @@ class EOFManager:
 
         if self.acks == self.size_queries:
             print(
-                f"action: close_stage | result: success | msg: all sent eofs have ack"
+                f"action: close_stage | result: success | msg: all the sent EOFs have received ACK"
             )
 
     def stop(self, *args):
