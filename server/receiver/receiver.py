@@ -15,16 +15,19 @@ class Receiver:
         name_weather_queue,
         name_trips_queues,
         name_em_queue,
+        amount_queries
     ):
-        self.__init_receiver()
+        self.__init_receiver(amount_queries)
         # try-except a todo
         self.__connect_queue(name_stations_queue, name_weather_queue, name_trips_queues)
         self.__connect_eof_manager_queue(name_em_queue)
         self.__connect_client(host, port)
 
-    def __init_receiver(self):
+    def __init_receiver(self, amount_queries):
         self.running = True
         signal.signal(signal.SIGTERM, self.stop)
+
+        self.amount_queries = amount_queries
 
         print("action: receiver_started | result: success")
 
@@ -37,7 +40,7 @@ class Receiver:
         self.trips_queues = [
             self.queue_connection.basic_queue(q) for q in name_trips_queues
         ]
-
+        
     def __connect_eof_manager_queue(self, name_em_queue):
         self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
 
@@ -56,19 +59,22 @@ class Receiver:
     def run(self):
         types_ended = set()
 
-        while len(types_ended) < 3:
+        while len(types_ended) < self.amount_queries:
             header, payload_bytes = self.client_connection.recv_data(
                 decode_payload=False
             )
 
             if is_eof(header):
                 types_ended.add(header.data_type)
-                self.em_queue.send(eof_msg(header))
+                self.__send_eof(header)
             else:
                 self.__route_message(header, payload_bytes)
 
         print("action: all_files_arrived | result: success")
         self.client_connection.send_files_received()
+
+    def __send_eof(self, header):
+        self.em_queue.send(eof_msg(header))
 
     def __route_message(self, header, payload_bytes):
         msg = encode_header(header) + payload_bytes
@@ -78,7 +84,10 @@ class Receiver:
         elif is_weather(header):
             self.weather_queue.send(msg)
         else:
-            [trips_queue.send(msg) for trips_queue in self.trips_queues]
+            self.__send_msg_to_trips(msg)
+
+    def __send_msg_to_trips(self, msg):
+        [trips_queue.send(msg) for trips_queue in self.trips_queues]       
 
     def stop(self, *args):
         if self.running:

@@ -69,6 +69,7 @@ RECEIVER = """
       - NAME_WEATHER_QUEUE={}
       - NAME_TRIPS_QUEUES={}
       - NAME_EM_QUEUE={}
+      - AMOUNT_QUERIES=3
     image: receiver:latest
     ports:
       - 12345:12345
