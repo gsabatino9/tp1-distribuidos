@@ -1,4 +1,4 @@
-from results_verifier import ResultsVerifier
+from common.results_verifier import ResultsVerifier
 import os
 
 HOST = os.environ.get("HOST")

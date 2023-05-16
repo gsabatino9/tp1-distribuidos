@@ -1,4 +1,4 @@
-from mean_duration_applier import MeanDurationApplier
+from common.mean_duration_applier import MeanDurationApplier
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")

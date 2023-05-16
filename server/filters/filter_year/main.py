@@ -1,4 +1,4 @@
-from filter_year import FilterYear
+from common.filter_year import FilterYear
 import os
 
 NAME_RECV_EXCHANGE = os.environ.get("NAME_RECV_EXCHANGE")

@@ -1,4 +1,4 @@
-from joiner_weather import JoinerWeather
+from common.joiner_weather import JoinerWeather
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")

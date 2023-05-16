@@ -1,4 +1,4 @@
-from groupby_end_station import GroupbyEndStation
+from common.groupby_end_station import GroupbyEndStation
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")

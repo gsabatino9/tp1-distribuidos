@@ -1,4 +1,4 @@
-from joiner_stations import JoinerStations
+from common.joiner_stations import JoinerStations
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")

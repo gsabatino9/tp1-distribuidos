@@ -1,4 +1,4 @@
-from mean_distance_applier import MeanDistanceApplier
+from common.mean_distance_applier import MeanDistanceApplier
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")

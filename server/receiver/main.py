@@ -1,4 +1,4 @@
-from receiver import Receiver
+from common.receiver import Receiver
 import os, ast
 
 HOST = os.environ.get("HOST")

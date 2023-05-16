@@ -1,4 +1,4 @@
-from utils import StationsData
+from common.utils import StationsData
 from server.joiners.common.joiner_controller import JoinerController
 
 

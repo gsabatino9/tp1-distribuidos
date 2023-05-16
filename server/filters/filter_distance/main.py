@@ -1,4 +1,4 @@
-from filter_distance import FilterDistance
+from common.filter_distance import FilterDistance
 import os
 
 NAME_RECV_EXCHANGE = os.environ.get("NAME_RECV_EXCHANGE")

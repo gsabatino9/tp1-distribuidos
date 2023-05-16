@@ -1,7 +1,7 @@
 import socket, signal, sys
 from protocol.communication_server import CommunicationServer
 from server.common.queue.connection import Connection
-from utils import is_eof
+from common.utils import is_eof
 from server.common.utils_messages_eof import eof_msg
 from server.common.utils_messages_client import is_station, is_weather, encode_header
 

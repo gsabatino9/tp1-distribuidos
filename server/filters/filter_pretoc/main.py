@@ -1,4 +1,4 @@
-from filter_pretoc import FilterPretoc
+from common.filter_pretoc import FilterPretoc
 import os
 
 NAME_RECV_EXCHANGE = os.environ.get("NAME_RECV_EXCHANGE")

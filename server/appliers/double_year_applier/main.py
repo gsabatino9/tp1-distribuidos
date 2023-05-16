@@ -1,4 +1,4 @@
-from double_year_applier import DoubleYearApplier
+from common.double_year_applier import DoubleYearApplier
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")

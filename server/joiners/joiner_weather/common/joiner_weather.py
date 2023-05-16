@@ -1,4 +1,4 @@
-from utils import WeatherData
+from common.utils import WeatherData
 from server.joiners.common.joiner_controller import JoinerController
 
 

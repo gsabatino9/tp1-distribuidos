@@ -1,4 +1,4 @@
-from groupby_start_date import GroupbyStartDate
+from common.groupby_start_date import GroupbyStartDate
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")

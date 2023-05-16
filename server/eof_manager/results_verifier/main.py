@@ -1,4 +1,4 @@
-from eof_manager import EOFManager
+from common.eof_manager import EOFManager
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
