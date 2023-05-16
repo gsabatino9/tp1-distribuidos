@@ -116,7 +116,7 @@ services:
       - NAME_RECV_EXCHANGE=filter_joined_stations_q
       - NAME_RECV_QUEUE=filter_distance_q
       - NAME_EM_QUEUE=eof_manager_filters_q
-      - NAME_SEND_QUEUE=groupby_query3_q
+      - NAME_SEND_QUEUE=groupby_end_station_q
     image: filter_distance:latest
     networks:      
       - testing_net
@@ -166,7 +166,7 @@ services:
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - NAME_RECV_QUEUE=groupby_query3_q
+      - NAME_RECV_QUEUE=groupby_end_station_q
       - NAME_EM_QUEUE=eof_manager_groupby_q
       - NAME_SEND_QUEUE=applier_query3_q
       - CHUNK_SIZE=100
@@ -283,7 +283,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - NAME_RECV_QUEUE=eof_manager_groupby_q
-      - NAME_GROUPBY_QUEUE=['groupby_start_date_q', 'groupby_start_station_q', 'groupby_query3_q']
+      - NAME_GROUPBY_QUEUE=['groupby_start_date_q', 'groupby_start_station_q', 'groupby_end_station_q']
       - NAME_SEND_QUEUE=eof_manager_applier_q
     image: eof_manager_groupby:latest
     networks:      
