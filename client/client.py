@@ -12,7 +12,9 @@ class Client:
         # try-except
         skt = self.__connect(host, port)
         self.conn = CommunicationClient(skt)
-        print(f"[cliente] conectado {self.conn.getpeername()}")
+        print(
+            f"action: client_connected | result: success | addr: {self.conn.getpeername()}"
+        )
 
     def __init_client(self, chunk_size):
         self.running = True
@@ -35,9 +37,9 @@ class Client:
         for file in types_files:
             self.__send_type_file(filepaths, file, cities)
 
-        print("Esperando confirmación archivos.")
+        print(f"action: waiting_ack_files")
         self.conn.recv_files_received()
-        print("Todos los archivos enviados correctamente al servidor.")
+        print(f"action: ack_files | result: success | msg: all files sent to server")
         self.conn.stop()
 
     # manda todo de una stations, weather o trips
@@ -59,7 +61,9 @@ class Client:
                     send_data += 1
 
         self.__send_chunk(type_file, list(""), cities[i], True)
-        print(f"[cliente_{type_file}] cantidad enviada: {send_data}")
+        print(
+            f"action: file_sent | result: success | type_file: {type_file} | amount_chunks: {send_data}"
+        )
 
     def __send_chunk(self, data_type, chunk, city, last_chunk):
         city = construct_city(city)
@@ -75,9 +79,9 @@ class Client:
                 row[2] = end_date.strftime("%Y-%m-%d")
         elif type_file == "weather":
             for row in chunk:
-                fecha_dt = datetime.strptime(row[0], '%Y-%m-%d')
+                fecha_dt = datetime.strptime(row[0], "%Y-%m-%d")
                 nueva_fecha = fecha_dt - timedelta(days=1)
-                row[0] = nueva_fecha.strftime('%Y-%m-%d')
+                row[0] = nueva_fecha.strftime("%Y-%m-%d")
 
         return chunk
 
@@ -90,21 +94,20 @@ class Client:
             header, payload = self.conn.recv_results()
             if is_eof(header):
                 ended = True
-                print("Todos los resultados obtenidos.")
+                print(f"action: results_obtained | result: success")
             else:
-                # print(f"Query {header.id_query} - {payload.data}")
                 results[header.id_query].append(payload.data)
 
         print(results)
         self.__save_results(results)
 
     def __save_results(self, results):
-        with open('output.csv', 'w', newline='') as f:
+        with open("output.csv", "w", newline="") as f:
             writer = csv.writer(f)
             for key, values in results.items():
                 for row in values:
                     for value in row:
-                        writer.writerow([key]+[value])
+                        writer.writerow([key] + [value])
 
     def __connect_with_consults_server(self, host, port):
         connected = False
@@ -112,16 +115,21 @@ class Client:
             try:
                 skt = self.__connect(host, port)
                 self.conn = CommunicationClient(skt)
-                print("Conexión establecida - obteniendo resultados.")
+                print(
+                    f"action: client_connected | result: success | addr: {self.conn.getpeername()}"
+                )
                 connected = True
             except:
-                print("Sin éxito en la conexión.")
+                print(
+                    f"action: client_connected | result: failure | msg: retry in 1 sec"
+                )
                 time.sleep(1)
 
     def stop(self, *args):
         if self.running:
             if hasattr(self, "conn"):
                 self.conn.stop()
+                print("action: close_resource | result: success | resource: connection")
 
             self.running = False
             print("Client cerrado correctamente.")

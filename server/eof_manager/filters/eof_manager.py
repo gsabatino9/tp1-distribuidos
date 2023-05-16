@@ -19,6 +19,8 @@ class EOFManager:
         self.sum_workers = sum(size_workers)
         self.acks = 0
 
+        print("action: eof_manager_started | result: success")
+
     def __connect(self, name_recv_queue, name_filters_queue, name_send_queue):
         # try-except
         self.queue_connection = Connection()
@@ -42,6 +44,7 @@ class EOFManager:
             self.__recv_ack_trips(header, body)
 
     def __send_eofs(self, header, msg):
+        print(f"action: send_eofs | result: success | msg: eof arrived")
         for i, size_w in enumerate(self.size_workers):
             for _ in range(size_w):
                 self.filters_queues[i].send(msg)
@@ -50,15 +53,19 @@ class EOFManager:
         self.acks += 1
 
         if self.acks == self.sum_workers:
-            print("EOF trips ackeados.")
+            print(
+                f"action: close_stage | result: success | msg: all sent eofs have ack"
+            )
             self.send_queue.send(eof_msg(header))
 
     def stop(self, *args):
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
 
             self.running = False
-            print("EOFManagerFilters cerrado correctamente.")
 
         sys.exit(0)

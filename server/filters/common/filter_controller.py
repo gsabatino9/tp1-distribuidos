@@ -31,6 +31,8 @@ class FilterController:
         self.not_filtered = 0
         self.filter = Filter(columns_names, reduced_columns, func_filter)
 
+        print("action: filter_started | result: success")
+
     def __connect(
         self, name_recv_exchange, name_recv_queue, name_em_queue, name_send_queue
     ):
@@ -66,15 +68,17 @@ class FilterController:
 
     def __eof_arrived(self, ch):
         ch.stop_consuming()
-        print("EOF llegó a filtro - not_filtered", self.not_filtered)
         self.em_queue.send(ack_msg())
+        print(f"action: eof_trips_arrived | not_filtered_trips: {self.not_filtered}")
 
     def stop(self, *args):
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
 
             self.running = False
-            print("FilterController cerrado correctamente.")
 
         sys.exit(0)

@@ -30,6 +30,8 @@ class EOFManager:
 
         self.acks = 0
 
+        print("action: eof_manager_started | result: success")
+
     def __connect(
         self,
         name_recv_queue,
@@ -68,6 +70,7 @@ class EOFManager:
             self.__recv_ack_trips(header, body)
 
     def __send_eof(self, header, msg):
+        print(f"action: send_eofs | result: success | msg: eof arrived")
         if is_station(header):
             self.stations_queue.send(msg)
         elif is_weather(header):
@@ -80,15 +83,19 @@ class EOFManager:
         self.acks += 1
 
         if self.acks == 2:
-            print("EOF trips ackeados.")
+            print(
+                f"action: close_stage | result: success | msg: all sent eofs have ack"
+            )
             self.send_queue.send(eof_msg(header))
 
     def stop(self, *args):
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
 
             self.running = False
-            print("EOFManagerJoiners cerrado correctamente.")
 
         sys.exit(0)

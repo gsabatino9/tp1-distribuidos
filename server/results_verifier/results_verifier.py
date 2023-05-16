@@ -21,6 +21,8 @@ class ResultsVerifier:
         self.queries_ended = {i: False for i in range(1, 4)}
         self.addr = (host, port)
 
+        print("action: results_verifier_started | result: success")
+
     def __connect(self, name_recv_queue, name_em_queue):
         self.queue_connection = Connection()
         self.recv_queue = self.queue_connection.routing_queue(
@@ -31,7 +33,7 @@ class ResultsVerifier:
     def process_messages(self, ch, method, properties, body):
         id_query = int(method.routing_key)
         if is_eof(body):
-            print("eof recv")
+            print("action: eof_trips_arrived")
             self.__eof_arrived(id_query)
         else:
             self.__query_result_arrived(body, id_query)
@@ -53,7 +55,9 @@ class ResultsVerifier:
                 ended = False
 
         if ended:
-            print(f"Resultados listos - {self.queries_results}")
+            print(
+                f"action: results_ready | result: success | results: {self.queries_results}"
+            )
             self.__inform_results()
 
     def __inform_results(self):
@@ -67,7 +71,9 @@ class ResultsVerifier:
 
         client_socket, _ = skt.accept()
         self.client_connection = CommunicationServer(client_socket)
-        print("Conectado con cliente para enviarle resultados")
+        print(
+            "action: client_connected | result: success | msg: starting to send results"
+        )
 
     def __send_results(self):
         for query in self.queries_results:
@@ -76,16 +82,21 @@ class ResultsVerifier:
                 self.client_connection.send_results(query, results)
 
         self.client_connection.send_last()
-        print("Todos los resultados enviados")
+        print("action: results_sent | result: success")
 
     def stop(self, *args):
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
             if hasattr(self, "client_connection"):
                 self.client_connection.stop()
+                print(
+                    "action: close_resource | result: success | resource: client_connection"
+                )
 
             self.running = False
-            print("ResultsVerifier cerrado correctamente.")
 
         sys.exit(0)

@@ -29,6 +29,8 @@ class ApplierController:
         self.gen_result_msg = gen_result_msg
         self.applier = Applier(operation)
 
+        print("action: applier_started | result: success")
+
     def __connect(self, name_recv_queue, name_em_queue, name_send_queue):
         self.queue_connection = Connection()
         self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
@@ -53,9 +55,8 @@ class ApplierController:
                 if result:
                     result_trips.append(msg_to_send)
             except:
-                print("trip vacío")
+                print("action: ignore_trip | msg: invalid or empty trip arrived")
 
-        # print(result_trips)
         self.__send_result(result_trips)
 
     def __send_result(self, trips_to_next_stage):
@@ -66,13 +67,16 @@ class ApplierController:
     def __eof_arrived(self, ch):
         ch.stop_consuming()
         self.em_queue.send(ack_msg())
+        print("action: eof_trips_arrived")
 
     def stop(self, *args):
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
 
             self.running = False
-            print("ApplierController cerrado correctamente.")
 
         sys.exit(0)

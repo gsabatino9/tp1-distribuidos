@@ -18,6 +18,8 @@ class EOFManager:
         self.acks = 0
         self.size_queries = size_queries
 
+        print("action: eof_manager_started | result: success")
+
     def __connect(self, name_recv_queue, name_verifier_queue):
         # try-except
         self.queue_connection = Connection()
@@ -33,6 +35,7 @@ class EOFManager:
             self.__recv_ack_trips(header, body)
 
     def __send_eofs(self, header, msg):
+        print(f"action: send_eofs | result: success | msg: eof arrived")
         for i in range(1, self.size_queries + 1):
             self.verifier_queue.send(msg, routing_key=str(i))
 
@@ -40,14 +43,18 @@ class EOFManager:
         self.acks += 1
 
         if self.acks == self.size_queries:
-            print("EOF trips ackeados.")
+            print(
+                f"action: close_stage | result: success | msg: all sent eofs have ack"
+            )
 
     def stop(self, *args):
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
 
             self.running = False
-            print("EOFManagerResultsVerifier cerrado correctamente.")
 
         sys.exit(0)

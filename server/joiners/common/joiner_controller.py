@@ -24,6 +24,7 @@ class JoinerController:
         signal.signal(signal.SIGTERM, self.stop)
 
         self.joiner = joiner
+        print("action: joiner_started | result: success")
 
     def __connect(
         self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue
@@ -46,7 +47,9 @@ class JoinerController:
             self.__static_data_arrived(body)
 
     def __last_static_data_arrived(self):
-        print(f"Todas los datos estáticos llegaron llegaron")
+        print(
+            "action: static_data_arrived | result: success | msg: starting to receive trips"
+        )
         self.amount_joined = 0
         self.trips_queue.receive(self.process_join_messages)
 
@@ -85,14 +88,16 @@ class JoinerController:
 
     def __last_trip_arrived(self):
         self.em_queue.send(ack_msg())
-        print(f"EOF trips - Joined: {self.amount_joined}")
+        print(f"action: eof_trips_arrived | amount_joined: {self.amount_joined}")
 
     def stop(self, *args):
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
 
             self.running = False
-            print("Joiner cerrado correctamente.")
 
         sys.exit(0)

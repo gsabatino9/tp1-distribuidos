@@ -26,6 +26,8 @@ class Receiver:
         self.running = True
         signal.signal(signal.SIGTERM, self.stop)
 
+        print("action: receiver_started | result: success")
+
     def __connect_queue(
         self, name_stations_queue, name_weather_queue, name_trips_queues
     ):
@@ -47,6 +49,10 @@ class Receiver:
         client_socket, _ = skt.accept()
         self.client_connection = CommunicationServer(client_socket)
 
+        print(
+            "action: client_connected | result: success | msg: starting to receive data"
+        )
+
     def run(self):
         types_ended = set()
 
@@ -61,7 +67,7 @@ class Receiver:
             else:
                 self.__route_message(header, payload_bytes)
 
-        print("Todos los archivos llegaron.")
+        print("action: all_files_arrived | result: success")
         self.client_connection.send_files_received()
 
     def __route_message(self, header, payload_bytes):
@@ -77,10 +83,15 @@ class Receiver:
     def stop(self, *args):
         if self.running:
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
             if hasattr(self, "client_connection"):
                 self.client_connection.stop()
+                print(
+                    "action: close_resource | result: success | resource: client_connection"
+                )
 
             self.running = False
-            print("Receiver cerrado correctamente.")
 
         sys.exit(0)

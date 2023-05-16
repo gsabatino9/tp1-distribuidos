@@ -28,6 +28,7 @@ class GroupbyController:
 
         self.groupby = Groupby(operation, base_data)
         self.gen_key_value = gen_key_value
+        print("action: groupby_started | result: success")
 
     def __connect(self, name_recv_queue, name_em_queue, name_send_queue):
         self.queue_connection = Connection()
@@ -52,6 +53,7 @@ class GroupbyController:
     def __eof_arrived(self):
         self.__send_to_apply()
         self.em_queue.send(ack_msg())
+        print("action: eof_trips_arrived")
 
     def __send_to_apply(self):
         grouped_data = []
@@ -75,8 +77,10 @@ class GroupbyController:
         if self.running:
             self.queue_connection.stop_receiving()
             self.queue_connection.close()
+            print(
+                "action: close_resource | result: success | resource: rabbit_connection"
+            )
 
             self.running = False
-            print("GroupbyController cerrado correctamente.")
 
         sys.exit(0)

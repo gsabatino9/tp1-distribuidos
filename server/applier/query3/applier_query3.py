@@ -3,7 +3,7 @@ from server.applier.common.applier_controller import ApplierController
 
 class ApplierQuery3:
     def __init__(self, name_recv_queue, name_em_queue, name_send_queue):
-        operation = lambda k, v: (v[0] / v[1] >= 6) if v[1] > 0  and v[0] > 0 else False
+        operation = lambda k, v: (v[0] / v[1] >= 6) if v[1] > 0 and v[0] > 0 else False
 
         self.applier_controller = ApplierController(
             name_recv_queue,
