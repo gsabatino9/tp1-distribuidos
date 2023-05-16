@@ -31,7 +31,6 @@ class Client:
             f"action: client_connected | result: success | addr: {self.conn.getpeername()}"
         )
         
-
     def run(self, filepaths, types_files, cities, addr_consult):
         self.__send_files(filepaths, types_files, cities)
         self.__get_results(addr_consult)
@@ -45,13 +44,14 @@ class Client:
         print(f"action: ack_files | result: success | msg: all files sent to server")
         self.conn.stop()
 
-    # manda todo de una stations, weather o trips
     def __send_type_file(self, filepaths, type_file, cities):
+        """
+        it sends all the files of the same type (stations, weather, trips).
+        """
         send_data = 0
         for i, filepath in enumerate(filepaths):
             with open(filepath + type_file + ".csv", newline="") as csvfile:
                 reader = csv.reader(csvfile, delimiter=",")
-
                 # skip header
                 next(reader)
                 send_data += self.__send_file_in_chunks(type_file, cities[i], reader)            
@@ -59,6 +59,9 @@ class Client:
         self.__send_last(type_file, cities[i], send_data)
 
     def __send_file_in_chunks(self, type_file, city, reader):
+        """
+        it sends a file with grouped rows (chunk).
+        """
         send_data = 0
         
         while True:
@@ -122,14 +125,6 @@ class Client:
         print(f"action: results_obtained | result: success | results: {results}")
         self.__save_results(results)
 
-    def __save_results(self, results):
-        with open("results/output.csv", "w", newline="") as f:
-            writer = csv.writer(f)
-            for key, values in results.items():
-                for row in values:
-                    for value in row:
-                        writer.writerow([key] + [value])
-
     def __connect_with_consults_server(self, host, port):
         connected = False
         retries = 0
@@ -156,6 +151,17 @@ class Client:
             time.sleep(1)
 
             return False
+
+    def __save_results(self, results):
+        """
+        it persists the results of the queries in a file.
+        """
+        with open("results/output.csv", "w", newline="") as f:
+            writer = csv.writer(f)
+            for key, values in results.items():
+                for row in values:
+                    for value in row:
+                        writer.writerow([key] + [value])
 
     def stop(self, *args):
         if self.running:
