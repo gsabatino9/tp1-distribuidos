@@ -14,12 +14,12 @@
   			"filter_pretoc": "filter_pretoc_q",
   			"filter_distance": "filter_distance_q"
   		},
-  		"groupby_query1": "groupby_query1_q",
-  		"groupby_query2": "groupby_query2_q",
-  		"groupby_query3": "groupby_query3_q",
-  		"applier_query1": "applier_query1_q",
-  		"applier_query2": "applier_query2_q",
-  		"applier_query3": "applier_query3_q",
+  		"groupby_query1": "groupby_start_date_q",
+  		"groupby_query2": "groupby_start_station_q",
+  		"groupby_query3": "groupby_end_station_q",
+  		"applier_query1": "mean_duration_applier_q",
+  		"applier_query2": "double_year_applier_q",
+  		"applier_query3": "mean_distance_applier_q",
   		"results_verifier": "query_results_q"
   	},
   	"eof_manager_queues": {

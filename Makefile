@@ -20,20 +20,20 @@ server-image:
 	docker build -f ./server/filters/filter_year/Dockerfile -t "filter_year:latest" .
 	docker build -f ./server/filters/filter_distance/Dockerfile -t "filter_distance:latest" .
 	
-	docker build -f ./server/groupby/query1/Dockerfile -t "groupby_query1:latest" .
-	docker build -f ./server/groupby/query2/Dockerfile -t "groupby_query2:latest" .
-	docker build -f ./server/groupby/query3/Dockerfile -t "groupby_query3:latest" .
+	docker build -f ./server/groupby/start_date/Dockerfile -t "groupby_start_date:latest" .
+	docker build -f ./server/groupby/start_station/Dockerfile -t "groupby_start_station:latest" .
+	docker build -f ./server/groupby/end_station/Dockerfile -t "groupby_end_station:latest" .
 	
-	docker build -f ./server/applier/query1/Dockerfile -t "applier_query1:latest" .
-	docker build -f ./server/applier/query2/Dockerfile -t "applier_query2:latest" .
-	docker build -f ./server/applier/query3/Dockerfile -t "applier_query3:latest" .
+	docker build -f ./server/appliers/mean_duration_applier/Dockerfile -t "mean_duration_applier:latest" .
+	docker build -f ./server/appliers/double_year_applier/Dockerfile -t "double_year_applier:latest" .
+	docker build -f ./server/appliers/mean_distance_applier/Dockerfile -t "mean_distance_applier:latest" .
 	
 	docker build -f ./server/results_verifier/Dockerfile -t "results_verifier:latest" .
 	
 	docker build -f ./server/eof_manager/joiners/Dockerfile -t "eof_manager_joiners:latest" .
 	docker build -f ./server/eof_manager/filters/Dockerfile -t "eof_manager_filters:latest" .
 	docker build -f ./server/eof_manager/groupby/Dockerfile -t "eof_manager_groupby:latest" .
-	docker build -f ./server/eof_manager/applier/Dockerfile -t "eof_manager_applier:latest" .
+	docker build -f ./server/eof_manager/appliers/Dockerfile -t "eof_manager_appliers:latest" .
 	docker build -f ./server/eof_manager/results_verifier/Dockerfile -t "eof_manager_query_results:latest" .
 .PHONY: server-image
 

@@ -1,26 +1,26 @@
-from server.applier.common.applier_controller import ApplierController
+from server.appliers.common.applier_controller import ApplierController
 
 
-class ApplierQuery2:
+class MeanDurationApplier:
     def __init__(self, name_recv_queue, name_em_queue, name_send_queue):
-        operation = lambda k, v: (v[1] > 2 * v[0]) and (v[0] > 0)
-
+        operation = lambda k, v: [k, str(v[0] / v[1])]
         self.applier_controller = ApplierController(
             name_recv_queue,
             name_em_queue,
             name_send_queue,
-            2,
+            1,
             operation,
             self.gen_result_msg,
         )
 
     def gen_result_msg(self, trip, applier):
         key = trip[0]
-        value = [int(i) for i in trip[1:]]
+        value = [float(i) for i in trip[1:]]
 
         result = applier.apply(key, value)
+        msg_to_send = ",".join(result)
 
-        return result, ",".join(trip)
+        return result, msg_to_send
 
     def stop(self):
         self.applier_controller.stop()

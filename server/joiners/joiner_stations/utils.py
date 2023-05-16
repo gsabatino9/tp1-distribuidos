@@ -16,18 +16,12 @@ class StationsData:
         ]
 
     def join_trip(self, city, trip):
-        """
-        Le retorno:
-        name_start_station, lat_start_station, long_start_station,
-        name_end_station, lat_end_station, long_end_station
-        """
         try:
             start_code, end_code, yearid = trip[1], trip[3], trip[6]
             start_station = self.__join_trip(city, start_code, yearid)
             end_station = self.__join_trip(city, end_code, yearid)
 
             return ",".join([city] + trip + start_station + end_station)
-        # poner una excepción propia para catchearla
         except:
             return None
 

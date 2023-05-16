@@ -1,6 +1,6 @@
 import signal, sys
 from server.common.queue.connection import Connection
-from server.applier.common.applier import Applier
+from server.appliers.common.applier import Applier
 from server.common.utils_messages_eof import ack_msg
 from server.common.utils_messages_group import decode, is_eof, construct_msg
 
@@ -18,8 +18,7 @@ class ApplierController:
         self.__init_applier(str(id_query), gen_result_msg, operation)
 
         self.__connect(name_recv_queue, name_em_queue, name_send_queue)
-        self.recv_queue.receive(self.process_messages)
-        self.queue_connection.start_receiving()
+        self.__run()
 
     def __init_applier(self, id_query, gen_result_msg, operation):
         self.running = True
@@ -32,20 +31,42 @@ class ApplierController:
         print("action: applier_started | result: success")
 
     def __connect(self, name_recv_queue, name_em_queue, name_send_queue):
-        self.queue_connection = Connection()
-        self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
-        self.send_queue = self.queue_connection.routing_queue(name_send_queue)
+        try:
+            self.queue_connection = Connection()
+            self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
+            self.send_queue = self.queue_connection.routing_queue(name_send_queue)
 
-        self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+            self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+        except OSError as e:
+            print(f"error: creating_queue_connection | log: {e}")
+            self.stop()
+
+    def __run(self):
+        """
+        start receiving messages.
+        """
+        self.recv_queue.receive(self.process_messages)
+        self.queue_connection.start_receiving()
 
     def process_messages(self, ch, method, properties, body):
         if is_eof(body):
             self.__eof_arrived(ch)
         else:
-            self.__apply(body)
+            self.__agroup_trips_arrived(body)
 
-    def __apply(self, body):
+    def __agroup_trips_arrived(self, body):
         header, agrouped_trips = decode(body)
+
+        result_trips = self.__apply_condition_to_agrouped_trips(agrouped_trips)
+        self.__send_result(result_trips)
+
+    def __apply_condition_to_agrouped_trips(self, agrouped_trips):
+        """
+        saves each data that satisfies the condition.
+        Two things can happen:
+        1. The applier consists of applying an operation (such as mean), in which case all the data satisfies it.
+        2. The applier has a condition, such as one parameter being double the other.
+        """
         result_trips = []
 
         for trip in agrouped_trips:
@@ -57,7 +78,7 @@ class ApplierController:
             except:
                 print("action: ignore_trip | msg: invalid or empty trip arrived")
 
-        self.__send_result(result_trips)
+        return result_trips
 
     def __send_result(self, trips_to_next_stage):
         if len(trips_to_next_stage) > 0:

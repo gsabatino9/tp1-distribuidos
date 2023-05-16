@@ -1,10 +1,14 @@
 from server.groupby.common.groupby_controller import GroupbyController
-from haversine import haversine
 
 
-class GroupbyQuery3:
-    def __init__(self, name_recv_queue, name_em_queue, name_send_queue):
-        operation = lambda old, new: [old[0] + max(new, 0), old[1] + 1]
+class GroupbyStartStation:
+    def __init__(self, name_recv_queue, name_em_queue, name_send_queue, chunk_size):
+        def operation(old, yearid):
+            if yearid == "2016":
+                return [old[0] + 1, old[1]]
+            else:
+                return [old[0], old[1] + 1]
+
         base_data = [0, 0]
 
         self.groupby_controller = GroupbyController(
@@ -14,14 +18,11 @@ class GroupbyQuery3:
             operation,
             base_data,
             self.gen_key_value,
+            chunk_size,
         )
 
     def gen_key_value(self, trip):
-        distance = haversine(
-            (float(trip[1]), float(trip[2])), (float(trip[4]), float(trip[5]))
-        )
-
-        return trip[3], distance
+        return trip[1], trip[0]
 
     def stop(self):
         self.groupby_controller.stop()

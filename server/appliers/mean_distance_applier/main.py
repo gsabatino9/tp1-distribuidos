@@ -1,4 +1,4 @@
-from groupby_query3 import GroupbyQuery3
+from mean_distance_applier import MeanDistanceApplier
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
@@ -7,8 +7,8 @@ NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
 
 
 def main():
-    g = GroupbyQuery3(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE)
-    g.stop()
+    a = MeanDistanceApplier(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE)
+    a.stop()
 
 
 if __name__ == "__main__":

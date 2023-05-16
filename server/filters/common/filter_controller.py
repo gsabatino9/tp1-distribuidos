@@ -17,12 +17,10 @@ class FilterController:
         func_filter,
     ):
         self.__init_filter(columns_names, reduced_columns, func_filter)
-
         self.__connect(
             name_recv_exchange, name_recv_queue, name_em_queue, name_send_queue
         )
-        self.recv_queue.receive(self.proccess_message)
-        self.queue_connection.start_receiving()
+        self.__run()
 
     def __init_filter(self, columns_names, reduced_columns, func_filter):
         self.running = True
@@ -36,32 +34,52 @@ class FilterController:
     def __connect(
         self, name_recv_exchange, name_recv_queue, name_em_queue, name_send_queue
     ):
-        self.queue_connection = Connection()
-        self.recv_queue = self.queue_connection.pubsub_worker_queue(
-            name_recv_exchange, name_recv_queue
-        )
-        self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
-        self.send_queue = self.queue_connection.basic_queue(name_send_queue)
+        try:
+            self.queue_connection = Connection()
+            self.recv_queue = self.queue_connection.pubsub_worker_queue(
+                name_recv_exchange, name_recv_queue
+            )
+            self.send_queue = self.queue_connection.basic_queue(name_send_queue)
+
+            self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+        except OSError as e:
+            print(f"error: creating_queue_connection | log: {e}")
+            self.stop()
+
+    def __run(self):
+        """
+        start receiving messages.
+        """
+        self.recv_queue.receive(self.proccess_message)
+        self.queue_connection.start_receiving()
 
     def proccess_message(self, ch, method, properties, body):
         if is_eof(body):
             self.__eof_arrived(ch)
         else:
-            self.__filter(body)
+            self.__trips_arrived(body)
 
-    def __filter(self, body):
+    def __trips_arrived(self, body):
         header, joined_trips = decode(body)
+
+        trips_to_next_stage = self.__filter_trips(joined_trips)
+        self.__send_to_next_stage(header, trips_to_next_stage)
+
+    def __filter_trips(self, trips):
+        """
+        filters each trip that does not meet the condition.
+        """
         trips_to_next_stage = []
 
-        for trip in joined_trips:
+        for trip in trips:
             new_trip = self.filter.apply(trip)
             if new_trip:
                 self.not_filtered += 1
                 trips_to_next_stage.append(new_trip)
 
-        self.__send_next_stage(header, trips_to_next_stage)
+        return trips_to_next_stage
 
-    def __send_next_stage(self, header, trips_to_next_stage):
+    def __send_to_next_stage(self, header, trips_to_next_stage):
         if len(trips_to_next_stage) > 0:
             msg = construct_msg(header, trips_to_next_stage)
             self.send_queue.send(msg)

@@ -47,7 +47,6 @@ class CommunicationClient:
         return header, payload
 
     def recv_results(self):
-        # hacer verificaciones de tipo
         header = self.__recv_header()
         payload = self.__recv_payload(header.len, decode_payload=True)
 

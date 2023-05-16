@@ -11,9 +11,13 @@ services:
       - HOST_CONSULT=results_verifier
       - PORT_CONSULT=12346
       - CHUNK_SIZE=100
+      - MAX_RETRIES=50
+      - AMOUNT_QUERIES=3
     image: client:latest
     networks:      
       - testing_net
+    volumes:
+    - ./client/results:/results
 networks:
     testing_net:
       external:

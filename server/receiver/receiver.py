@@ -15,7 +15,7 @@ class Receiver:
         name_weather_queue,
         name_trips_queues,
         name_em_queue,
-        amount_queries
+        amount_queries,
     ):
         self.__init_receiver(amount_queries)
 
@@ -44,7 +44,7 @@ class Receiver:
         except OSError as e:
             print(f"error: creating_queue_connection | log: {e}")
             self.stop()
-        
+
     def __connect_eof_manager_queue(self, name_em_queue):
         self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
 
