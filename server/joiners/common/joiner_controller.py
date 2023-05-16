@@ -44,6 +44,9 @@ class JoinerController:
             self.stop()
 
     def __run(self):
+        """
+        start receiving messages.
+        """
         self.recv_queue.receive(self.process_messages)
         self.queue_connection.start_receiving()
 
@@ -64,6 +67,12 @@ class JoinerController:
         header, chunk_data = decode(body)
         city = obtain_city(header)
 
+        self.__add_chunk_data(chunk_data, city)
+
+    def __add_chunk_data(self, chunk_data, city):
+        """
+        stores all of the chunk of data.
+        """
         for data in chunk_data:
             data = data.split(",")
             self.joiner.add_data(city, data)
@@ -77,6 +86,15 @@ class JoinerController:
     def __request_join_arrived(self, body):
         header, trips = decode(body)
         city = obtain_city(header)
+
+        joined_trips = self.__join_trips(trips, city)
+        self.__send_next_stage(header, joined_trips)
+
+    def __join_trips(self, trips, city):
+        """
+        try to join each trip in the chunk.
+        returns the result of each successful join operation.
+        """
         joined_trips = []
 
         for trip in trips:
@@ -86,7 +104,7 @@ class JoinerController:
                 self.amount_joined += 1
                 joined_trips.append(ret)
 
-        self.__send_next_stage(header, joined_trips)
+        return joined_trips
 
     def __send_next_stage(self, header, joined_trips):
         if len(joined_trips) > 0:
