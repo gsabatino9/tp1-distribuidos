@@ -40,7 +40,7 @@ class FilterController:
                 name_recv_exchange, name_recv_queue
             )
             self.send_queue = self.queue_connection.basic_queue(name_send_queue)
-            
+
             self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
         except OSError as e:
             print(f"error: creating_queue_connection | log: {e}")
@@ -61,7 +61,7 @@ class FilterController:
 
     def __trips_arrived(self, body):
         header, joined_trips = decode(body)
-        
+
         trips_to_next_stage = self.__filter_trips(joined_trips)
         self.__send_to_next_stage(header, trips_to_next_stage)
 

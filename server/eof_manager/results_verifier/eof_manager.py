@@ -22,7 +22,9 @@ class EOFManager:
         try:
             self.queue_connection = Connection()
             self.recv_queue = self.queue_connection.pubsub_queue(name_recv_queue)
-            self.verifier_queue = self.queue_connection.routing_queue(name_verifier_queue)
+            self.verifier_queue = self.queue_connection.routing_queue(
+                name_verifier_queue
+            )
         except OSError as e:
             print(f"error: creating_queue_connection | log: {e}")
             self.stop()

@@ -19,7 +19,7 @@ def main():
         NAME_WEATHER_QUEUE,
         name_trips_queues,
         NAME_EM_QUEUE,
-        AMOUNT_QUERIES
+        AMOUNT_QUERIES,
     )
     receiver.run()
     receiver.stop()

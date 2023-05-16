@@ -14,7 +14,7 @@ class GroupbyEndStation:
             operation,
             base_data,
             self.gen_key_value,
-            chunk_size
+            chunk_size,
         )
 
     def gen_key_value(self, trip):

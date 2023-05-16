@@ -18,7 +18,7 @@ class JoinerController:
         self.__connect(
             name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue
         )
-        
+
         self.__run()
 
     def __init_joiner(self, joiner):

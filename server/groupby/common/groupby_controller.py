@@ -15,7 +15,7 @@ class GroupbyController:
         operation,
         base_data,
         gen_key_value,
-        chunk_size
+        chunk_size,
     ):
         self.__init_groupby(chunk_size, operation, base_data, gen_key_value)
         self.__connect(name_recv_queue, name_em_queue, name_send_queue)
@@ -35,7 +35,7 @@ class GroupbyController:
             self.queue_connection = Connection()
             self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
             self.send_queue = self.queue_connection.basic_queue(name_send_queue)
-            
+
             self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
         except OSError as e:
             print(f"error: creating_queue_connection | log: {e}")
@@ -80,10 +80,10 @@ class GroupbyController:
         build chunk to send each message.
         """
         to_send = []
-        
+
         for i, key in enumerate(self.groupby.grouped_data):
             to_send.append(self.__str_from_key(key))
-            
+
             if self.__finish_chunk_to_send(i, to_send):
                 to_send = []
 

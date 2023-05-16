@@ -15,8 +15,8 @@ class ResultsVerifier:
         self.running = True
         signal.signal(signal.SIGTERM, self.stop)
 
-        self.queries_results = {i: [] for i in range(1, amount_queries+1)}
-        self.queries_ended = {i: False for i in range(1, amount_queries+1)}
+        self.queries_results = {i: [] for i in range(1, amount_queries + 1)}
+        self.queries_ended = {i: False for i in range(1, amount_queries + 1)}
         self.addr = (host, port)
 
         print("action: results_verifier_started | result: success")
@@ -25,9 +25,10 @@ class ResultsVerifier:
         try:
             self.queue_connection = Connection()
             self.recv_queue = self.queue_connection.routing_queue(
-                name_recv_queue, routing_keys=[str(i) for i in range(1,amount_queries+1)]
+                name_recv_queue,
+                routing_keys=[str(i) for i in range(1, amount_queries + 1)],
             )
-            
+
             self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
         except OSError as e:
             print(f"error: creating_queue_connection | log: {e}")
@@ -57,7 +58,7 @@ class ResultsVerifier:
 
     def __eof_arrived(self, id_query):
         """
-        save the finished query and send an acknowledgment to the EOF manager. 
+        save the finished query and send an acknowledgment to the EOF manager.
         then, check if all the queries have ended or if it needs to continue waiting for the EOF, otherwise.
         """
         self.em_queue.send(ack_msg())
@@ -101,7 +102,7 @@ class ResultsVerifier:
 
     def __send_results(self):
         """
-        it sends each list of results for each query. 
+        it sends each list of results for each query.
         Note: the protocol defines a maximum chunk size for sending.
         """
         for query in self.queries_results:

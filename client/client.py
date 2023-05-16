@@ -30,7 +30,7 @@ class Client:
         print(
             f"action: client_connected | result: success | addr: {self.conn.getpeername()}"
         )
-        
+
     def run(self, filepaths, types_files, cities, addr_consult):
         self.__send_files(filepaths, types_files, cities)
         self.__get_results(addr_consult)
@@ -54,7 +54,7 @@ class Client:
                 reader = csv.reader(csvfile, delimiter=",")
                 # skip header
                 next(reader)
-                send_data += self.__send_file_in_chunks(type_file, cities[i], reader)            
+                send_data += self.__send_file_in_chunks(type_file, cities[i], reader)
 
         self.__send_last(type_file, cities[i], send_data)
 
@@ -63,7 +63,7 @@ class Client:
         it sends a file with grouped rows (chunk).
         """
         send_data = 0
-        
+
         while True:
             chunk = list(islice(reader, self.chunk_size))
             if not chunk:
@@ -112,7 +112,7 @@ class Client:
 
     def __get_results(self, addr_consult):
         self.__connect_with_consults_server(addr_consult[0], addr_consult[1])
-        results = {i: [] for i in range(1, self.amount_queries+1)}
+        results = {i: [] for i in range(1, self.amount_queries + 1)}
         ended = False
 
         while not ended:
@@ -135,9 +135,7 @@ class Client:
                 retries += 1
 
         if not connected:
-            print(
-                f"error: connection_server | msg: retries={max_retries}"
-            )
+            print(f"error: connection_server | msg: retries={max_retries}")
             self.stop()
 
     def __try_connect(self, host, port):
@@ -145,9 +143,7 @@ class Client:
             self.__connect(host, port)
             return True
         except:
-            print(
-                f"action: client_connected | result: failure | msg: retry in 1 sec"
-            )
+            print(f"action: client_connected | result: failure | msg: retry in 1 sec")
             time.sleep(1)
 
             return False
