@@ -1,4 +1,4 @@
-from applier_query2 import ApplierQuery2
+from mean_duration_applier import MeanDurationApplier
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
@@ -7,7 +7,7 @@ NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
 
 
 def main():
-    a = ApplierQuery2(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE)
+    a = MeanDurationApplier(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE)
     a.stop()
 
 

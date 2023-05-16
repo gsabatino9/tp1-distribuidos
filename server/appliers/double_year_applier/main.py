@@ -1,4 +1,4 @@
-from applier_query3 import ApplierQuery3
+from double_year_applier import DoubleYearApplier
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
@@ -7,7 +7,7 @@ NAME_SEND_QUEUE = os.environ.get("NAME_SEND_QUEUE")
 
 
 def main():
-    a = ApplierQuery3(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE)
+    a = DoubleYearApplier(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE)
     a.stop()
 
 

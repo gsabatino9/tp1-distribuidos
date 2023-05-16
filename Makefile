@@ -24,9 +24,9 @@ server-image:
 	docker build -f ./server/groupby/start_station/Dockerfile -t "groupby_start_station:latest" .
 	docker build -f ./server/groupby/end_station/Dockerfile -t "groupby_end_station:latest" .
 	
-	docker build -f ./server/applier/query1/Dockerfile -t "applier_query1:latest" .
-	docker build -f ./server/applier/query2/Dockerfile -t "applier_query2:latest" .
-	docker build -f ./server/applier/query3/Dockerfile -t "applier_query3:latest" .
+	docker build -f ./server/appliers/mean_duration_applier/Dockerfile -t "mean_duration_applier:latest" .
+	docker build -f ./server/appliers/double_year_applier/Dockerfile -t "double_year_applier:latest" .
+	docker build -f ./server/appliers/mean_distance_applier/Dockerfile -t "mean_distance_applier:latest" .
 	
 	docker build -f ./server/results_verifier/Dockerfile -t "results_verifier:latest" .
 	

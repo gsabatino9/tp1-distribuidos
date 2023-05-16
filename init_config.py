@@ -243,15 +243,15 @@ GROUPBY_QUERY3 = """
 """
 
 APPLIER_QUERY1 = """
-  applier_query1_{}:
-    container_name: applier_query1_{}
+  mean_duration_applier_{}:
+    container_name: mean_duration_applier_{}
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
       - NAME_RECV_QUEUE={}
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
-    image: applier_query1:latest
+    image: mean_duration_applier:latest
     networks:      
       - testing_net
     depends_on:
@@ -260,15 +260,15 @@ APPLIER_QUERY1 = """
 """
 
 APPLIER_QUERY2 = """
-  applier_query2_{}:
-    container_name: applier_query2_{}
+  double_year_applier_{}:
+    container_name: double_year_applier_{}
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
       - NAME_RECV_QUEUE={}
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
-    image: applier_query2:latest
+    image: double_year_applier:latest
     networks:      
       - testing_net
     depends_on:
@@ -277,15 +277,15 @@ APPLIER_QUERY2 = """
 """
 
 APPLIER_QUERY3 = """
-  applier_query3_{}:
-    container_name: applier_query3_{}
+  mean_distance_applier_{}:
+    container_name: mean_distance_applier_{}
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
       - NAME_RECV_QUEUE={}
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
-    image: applier_query3:latest
+    image: mean_distance_applier:latest
     networks:      
       - testing_net
     depends_on:
