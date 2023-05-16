@@ -355,6 +355,7 @@ RESULTS_VERIFIER = """
       - PORT=12346
       - NAME_RECV_QUEUE={}
       - NAME_EM_QUEUE={}
+      - AMOUNT_QUERIES=3
     ports:
       - 12346:12346
     image: results_verifier:latest
