@@ -59,7 +59,7 @@ class EOFManager:
 
     def __recv_ack_trips(self, header, body):
         """
-        if the number of workers that returned ACK (acknowledgment) reaches the maximum count, it sends EOF (end-of-file) to the next stage.
+        if the number of workers that returned ack reaches the maximum count, it sends EOF to the next stage.
         """
         self.acks += 1
 
