@@ -5,7 +5,7 @@
 - [Link a notebook de muestra de comandos](https://www.kaggle.com/code/pablodroca/bike-rides-analyzer).
 
 ## Video de ejecución del sistema
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6_RNVpIEv2g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[Enlace al video](https://youtu.be/6_RNVpIEv2g).
 
 ## Ejecución
 > Nota: La estructura de los archivos de datos debe ser data/montreal, data/toronto, data/washington. Tal cual como fue bajada de kaggle.
