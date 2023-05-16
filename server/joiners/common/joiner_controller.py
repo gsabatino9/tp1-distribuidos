@@ -18,6 +18,8 @@ class JoinerController:
         self.__connect(
             name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue
         )
+        
+        self.__run()
 
     def __init_joiner(self, joiner):
         self.running = True
@@ -29,14 +31,19 @@ class JoinerController:
     def __connect(
         self, name_recv_queue, name_trips_queue, name_em_queue, name_next_stage_queue
     ):
-        self.queue_connection = Connection()
-        self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
-        self.trips_queue = self.queue_connection.basic_queue(name_trips_queue)
-        self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
-        self.next_stage_queue = self.queue_connection.pubsub_queue(
-            name_next_stage_queue
-        )
+        try:
+            self.queue_connection = Connection()
+            self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
+            self.trips_queue = self.queue_connection.basic_queue(name_trips_queue)
+            self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+            self.next_stage_queue = self.queue_connection.pubsub_queue(
+                name_next_stage_queue
+            )
+        except OSError as e:
+            print(f"error: creating_queue_connection | log: {e}")
+            self.stop()
 
+    def __run(self):
         self.recv_queue.receive(self.process_messages)
         self.queue_connection.start_receiving()
 
