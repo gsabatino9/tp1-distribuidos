@@ -189,8 +189,8 @@ EM_FILTERS = """
 """
 
 GROUPBY_QUERY1 = """
-  groupby_query1:
-    container_name: groupby_query1
+  groupby_start_date:
+    container_name: groupby_start_date
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -198,7 +198,7 @@ GROUPBY_QUERY1 = """
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
       - CHUNK_SIZE=100
-    image: groupby_query1:latest
+    image: groupby_start_date:latest
     networks:      
       - testing_net
     depends_on:
@@ -207,8 +207,8 @@ GROUPBY_QUERY1 = """
 """
 
 GROUPBY_QUERY2 = """
-  groupby_query2:
-    container_name: groupby_query2
+  groupby_start_station:
+    container_name: groupby_start_station
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -216,7 +216,7 @@ GROUPBY_QUERY2 = """
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
       - CHUNK_SIZE=100
-    image: groupby_query2:latest
+    image: groupby_start_station:latest
     networks:      
       - testing_net
     depends_on:
@@ -225,8 +225,8 @@ GROUPBY_QUERY2 = """
 """
 
 GROUPBY_QUERY3 = """
-  groupby_query3:
-    container_name: groupby_query3
+  groupby_end_station:
+    container_name: groupby_end_station
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -234,7 +234,7 @@ GROUPBY_QUERY3 = """
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
       - CHUNK_SIZE=100
-    image: groupby_query3:latest
+    image: groupby_end_station:latest
     networks:      
       - testing_net
     depends_on:

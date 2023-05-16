@@ -1,4 +1,4 @@
-from groupby_query3 import GroupbyQuery3
+from groupby_start_date import GroupbyStartDate
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
@@ -8,7 +8,7 @@ CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE"))
 
 
 def main():
-    g = GroupbyQuery3(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE, CHUNK_SIZE)
+    g = GroupbyStartDate(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE, CHUNK_SIZE)
     g.stop()
 
 

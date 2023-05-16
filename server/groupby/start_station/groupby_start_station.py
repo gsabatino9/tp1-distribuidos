@@ -1,7 +1,7 @@
 from server.groupby.common.groupby_controller import GroupbyController
 
 
-class GroupbyQuery2:
+class GroupbyStartStation:
     def __init__(self, name_recv_queue, name_em_queue, name_send_queue, chunk_size):
         def operation(old, yearid):
             if yearid == "2016":

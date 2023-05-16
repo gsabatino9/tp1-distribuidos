@@ -83,7 +83,7 @@ services:
       - NAME_RECV_EXCHANGE=filter_joined_weather_q
       - NAME_RECV_QUEUE=filter_pretoc_q
       - NAME_EM_QUEUE=eof_manager_filters_q
-      - NAME_SEND_QUEUE=groupby_query1_q
+      - NAME_SEND_QUEUE=groupby_start_date_q
     image: filter_pretoc:latest
     networks:      
       - testing_net
@@ -100,7 +100,7 @@ services:
       - NAME_RECV_EXCHANGE=filter_joined_stations_q
       - NAME_RECV_QUEUE=filter_year_q
       - NAME_EM_QUEUE=eof_manager_filters_q
-      - NAME_SEND_QUEUE=groupby_query2_q
+      - NAME_SEND_QUEUE=groupby_start_station_q
     image: filter_year:latest
     networks:      
       - testing_net
@@ -127,16 +127,16 @@ services:
   
 
   
-  groupby_query1:
-    container_name: groupby_query1
+  groupby_start_date:
+    container_name: groupby_start_date
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - NAME_RECV_QUEUE=groupby_query1_q
+      - NAME_RECV_QUEUE=groupby_start_date_q
       - NAME_EM_QUEUE=eof_manager_groupby_q
       - NAME_SEND_QUEUE=applier_query1_q
       - CHUNK_SIZE=100
-    image: groupby_query1:latest
+    image: groupby_start_date:latest
     networks:      
       - testing_net
     depends_on:
@@ -144,16 +144,16 @@ services:
         condition: service_healthy
 
   
-  groupby_query2:
-    container_name: groupby_query2
+  groupby_start_station:
+    container_name: groupby_start_station
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
-      - NAME_RECV_QUEUE=groupby_query2_q
+      - NAME_RECV_QUEUE=groupby_start_station_q
       - NAME_EM_QUEUE=eof_manager_groupby_q
       - NAME_SEND_QUEUE=applier_query2_q
       - CHUNK_SIZE=100
-    image: groupby_query2:latest
+    image: groupby_start_station:latest
     networks:      
       - testing_net
     depends_on:
@@ -161,8 +161,8 @@ services:
         condition: service_healthy
 
   
-  groupby_query3:
-    container_name: groupby_query3
+  groupby_end_station:
+    container_name: groupby_end_station
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -170,7 +170,7 @@ services:
       - NAME_EM_QUEUE=eof_manager_groupby_q
       - NAME_SEND_QUEUE=applier_query3_q
       - CHUNK_SIZE=100
-    image: groupby_query3:latest
+    image: groupby_end_station:latest
     networks:      
       - testing_net
     depends_on:
@@ -283,7 +283,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - NAME_RECV_QUEUE=eof_manager_groupby_q
-      - NAME_GROUPBY_QUEUE=['groupby_query1_q', 'groupby_query2_q', 'groupby_query3_q']
+      - NAME_GROUPBY_QUEUE=['groupby_start_date_q', 'groupby_start_station_q', 'groupby_query3_q']
       - NAME_SEND_QUEUE=eof_manager_applier_q
     image: eof_manager_groupby:latest
     networks:      

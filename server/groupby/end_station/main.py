@@ -1,4 +1,4 @@
-from groupby_query1 import GroupbyQuery1
+from groupby_end_station import GroupbyEndStation
 import os
 
 NAME_RECV_QUEUE = os.environ.get("NAME_RECV_QUEUE")
@@ -8,7 +8,7 @@ CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE"))
 
 
 def main():
-    g = GroupbyQuery1(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE, CHUNK_SIZE)
+    g = GroupbyEndStation(NAME_RECV_QUEUE, NAME_EM_QUEUE, NAME_SEND_QUEUE, CHUNK_SIZE)
     g.stop()
 
 
