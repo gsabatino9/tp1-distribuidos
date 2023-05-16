@@ -61,6 +61,10 @@ class GroupbyController:
             self.__agroup_trip(trip)
 
     def __agroup_trip(self, trip):
+        """
+        agroup the trip by the key and store the value that
+        generates gen_key_value custom function.
+        """
         key, value = self.gen_key_value(trip)
         self.groupby.add_data(key, value)
 
@@ -70,6 +74,10 @@ class GroupbyController:
         print("action: eof_trips_arrived")
 
     def __send_to_apply(self):
+        """
+        sends the grouped data.
+        build chunk to send each message.
+        """
         to_send = []
         
         for i, key in enumerate(self.groupby.grouped_data):
@@ -79,6 +87,10 @@ class GroupbyController:
                 to_send = []
 
     def __finish_chunk_to_send(self, i, to_send):
+        """
+        stop building the message if the maximum number of data in a chunk has been reached,
+        or if is the last data group.
+        """
         if (i + 1) % self.chunk_size == 0 or i + 1 == len(self.groupby.grouped_data):
             msg = construct_msg(to_send)
             self.send_queue.send(msg)
@@ -88,6 +100,10 @@ class GroupbyController:
             return False
 
     def __str_from_key(self, key):
+        """
+        generates the correct format to send the message.
+        concatenates the key with all the values.
+        """
         value = self.groupby.grouped_data[key]
         to_ret = f"{key},"
         for v in value:
