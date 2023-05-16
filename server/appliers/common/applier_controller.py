@@ -31,11 +31,15 @@ class ApplierController:
         print("action: applier_started | result: success")
 
     def __connect(self, name_recv_queue, name_em_queue, name_send_queue):
-        self.queue_connection = Connection()
-        self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
-        self.send_queue = self.queue_connection.routing_queue(name_send_queue)
-
-        self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+        try:
+            self.queue_connection = Connection()
+            self.recv_queue = self.queue_connection.basic_queue(name_recv_queue)
+            self.send_queue = self.queue_connection.routing_queue(name_send_queue)
+            
+            self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+        except OSError as e:
+            print(f"error: creating_queue_connection | log: {e}")
+            self.stop()
 
     def __run(self):
         """

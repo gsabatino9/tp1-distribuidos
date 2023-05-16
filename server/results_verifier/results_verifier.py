@@ -22,11 +22,16 @@ class ResultsVerifier:
         print("action: results_verifier_started | result: success")
 
     def __connect(self, name_recv_queue, name_em_queue, amount_queries):
-        self.queue_connection = Connection()
-        self.recv_queue = self.queue_connection.routing_queue(
-            name_recv_queue, routing_keys=[str(i) for i in range(1,amount_queries+1)]
-        )
-        self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+        try:
+            self.queue_connection = Connection()
+            self.recv_queue = self.queue_connection.routing_queue(
+                name_recv_queue, routing_keys=[str(i) for i in range(1,amount_queries+1)]
+            )
+            
+            self.em_queue = self.queue_connection.pubsub_queue(name_em_queue)
+        except OSError as e:
+            print(f"error: creating_queue_connection | log: {e}")
+            self.stop()
 
     def __run(self):
         """

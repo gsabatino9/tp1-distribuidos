@@ -311,8 +311,8 @@ EM_GROUPBY = """
 """
 
 EM_APPLIERS = """
-  eof_manager_applier:
-    container_name: eof_manager_applier
+  eof_manager_appliers:
+    container_name: eof_manager_appliers
     entrypoint: python3 /main.py
     environment:
       - PYTHONUNBUFFERED=1
@@ -320,7 +320,7 @@ EM_APPLIERS = """
       - NAME_APPLIERS_QUEUES={}
       - NAME_SEND_QUEUE={}
       - SIZE_WORKERS={}
-    image: eof_manager_applier:latest
+    image: eof_manager_appliers:latest
     networks:      
       - testing_net
     depends_on:

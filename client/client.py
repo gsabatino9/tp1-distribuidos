@@ -132,6 +132,5 @@ class Client:
                 print("action: close_resource | result: success | resource: connection")
 
             self.running = False
-            print("Client cerrado correctamente.")
 
         sys.exit(0)
