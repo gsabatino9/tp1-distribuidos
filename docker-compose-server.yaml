@@ -135,6 +135,7 @@ services:
       - NAME_RECV_QUEUE=groupby_query1_q
       - NAME_EM_QUEUE=eof_manager_groupby_q
       - NAME_SEND_QUEUE=applier_query1_q
+      - CHUNK_SIZE=100
     image: groupby_query1:latest
     networks:      
       - testing_net
@@ -151,6 +152,7 @@ services:
       - NAME_RECV_QUEUE=groupby_query2_q
       - NAME_EM_QUEUE=eof_manager_groupby_q
       - NAME_SEND_QUEUE=applier_query2_q
+      - CHUNK_SIZE=100
     image: groupby_query2:latest
     networks:      
       - testing_net
@@ -167,6 +169,7 @@ services:
       - NAME_RECV_QUEUE=groupby_query3_q
       - NAME_EM_QUEUE=eof_manager_groupby_q
       - NAME_SEND_QUEUE=applier_query3_q
+      - CHUNK_SIZE=100
     image: groupby_query3:latest
     networks:      
       - testing_net

@@ -197,6 +197,7 @@ GROUPBY_QUERY1 = """
       - NAME_RECV_QUEUE={}
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
+      - CHUNK_SIZE=100
     image: groupby_query1:latest
     networks:      
       - testing_net
@@ -214,6 +215,7 @@ GROUPBY_QUERY2 = """
       - NAME_RECV_QUEUE={}
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
+      - CHUNK_SIZE=100
     image: groupby_query2:latest
     networks:      
       - testing_net
@@ -231,6 +233,7 @@ GROUPBY_QUERY3 = """
       - NAME_RECV_QUEUE={}
       - NAME_EM_QUEUE={}
       - NAME_SEND_QUEUE={}
+      - CHUNK_SIZE=100
     image: groupby_query3:latest
     networks:      
       - testing_net
