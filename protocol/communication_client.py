@@ -20,24 +20,24 @@ class CommunicationClient:
     def getpeername(self):
         return self.comm.getpeername()
 
-    def send(self, data_type, data, city, is_last=False):
+    def send(self, data_type, data, suscriptions_bits, is_last=False):
         if data_type == "stations":
-            self.__send_stations(data, city, is_last)
+            self.__send_stations(data, suscriptions_bits, is_last)
         elif data_type == "weather":
-            self.__send_weathers(data, city, is_last)
+            self.__send_weathers(data, suscriptions_bits, is_last)
         else:
-            self.__send_trips(data, city, is_last)
+            self.__send_trips(data, suscriptions_bits, is_last)
 
-    def __send_stations(self, stations, city, is_last=False):
-        msg = MessageClient.station_message(stations, city, is_last)
+    def __send_stations(self, stations, suscriptions_bits, is_last=False):
+        msg = MessageClient.station_message(stations, suscriptions_bits, is_last)
         self.comm.send_message(msg)
 
-    def __send_weathers(self, weathers, city, is_last=False):
-        msg = MessageClient.weather_message(weathers, city, is_last)
+    def __send_weathers(self, weathers, suscriptions_bits, is_last=False):
+        msg = MessageClient.weather_message(weathers, suscriptions_bits, is_last)
         self.comm.send_message(msg)
 
-    def __send_trips(self, trips, city, is_last=False):
-        msg = MessageClient.trip_message(trips, city, is_last)
+    def __send_trips(self, trips, suscriptions_bits, is_last=False):
+        msg = MessageClient.trip_message(trips, suscriptions_bits, is_last)
         self.comm.send_message(msg)
 
     def recv_files_received(self):

@@ -12,26 +12,23 @@ class MessageClient:
     SEND_DATA = 0
     SEND_LAST = 1
 
-    # Constants for cities
-    MONTREAL = 0
-    TORONTO = 1
-    WASHINGTON = 2
-
     # Struct format for message header
     HEADER_CODE = "!BBBI"
     # Size of header in bytes
     SIZE_HEADER = calcsize(HEADER_CODE)
 
     # Define the named tuples used in the protocol
-    Header = namedtuple("Header", "data_type msg_type city len")
+    Header = namedtuple("Header", "data_type msg_type queries_suscriptions len")
     Payload = namedtuple("Payload", "data")
 
-    def __init__(self, data_type, msg_type, city, payload):
+    def __init__(self, data_type, msg_type, queries_suscriptions, payload):
         if payload is None:
             payload = []
         payload_bytes = self._pack_payload(payload)
 
-        self.header = self.Header(data_type, msg_type, city, len(payload_bytes))
+        self.header = self.Header(
+            data_type, msg_type, queries_suscriptions, len(payload_bytes)
+        )
         self.payload = self.Payload(payload_bytes)
 
     def encode(self):
@@ -52,7 +49,7 @@ class MessageClient:
             MessageClient.HEADER_CODE,
             header.data_type,
             header.msg_type,
-            header.city,
+            header.queries_suscriptions,
             header.len,
         )
 
@@ -122,20 +119,20 @@ class MessageClient:
         return MessageClient.Payload(payload)
 
     @classmethod
-    def station_message(cls, payload, city, is_last=False):
+    def station_message(cls, payload, queries_suscriptions, is_last=False):
         data_type = cls.STATION_DATA
         msg_type = cls.SEND_LAST if is_last else cls.SEND_DATA
 
-        return cls(data_type, msg_type, city, payload).encode()
+        return cls(data_type, msg_type, queries_suscriptions, payload).encode()
 
     @classmethod
-    def weather_message(cls, payload, city, is_last=False):
+    def weather_message(cls, payload, queries_suscriptions, is_last=False):
         data_type = cls.WEATHER_DATA
         msg_type = cls.SEND_LAST if is_last else cls.SEND_DATA
-        return cls(data_type, msg_type, city, payload).encode()
+        return cls(data_type, msg_type, queries_suscriptions, payload).encode()
 
     @classmethod
-    def trip_message(cls, payload, city, is_last=False):
+    def trip_message(cls, payload, queries_suscriptions, is_last=False):
         data_type = cls.TRIP_DATA
         msg_type = cls.SEND_LAST if is_last else cls.SEND_DATA
-        return cls(data_type, msg_type, city, payload).encode()
+        return cls(data_type, msg_type, queries_suscriptions, payload).encode()

@@ -12,10 +12,10 @@ AMOUNT_QUERIES = int(os.environ.get("AMOUNT_QUERIES"))
 def main():
     client = Client(HOST, PORT, CHUNK_SIZE, MAX_RETRIES, AMOUNT_QUERIES)
 
-    filepaths = ["data/montreal/", "data/toronto/", "data/washington/"]
+    filepath = "data/"
     types_files = ["stations", "weather", "trips"]
-    cities = ["montreal", "toronto", "washington"]
-    client.run(filepaths, types_files, cities, ADDR_CONSULT)
+    suscriptions = [0,1,2]
+    client.run(filepath, types_files, suscriptions, ADDR_CONSULT)
     client.stop()
 
 

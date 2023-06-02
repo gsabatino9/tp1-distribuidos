@@ -8,21 +8,21 @@ class WeatherData:
             if i != idx_date:
                 self.idxs_joined_data.append(i)
 
-    def add_data(self, city, weather):
+    def add_data(self, weather):
         idx_date = weather[self.idx_date]
-        self.weathers[city, idx_date] = [
+        self.weathers[idx_date] = [
             elem for i, elem in enumerate(weather) if i in self.idxs_joined_data
         ]
 
-    def join_trip(self, city, trip):
+    def join_trip(self, trip):
         try:
             start_date, end_date = trip[0], trip[2]
-            start_weather = self.__join_trip(city, start_date)
-            end_weather = self.__join_trip(city, end_date)
+            start_weather = self.__join_trip(start_date)
+            end_weather = self.__join_trip(end_date)
 
-            return ",".join([city] + trip + start_weather + end_weather)
+            return ",".join(trip + start_weather + end_weather)
         except:
             return None
 
-    def __join_trip(self, city, date):
-        return self.weathers[city, date]
+    def __join_trip(self, date):
+        return self.weathers[date]
