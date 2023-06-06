@@ -28,7 +28,7 @@ class Client:
         self.conn = CommunicationClient(client_socket, self.suscriptions)
 
         print(
-            f"action: client_connected | result: success | addr: {self.conn.getpeername()}"
+            f"action: client_connected | result: success | addr: {self.conn.getpeername()} | suscriptions: {self.suscriptions}"
         )
 
     def run(self, filepath, types_files, addr_consult):
