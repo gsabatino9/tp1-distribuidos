@@ -7,4 +7,4 @@ def construct_payload(rows):
 
 
 def is_eof(header):
-    return header.msg_type == MessageServer.SEND_LAST
+    return header.msg_type == MessageServer.SEND_LAST_RESULT

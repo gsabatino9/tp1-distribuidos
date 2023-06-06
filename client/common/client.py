@@ -34,8 +34,15 @@ class Client:
         )
 
     def run(self, filepath, types_files, addr_consult):
+        self.__recv_id()
         self.__send_files(filepath, types_files)
         self.__get_results(addr_consult)
+
+    def __recv_id(self):
+        self.id_client = self.conn.recv_id_client()
+        print(
+            f"action: id_client_received | result: success | id_client: {self.id_client}"
+        )
 
     def __send_files(self, filepath, types_files):
         for file in types_files:
@@ -56,9 +63,7 @@ class Client:
             reader = csv.reader(csvfile, delimiter=",")
             # skip header
             next(reader)
-            send_data += self.__send_file_in_chunks(
-                type_file, reader
-            )
+            send_data += self.__send_file_in_chunks(type_file, reader)
 
         self.__send_last(type_file, send_data)
 
@@ -144,6 +149,7 @@ class Client:
     def __try_connect(self, host, port):
         try:
             self.__connect(host, port)
+            self.conn.set_id_client(self.id_client)
             return True
         except:
             print(f"action: client_connected | result: failure | msg: retry in 1 sec")

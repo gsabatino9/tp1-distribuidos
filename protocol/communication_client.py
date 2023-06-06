@@ -17,11 +17,13 @@ class CommunicationClient:
         socket (socket): The socket object used for communication.
         """
         self.comm = Communication(socket)
-        queries_suscriptions = suscriptions_to_number(suscriptions)
-        self.msg = MessageClient(1, queries_suscriptions)
+        self.queries_suscriptions = suscriptions_to_number(suscriptions)
 
     def getpeername(self):
-        return self.comm.getpeername()
+        return self.comm.getpeername() 
+
+    def set_id_client(self, id_client):
+           self.msg = MessageClient(id_client, self.queries_suscriptions)
 
     def send(self, data_type, data, is_last=False):
         if data_type == "stations":
@@ -43,15 +45,21 @@ class CommunicationClient:
         msg = self.msg.trip_message(trips, is_last)
         self.comm.send_message(msg)
 
-    def recv_files_received(self):
-        header = self.__recv_header()
-        payload = self.__recv_payload(header.len, decode_payload=False)
+    def recv_id_client(self):
+        header, _ = self.__recv_message()
+        self.msg = MessageClient(header.id_query, self.queries_suscriptions)
 
-        return header, payload
+        return header.id_query
+
+    def recv_files_received(self):
+        return self.__recv_message()
 
     def recv_results(self):
+        return self.__recv_message(decode_payload=True)
+
+    def __recv_message(self, decode_payload=False):
         header = self.__recv_header()
-        payload = self.__recv_payload(header.len, decode_payload=True)
+        payload = self.__recv_payload(header.len, decode_payload=decode_payload)
 
         return header, payload
 

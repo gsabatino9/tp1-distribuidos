@@ -4,6 +4,7 @@ from server.common.queue.connection import Connection
 from common.utils import is_eof
 from server.common.utils_messages_eof import eof_msg
 from server.common.utils_messages_client import is_station, is_weather, encode_header
+from random import randint
 
 
 class Receiver:
@@ -56,9 +57,11 @@ class Receiver:
 
             client_socket, _ = skt.accept()
             self.client_connection = CommunicationServer(client_socket)
+            id_client = self.__get_id_client()
+            self.client_connection.send_id_client(id_client)
 
             print(
-                "action: client_connected | result: success | msg: starting to receive data"
+                f"action: client_connected | result: success | msg: starting to receive data | id_client: {id_client}"
             )
         except OSError as e:
             print(f"error: creating_client_connection | log: {e}")
@@ -82,6 +85,9 @@ class Receiver:
                 self.__route_message(header, payload_bytes)
 
         self.__send_ack_client()
+
+    def __get_id_client(self):
+        return randint(0, 250)
 
     def __send_eof(self, header):
         self.em_queue.send(eof_msg(header))
