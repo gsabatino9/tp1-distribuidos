@@ -14,8 +14,7 @@ def main():
 
     filepath = "data/"
     types_files = ["stations", "weather", "trips"]
-    suscriptions = [0,1,2]
-    client.run(filepath, types_files, suscriptions, ADDR_CONSULT)
+    client.run(filepath, types_files, ADDR_CONSULT)
     client.stop()
 
 

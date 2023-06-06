@@ -38,7 +38,7 @@ def main():
         queues["joiners"]["stations"],
         queues["joiners"]["weather"],
         queues["joiners"]["join_trip_stations"],
-        queues["joiners"]["join_trip_weather"]
+        queues["joiners"]["join_trip_weather"],
     )
 
     filters_pretoc, filters_year, filters_distance, em_filters = init_filters(

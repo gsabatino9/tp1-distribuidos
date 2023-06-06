@@ -1,6 +1,7 @@
 from protocol.message_client import MessageClient
 from protocol.message_server import MessageServer
 
+
 def construct_payload(rows):
     return [",".join(e) for e in rows]
 

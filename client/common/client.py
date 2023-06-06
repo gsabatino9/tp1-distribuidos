@@ -1,5 +1,4 @@
 from protocol.communication_client import CommunicationClient
-from protocol.utils import set_bits
 from common.utils import construct_payload, is_eof
 import csv, socket, time, signal, sys
 from itertools import islice
@@ -26,41 +25,44 @@ class Client:
     def __connect(self, host, port):
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.connect((host, port))
-        self.conn = CommunicationClient(client_socket)
+        # después sacar
+        suscriptions = [0, 1, 2]
+        self.conn = CommunicationClient(client_socket, suscriptions)
 
         print(
             f"action: client_connected | result: success | addr: {self.conn.getpeername()}"
         )
 
-    def run(self, filepath, types_files, suscriptions, addr_consult):
-        self.__send_files(filepath, types_files, suscriptions)
+    def run(self, filepath, types_files, addr_consult):
+        self.__send_files(filepath, types_files)
         self.__get_results(addr_consult)
 
-    def __send_files(self, filepath, types_files, suscriptions):
+    def __send_files(self, filepath, types_files):
         for file in types_files:
-            self.__send_type_file(filepath, file, suscriptions)
+            self.__send_type_file(filepath, file)
 
         print(f"action: waiting_ack_files")
         self.conn.recv_files_received()
         print(f"action: ack_files | result: success | msg: all files sent to server")
         self.conn.stop()
 
-    def __send_type_file(self, filepath, type_file, suscriptions):
+    def __send_type_file(self, filepath, type_file):
         """
         it sends all the files of the same type (stations, weather, trips).
         """
         send_data = 0
-        suscriptions_bits = set_bits(suscriptions)
 
         with open(filepath + type_file + ".csv", newline="") as csvfile:
             reader = csv.reader(csvfile, delimiter=",")
             # skip header
             next(reader)
-            send_data += self.__send_file_in_chunks(type_file, suscriptions_bits, reader)
+            send_data += self.__send_file_in_chunks(
+                type_file, reader
+            )
 
-        self.__send_last(type_file, suscriptions_bits, send_data)
+        self.__send_last(type_file, send_data)
 
-    def __send_file_in_chunks(self, type_file, suscriptions_bits, reader):
+    def __send_file_in_chunks(self, type_file, reader):
         """
         it sends a file with grouped rows (chunk).
         """
@@ -71,20 +73,20 @@ class Client:
             if not chunk:
                 break
             chunk = self.__preprocess_chunk(type_file, chunk)
-            self.__send_chunk(type_file, chunk, suscriptions_bits, False)
+            self.__send_chunk(type_file, chunk, False)
             send_data += 1
 
         return send_data
 
-    def __send_last(self, type_file, suscriptions_bits, send_data):
-        self.__send_chunk(type_file, list(""), suscriptions_bits, True)
+    def __send_last(self, type_file, send_data):
+        self.__send_chunk(type_file, list(""), True)
         print(
             f"action: file_sent | result: success | type_file: {type_file} | amount_chunks: {send_data}"
         )
 
-    def __send_chunk(self, data_type, chunk, suscriptions_bits, last_chunk):
+    def __send_chunk(self, data_type, chunk, last_chunk):
         payload = construct_payload(chunk)
-        self.conn.send(data_type, payload, suscriptions_bits, last_chunk)
+        self.conn.send(data_type, payload, last_chunk)
 
     def __preprocess_chunk(self, type_file, chunk):
         if type_file == "trips":

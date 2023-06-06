@@ -26,8 +26,11 @@ def is_eof(body):
         return True
 
 
-
 def construct_msg(header, trips_array):
-    return MessageClient(
-        header.data_type, header.msg_type, header.queries_suscriptions, trips_array
-    ).encode()
+    # después cambiar esto
+    id_client = 1
+    msg_client = MessageClient(id_client, header.queries_suscriptions)
+
+    return msg_client.new_message(
+        header.data_type, header.msg_type, trips_array
+    )

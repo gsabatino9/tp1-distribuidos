@@ -1,6 +1,7 @@
 import socket
 
-def set_bits(bit_positions):
+
+def suscriptions_to_number(bit_positions):
     byte = 0
     mask = 0
 
@@ -10,7 +11,8 @@ def set_bits(bit_positions):
     result = byte | mask
     return result
 
-def get_bits(number):
+
+def number_to_suscriptions(number):
     active_bit_positions = []
     bit_position = 0
 
@@ -21,6 +23,7 @@ def get_bits(number):
         number >>= 1
 
     return active_bit_positions
+
 
 def close_socket(socket_to_close, resource_str):
     try:
