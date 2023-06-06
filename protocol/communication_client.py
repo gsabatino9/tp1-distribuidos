@@ -20,10 +20,10 @@ class CommunicationClient:
         self.queries_suscriptions = suscriptions_to_number(suscriptions)
 
     def getpeername(self):
-        return self.comm.getpeername() 
+        return self.comm.getpeername()
 
     def set_id_client(self, id_client):
-           self.msg = MessageClient(id_client, self.queries_suscriptions)
+        self.msg = MessageClient(id_client, self.queries_suscriptions)
 
     def send(self, data_type, data, is_last=False):
         if data_type == "stations":

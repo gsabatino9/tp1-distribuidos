@@ -160,24 +160,6 @@ FILTER_DISTANCE = """
         condition: service_healthy
 """
 
-EM_FILTERS = """
-  eof_manager_filters:
-    container_name: eof_manager_filters
-    entrypoint: python3 /main.py
-    environment:
-      - PYTHONUNBUFFERED=1
-      - NAME_RECV_QUEUE={}
-      - NAME_FILTERS_QUEUE={}
-      - NAME_SEND_QUEUE={}
-      - SIZE_WORKERS={}
-    image: eof_manager_filters:latest
-    networks:      
-      - testing_net
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-"""
-
 GROUPBY_QUERY1 = """
   groupby_start_date:
     container_name: groupby_start_date
@@ -283,6 +265,25 @@ APPLIER_QUERY3 = """
         condition: service_healthy
 """
 
+EM_FILTERS = """
+  eof_manager_filters:
+    container_name: eof_manager_filters
+    entrypoint: python3 /main.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NAME_RECV_QUEUE={}
+      - NAME_FILTERS_QUEUE={}
+      - NAME_SEND_QUEUE={}
+      - NAME_STATUS_QUEUE={}
+      - SIZE_WORKERS={}
+    image: eof_manager_filters:latest
+    networks:      
+      - testing_net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+"""
+
 EM_JOINERS = """
   eof_manager_joiners:
     container_name: eof_manager_joiners
@@ -295,6 +296,7 @@ EM_JOINERS = """
       - NAME_WEATHER_QUEUE={}
       - NAME_JOIN_STATIONS_QUEUE={}
       - NAME_JOIN_WEATHER_QUEUE={}
+      - NAME_STATUS_QUEUE={}
     image: eof_manager_joiners:latest
     networks:      
       - testing_net
@@ -312,6 +314,7 @@ EM_GROUPBY = """
       - NAME_RECV_QUEUE={}
       - NAME_GROUPBY_QUEUE={}
       - NAME_SEND_QUEUE={}
+      - NAME_STATUS_QUEUE={}
     image: eof_manager_groupby:latest
     networks:      
       - testing_net
@@ -329,6 +332,7 @@ EM_APPLIERS = """
       - NAME_RECV_QUEUE={}
       - NAME_APPLIERS_QUEUES={}
       - NAME_SEND_QUEUE={}
+      - NAME_STATUS_QUEUE={}
       - SIZE_WORKERS={}
     image: eof_manager_appliers:latest
     networks:      
@@ -346,6 +350,7 @@ EM_RESULTS = """
       - PYTHONUNBUFFERED=1
       - NAME_RECV_QUEUE={}
       - NAME_VERIFIER_QUEUE={}
+      - NAME_STATUS_QUEUE={}
       - SIZE_QUERIES=3
     image: eof_manager_query_results:latest
     networks:      

@@ -6,7 +6,7 @@ def suscriptions_to_number(bit_positions):
     mask = 0
 
     for bit_position in bit_positions:
-        bit_aux = bit_position-1
+        bit_aux = bit_position - 1
         mask |= 1 << bit_aux
 
     result = byte | mask
@@ -19,7 +19,7 @@ def number_to_suscriptions(number):
 
     while number > 0:
         if number & 1:
-            active_bit_positions.append(bit_position+1)
+            active_bit_positions.append(bit_position + 1)
         bit_position += 1
         number >>= 1
 
