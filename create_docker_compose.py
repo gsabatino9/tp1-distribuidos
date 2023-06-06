@@ -8,6 +8,7 @@ def main():
 
     queues = json_config["config"]["queues"]
     em_queues = json_config["config"]["eof_manager_queues"]
+    status_queues = json_config["config"]["status_queues"]
     amount_nodes = json_config["config"]["amount_nodes"]
 
     receiver = RECEIVER.format(
@@ -18,6 +19,7 @@ def main():
             queues["joiners"]["join_trip_weather"],
         ],
         em_queues["joiners"],
+        status_queues["new_clients"]
     )
     joiner_stations = JOINER_STATIONS.format(
         queues["joiners"]["stations"],

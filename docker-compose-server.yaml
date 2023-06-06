@@ -28,6 +28,7 @@ services:
       - NAME_WEATHER_QUEUE=joiner_weather_q
       - NAME_TRIPS_QUEUES=['join_trip_stations_q', 'join_trip_weather_q']
       - NAME_EM_QUEUE=eof_manager_joiners_q
+      - NAME_STATUS_QUEUE=new_clients_q
       - AMOUNT_QUERIES=3
     image: receiver:latest
     ports:
