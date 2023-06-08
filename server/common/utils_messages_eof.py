@@ -23,9 +23,12 @@ def is_weather(header):
 
 
 def ack_msg(header_bytes):
-    header = decode(header_bytes)
-    return MessageEOF.ack(MessageEOF.TRIP, header.id_client)
+    id_client = get_id_client(header_bytes)
+    return MessageEOF.ack(MessageEOF.TRIP, id_client)
 
+def get_id_client(header_bytes):
+    header = decode(header_bytes)
+    return header.id_client
 
 class MessageEOF:
     # msg type

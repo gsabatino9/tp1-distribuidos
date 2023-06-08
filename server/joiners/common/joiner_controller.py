@@ -1,7 +1,7 @@
 import signal, sys
 from server.common.queue.connection import Connection
 from server.common.utils_messages_client import *
-from server.common.utils_messages_eof import ack_msg
+from server.common.utils_messages_eof import ack_msg, get_id_client
 
 
 class JoinerController:
@@ -109,6 +109,7 @@ class JoinerController:
             self.next_stage_queue.send(msg)
 
     def __last_trip_arrived(self, body):
+        self.joiner.delete_client(get_id_client(body))
         self.em_queue.send(ack_msg(body))
         print(f"action: eof_trips_arrived | amount_joined: {self.amount_joined}")
 

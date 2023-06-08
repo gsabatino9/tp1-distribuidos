@@ -28,6 +28,6 @@ class WeatherData:
         return self.weathers[id_client, date]
 
     def delete_client(self, id_client):
-        keys_to_delete = [key for key in self.stations.keys() if key[0] == id_client]
+        keys_to_delete = [key for key in self.weathers.keys() if key[0] == id_client]
         for key in keys_to_delete:
-            del self.stations[key]
+            del self.weathers[key]
