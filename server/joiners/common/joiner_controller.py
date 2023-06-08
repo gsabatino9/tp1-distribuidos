@@ -77,7 +77,7 @@ class JoinerController:
 
     def process_join_messages(self, ch, method, properties, body):
         if is_eof(body):
-            self.__last_trip_arrived()
+            self.__last_trip_arrived(body)
         else:
             self.__request_join_arrived(body)
 
@@ -108,8 +108,8 @@ class JoinerController:
             msg = construct_msg(header, joined_trips)
             self.next_stage_queue.send(msg)
 
-    def __last_trip_arrived(self):
-        self.em_queue.send(ack_msg())
+    def __last_trip_arrived(self, body):
+        self.em_queue.send(ack_msg(body))
         print(f"action: eof_trips_arrived | amount_joined: {self.amount_joined}")
 
     def stop(self, *args):

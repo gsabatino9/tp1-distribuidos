@@ -45,7 +45,7 @@ class ResultsVerifier:
         id_query = int(method.routing_key)
         if is_eof(body):
             print("action: eof_trips_arrived")
-            self.__eof_arrived(id_query)
+            self.__eof_arrived(id_query, body)
         else:
             self.__query_result_arrived(body, id_query)
 
@@ -56,12 +56,12 @@ class ResultsVerifier:
         header, results = decode(body)
         self.queries_results[id_query] += results
 
-    def __eof_arrived(self, id_query):
+    def __eof_arrived(self, id_query, body):
         """
         save the finished query and send an acknowledgment to the EOF manager.
         then, check if all the queries have ended or if it needs to continue waiting for the EOF, otherwise.
         """
-        self.em_queue.send(ack_msg())
+        self.em_queue.send(ack_msg(body))
         self.queries_ended[id_query] = True
 
         self.__verify_last_result()

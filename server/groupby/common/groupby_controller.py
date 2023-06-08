@@ -50,7 +50,7 @@ class GroupbyController:
 
     def process_messages(self, ch, method, properties, body):
         if is_eof(body):
-            self.__eof_arrived()
+            self.__eof_arrived(body)
         else:
             self.__data_arrived(body)
 
@@ -69,9 +69,9 @@ class GroupbyController:
         key, value = self.gen_key_value(trip)
         self.groupby.add_data(key, value)
 
-    def __eof_arrived(self):
+    def __eof_arrived(self, body):
         self.__send_to_apply()
-        self.em_queue.send(ack_msg())
+        self.em_queue.send(ack_msg(body))
         print("action: eof_trips_arrived")
 
     def __send_to_apply(self):
