@@ -65,16 +65,15 @@ class JoinerController:
 
     def __static_data_arrived(self, body):
         header, chunk_data = decode(body)
+        self.__add_chunk_data(header.id_client, chunk_data)
 
-        self.__add_chunk_data(chunk_data)
-
-    def __add_chunk_data(self, chunk_data):
+    def __add_chunk_data(self, id_client, chunk_data):
         """
         stores all of the chunk of data.
         """
         for data in chunk_data:
             data = data.split(",")
-            self.joiner.add_data(data)
+            self.joiner.add_data(id_client, data)
 
     def process_join_messages(self, ch, method, properties, body):
         if is_eof(body):
@@ -85,10 +84,10 @@ class JoinerController:
     def __request_join_arrived(self, body):
         header, trips = decode(body)
 
-        joined_trips = self.__join_trips(trips)
+        joined_trips = self.__join_trips(header.id_client, trips)
         self.__send_next_stage(header, joined_trips)
 
-    def __join_trips(self, trips):
+    def __join_trips(self, id_client, trips):
         """
         try to join each trip in the chunk.
         returns the result of each successful join operation.
@@ -97,7 +96,7 @@ class JoinerController:
 
         for trip in trips:
             trip = trip.split(",")
-            ret = self.joiner.join_trip(trip)
+            ret = self.joiner.join_trip(id_client, trip)
             if ret:
                 self.amount_joined += 1
                 joined_trips.append(ret)
