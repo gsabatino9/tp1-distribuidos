@@ -74,16 +74,17 @@ class Receiver:
 
     def run(self):
         """
-        runs a loop until the receiver stops.
-
-        NOTA: continua corriendo porque ahora soporta varios clientes.
+        runs a loop until the eof of all data types arrives.
         """
-        while self.running:
+        types_ended = set()
+
+        while len(types_ended) < self.amount_queries:
             header, payload_bytes = self.client_connection.recv_data(
                 decode_payload=False
             )
 
             if is_eof(header):
+                types_ended.add(header.data_type)
                 self.__send_eof(header)
             else:
                 self.__route_message(header, payload_bytes)
