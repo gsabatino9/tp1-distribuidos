@@ -59,15 +59,15 @@ class GroupbyController:
 
         for trip in filtered_trips:
             trip = trip.split(",")
-            self.__agroup_trip(trip)
+            self.__agroup_trip(header.id_client, trip)
 
-    def __agroup_trip(self, trip):
+    def __agroup_trip(self, id_client, trip):
         """
         agroup the trip by the key and store the value that
         generates gen_key_value custom function.
         """
         key, value = self.gen_key_value(trip)
-        self.groupby.add_data(key, value)
+        self.groupby.add_data(id_client, key, value)
 
     def __eof_arrived(self, body):
         self.__send_to_apply()
@@ -106,7 +106,7 @@ class GroupbyController:
         concatenates the key with all the values.
         """
         value = self.groupby.grouped_data[key]
-        to_ret = f"{key},"
+        to_ret = f"{key[1]},"
         for v in value:
             to_ret += f"{v},"
 
