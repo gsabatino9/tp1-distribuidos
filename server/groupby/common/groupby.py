@@ -11,3 +11,8 @@ class Groupby:
         self.grouped_data[id_client, group_key] = self.operation(
             self.grouped_data[id_client, group_key], group_value
         )
+
+    def delete_client(self, id_client):
+        keys_to_delete = [key for key in self.grouped_data.keys() if key[0] == id_client]
+        for key in keys_to_delete:
+            del self.grouped_data[key]
