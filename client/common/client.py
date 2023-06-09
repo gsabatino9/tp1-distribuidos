@@ -6,36 +6,41 @@ from datetime import datetime, timedelta
 
 
 class Client:
-    def __init__(self, host, port, chunk_size, max_retries, amount_queries):
-        self.__init_client(chunk_size, max_retries, amount_queries)
+    def __init__(self, host, port, chunk_size, max_retries, suscriptions):
+        self.__init_client(chunk_size, max_retries, suscriptions)
         try:
             self.__connect(host, port)
         except OSError as e:
             print(f"error: creating_queue_connection | log: {e}")
             self.stop()
 
-    def __init_client(self, chunk_size, max_retries, amount_queries):
+    def __init_client(self, chunk_size, max_retries, suscriptions):
         self.running = True
         signal.signal(signal.SIGTERM, self.stop)
 
         self.chunk_size = chunk_size
         self.max_retries = max_retries
-        self.amount_queries = amount_queries
+        self.suscriptions = suscriptions
 
     def __connect(self, host, port):
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.connect((host, port))
-        # después sacar
-        suscriptions = [0, 1, 2]
-        self.conn = CommunicationClient(client_socket, suscriptions)
+        self.conn = CommunicationClient(client_socket, self.suscriptions)
 
         print(
-            f"action: client_connected | result: success | addr: {self.conn.getpeername()}"
+            f"action: client_connected | result: success | addr: {self.conn.getpeername()} | suscriptions: {self.suscriptions}"
         )
 
     def run(self, filepath, types_files, addr_consult):
+        self.__recv_id()
         self.__send_files(filepath, types_files)
         self.__get_results(addr_consult)
+
+    def __recv_id(self):
+        self.id_client = self.conn.recv_id_client()
+        print(
+            f"action: id_client_received | result: success | id_client: {self.id_client}"
+        )
 
     def __send_files(self, filepath, types_files):
         for file in types_files:
@@ -56,9 +61,7 @@ class Client:
             reader = csv.reader(csvfile, delimiter=",")
             # skip header
             next(reader)
-            send_data += self.__send_file_in_chunks(
-                type_file, reader
-            )
+            send_data += self.__send_file_in_chunks(type_file, reader)
 
         self.__send_last(type_file, send_data)
 
@@ -115,7 +118,7 @@ class Client:
 
     def __get_results(self, addr_consult):
         self.__connect_with_consults_server(addr_consult[0], addr_consult[1])
-        results = {i: [] for i in range(1, self.amount_queries + 1)}
+        results = {i: [] for i in self.suscriptions}
         ended = False
 
         while not ended:
@@ -144,6 +147,7 @@ class Client:
     def __try_connect(self, host, port):
         try:
             self.__connect(host, port)
+            self.conn.set_id_client(self.id_client)
             return True
         except:
             print(f"action: client_connected | result: failure | msg: retry in 1 sec")
