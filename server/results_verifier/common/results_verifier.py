@@ -92,13 +92,24 @@ class ResultsVerifier:
 
         if ended:
             print(
-                f"action: results_ready | result: success | results: {self.queries_results}"
+                f"action: results_ready | id_client: {id_client} | results: {self.queries_results}"
             )
             self.__inform_results(id_client)
+            self.__delete_client(id_client)
 
     def __inform_results(self, id_client):
         self.__connect_with_client()
         self.__send_results(id_client)
+
+    def __delete_client(self, id_client):
+        self.__delete_from_dict(self.queries_ended, id_client)
+        self.__delete_from_dict(self.queries_results, id_client)
+        print(f"action: delete_client | result: success | id_client: {id_client}")
+
+    def __delete_from_dict(self, dict_clients, id_client):
+        keys_to_delete = [key for key in dict_clients.keys() if key[0] == id_client]
+        for key in keys_to_delete:
+            del dict_clients[key]
 
     def __connect_with_client(self):
         """
