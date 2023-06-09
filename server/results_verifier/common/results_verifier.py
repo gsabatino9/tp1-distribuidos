@@ -57,12 +57,12 @@ class ResultsVerifier:
         """
         header, results = decode(body)
         id_client = header.id_client
-        if id_client not in self.ids_clients:
-            self.__add_client(id_client)
+        self.__verify_client(id_client)
 
         self.queries_results[id_client, id_query] += results
 
     def __add_client(self, id_client):
+        print(f"action: add_client | result: success | id_client: {id_client}")
         self.ids_clients.add(id_client)
         for id_query in range(1, self.amount_queries+1):
             self.queries_ended[id_client, id_query] = False
@@ -74,10 +74,15 @@ class ResultsVerifier:
         then, check if all the queries have ended or if it needs to continue waiting for the EOF, otherwise.
         """
         id_client = get_id_client(body)
+        self.__verify_client(id_client)
         self.em_queue.send(ack_msg(body))
         self.queries_ended[id_client, id_query] = True
 
         self.__verify_last_result(id_client)
+
+    def __verify_client(self, id_client):
+        if id_client not in self.ids_clients:
+            self.__add_client(id_client)
 
     def __verify_last_result(self, id_client):
         """
@@ -104,6 +109,7 @@ class ResultsVerifier:
     def __delete_client(self, id_client):
         self.__delete_from_dict(self.queries_ended, id_client)
         self.__delete_from_dict(self.queries_results, id_client)
+        self.ids_clients.discard(id_client)
         print(f"action: delete_client | result: success | id_client: {id_client}")
 
     def __delete_from_dict(self, dict_clients, id_client):
